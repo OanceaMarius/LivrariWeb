@@ -5,7 +5,9 @@
 package ro.papetti.livrari.repozitoriesLiv;
 
 import jakarta.persistence.PersistenceContext;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ro.papetti.LivrariTabele.entity.TblComandaLiniiProgram;
 
@@ -17,4 +19,6 @@ import ro.papetti.LivrariTabele.entity.TblComandaLiniiProgram;
 @PersistenceContext(unitName = "livrariEntityManagerFactory")
 public interface ComandaLiniiProgramRepozitory extends JpaRepository<TblComandaLiniiProgram, Integer> {
     
+    @Query(value="SELECT * FROM TblComandaLiniiProgram t WHERE t.iDProgram = :idProgram", nativeQuery = true)
+    public List<TblComandaLiniiProgram> findLiniiByIdProgram(int idProgram);
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * @param <T>
  * @param <Integer>
  */
-public interface BaseService<T, ID> {
+public interface BaseService<T, Integer> {
     
     public List<T> findAll();
     

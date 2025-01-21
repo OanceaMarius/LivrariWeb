@@ -17,4 +17,5 @@ import ro.papetti.LivrariTabele.entity.TblComandaAntetProgram;
 @PersistenceContext(unitName = "livrariEntityManagerFactory")
 public interface ComandaAntetProgramRepozitory extends JpaRepository<TblComandaAntetProgram, Integer> {
     
+    
 }

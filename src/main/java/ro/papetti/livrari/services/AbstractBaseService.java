@@ -12,12 +12,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
  *
  * @author MariusO
  */
-public abstract class AbstractBaseService<T, ID, R extends  JpaRepository<T,ID>> implements BaseService {
+public abstract class AbstractBaseService<T, R extends  JpaRepository<T,Integer>> implements BaseService {
     
     protected final R repository ;
 
     public AbstractBaseService (R rep) {
         this.repository = rep;
+ 
     }
 
     @Override
@@ -35,11 +36,11 @@ public abstract class AbstractBaseService<T, ID, R extends  JpaRepository<T,ID>>
     }
 
  
-    public Optional <T> findById(ID id) {
+    public Optional <T> findById(Integer id) {
         return repository.findById(id);
     }
 
-    public boolean existsById(ID id) {
+    public boolean existsById(Integer id) {
         return repository.existsById(id);
     }
 
@@ -49,7 +50,7 @@ public abstract class AbstractBaseService<T, ID, R extends  JpaRepository<T,ID>>
     }
 
     
-    public void deleteById(ID id) {
+    public void deleteById(Integer id) {
         repository.deleteById(id);
     }
 

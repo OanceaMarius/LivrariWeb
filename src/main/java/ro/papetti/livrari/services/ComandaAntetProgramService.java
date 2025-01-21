@@ -14,10 +14,14 @@ import ro.papetti.livrari.repozitoriesLiv.ComandaAntetProgramRepozitory;
  * @author MariusO
  */
 @Service
-public class ComandaAntetProgramService extends AbstractBaseService<TblComandaAntetProgram, Integer, ComandaAntetProgramRepozitory>{
+public class ComandaAntetProgramService extends AbstractBaseService<TblComandaAntetProgram, ComandaAntetProgramRepozitory>{
+    
+     
     
     public ComandaAntetProgramService(ComandaAntetProgramRepozitory rep) {
         super(rep);
     }
+    
+    
     
 }
