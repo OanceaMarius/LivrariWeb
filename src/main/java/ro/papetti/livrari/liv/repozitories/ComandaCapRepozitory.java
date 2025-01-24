@@ -2,14 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package ro.papetti.livrari.repozitoriesLiv;
+package ro.papetti.livrari.liv.repozitories;
 
 import jakarta.persistence.PersistenceContext;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ro.papetti.LivrariTabele.entity.TblComandaLiniiProgram;
+import ro.papetti.LivrariTabele.entity.ComandaCap;
 
 /**
  *
@@ -17,8 +15,8 @@ import ro.papetti.LivrariTabele.entity.TblComandaLiniiProgram;
  */
 @Repository
 @PersistenceContext(unitName = "livrariEntityManagerFactory")
-public interface ComandaLiniiProgramRepozitory extends JpaRepository<TblComandaLiniiProgram, Integer> {
+public interface ComandaCapRepozitory extends JpaRepository<ComandaCap, Integer> {
     
-    @Query(value="SELECT * FROM TblComandaLiniiProgram t WHERE t.iDProgram = :idProgram", nativeQuery = true)
-    public List<TblComandaLiniiProgram> findLiniiByIdProgram(int idProgram);
+//    @Query(value="select * from tblComandaAntetProgram ca where Anulata = 0 and Vizitat=0", nativeQuery=true)
+//    public List<TblComandaAntetProgram> findComenzileDeLivratInData( Date data);
 }
