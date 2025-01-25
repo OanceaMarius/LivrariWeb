@@ -27,7 +27,7 @@ import org.springframework.transaction.PlatformTransactionManager;
  */
 @Configuration
 @PropertySource("classpath:db-link-pluriva.properties")
-@EnableJpaRepositories(basePackages = "ro.papetti.livrari.plu.repozitories", 
+@EnableJpaRepositories(basePackages = "${spring.datasource.repozitories.path}", 
         entityManagerFactoryRef = "plurivaEntityManagerFactory", 
         transactionManagerRef = "plurivaTransactionManager")
 public class DatabasePlurivaConfig {

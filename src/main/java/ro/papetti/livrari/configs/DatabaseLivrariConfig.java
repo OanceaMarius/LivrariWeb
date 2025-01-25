@@ -29,7 +29,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @PropertySource("classpath:db-link-livrari.properties")
-@EnableJpaRepositories(basePackages = "ro.papetti.livrari.liv.repozitories", 
+@EnableJpaRepositories(basePackages = "${spring.datasource.livrari.repozitories.path}", 
         entityManagerFactoryRef = "livrariEntityManagerFactory", 
         transactionManagerRef = "livrariTransactionManager")
 public class DatabaseLivrariConfig {

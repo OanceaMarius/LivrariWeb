@@ -4,26 +4,24 @@
  */
 package ro.papetti.livrari.plu.services;
 
-import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import ro.papetti.PlurivaTabele.entity.SOrderCap;
+import ro.papetti.PlurivaTabele.entity.POrderPoz;
 import ro.papetti.livrari.model.AbstractBaseService;
-import ro.papetti.livrari.plu.repozitories.SOrderCapRepozitory;
+import ro.papetti.livrari.plu.repozitories.POrderPozRepozitory;
 
 /**
  *
  * @author MariusO
  */
 @Service
-public class SOrderCapService extends AbstractBaseService<SOrderCap, SOrderCapRepozitory> {
+public class POrderPozService extends AbstractBaseService<POrderPoz, POrderPozRepozitory> {
     
-    public SOrderCapService(SOrderCapRepozitory rep) {
+    public POrderPozService(POrderPozRepozitory rep) {
         super(rep);
     }
     
-    public  List<SOrderCap>findByDataLivrare(Date dataLivrare){
-        return repository.findByDataLivrare(dataLivrare);
+    public List<POrderPoz> findPozitiiByPOrderCapId(int pOrderCapId){
+        return repository.findByPOrderCapId(pOrderCapId);
     }
-    
 }

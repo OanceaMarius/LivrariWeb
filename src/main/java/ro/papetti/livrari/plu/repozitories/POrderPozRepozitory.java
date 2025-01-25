@@ -5,11 +5,11 @@
 package ro.papetti.livrari.plu.repozitories;
 
 import jakarta.persistence.PersistenceContext;
-import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ro.papetti.PlurivaTabele.entity.SOrderCap;
+import ro.papetti.PlurivaTabele.entity.POrderPoz;
 
 /**
  *
@@ -17,7 +17,9 @@ import ro.papetti.PlurivaTabele.entity.SOrderCap;
  */
 @Repository
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
-public interface SOrderCapRepozitory extends JpaRepository<SOrderCap, Integer> {
+public interface POrderPozRepozitory extends JpaRepository<POrderPoz, Integer> {
     
-    public List<SOrderCap> findByDataLivrare(Date dataLivrare);
+    
+    @Query(value="SELECT * FROM POrderPoz p WHERE p.pOrderCapId = :pOrderCapId", nativeQuery = true)
+    public List<POrderPoz> findByPOrderCapId(int pOrderCapId);
 }

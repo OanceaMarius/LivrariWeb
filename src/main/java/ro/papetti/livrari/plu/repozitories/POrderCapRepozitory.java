@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ro.papetti.PlurivaTabele.entity.SOrderCap;
+import ro.papetti.PlurivaTabele.entity.POrderCap;
 
 /**
  *
@@ -17,7 +17,7 @@ import ro.papetti.PlurivaTabele.entity.SOrderCap;
  */
 @Repository
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
-public interface SOrderCapRepozitory extends JpaRepository<SOrderCap, Integer> {
+public interface POrderCapRepozitory extends JpaRepository<POrderCap, Integer> {
     
-    public List<SOrderCap> findByDataLivrare(Date dataLivrare);
+    public List<POrderCap> findByDataLivrare(Date dataLivrare);
 }

@@ -37,7 +37,7 @@ public class LivrariRestController {
     }
     
     @GetMapping("/ComenziCap")
-    public List<ComandaCap> getAllComenziCap(){
+    public List<ComandaCap> getAllComendaCap(){
         
         return capSer.findAll();
     }
