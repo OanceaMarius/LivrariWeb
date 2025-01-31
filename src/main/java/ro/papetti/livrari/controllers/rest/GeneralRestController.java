@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.LivrariTabele.entity.ComandaPoz;
-import ro.papetti.PlurivaTabele.entity.POrderCap;
-import ro.papetti.PlurivaTabele.entity.POrderPoz;
-import ro.papetti.PlurivaTabele.entity.SOrderCap;
-import ro.papetti.PlurivaTabele.entity.SOrderPoz;
 import ro.papetti.livrari.liv.services.ComandaCapService;
 import ro.papetti.livrari.liv.services.ComandaPozService;
 import ro.papetti.livrari.model.ComandaHarta;
 import ro.papetti.livrari.model.ComandaPluPoz;
-import ro.papetti.livrari.model.Unitate;
 import ro.papetti.livrari.plu.services.POrderCapService;
 import ro.papetti.livrari.plu.services.POrderPozService;
 import ro.papetti.livrari.plu.services.SOrderCapService;
 import ro.papetti.livrari.plu.services.SOrderPozService;
-import ro.papetti.livrari.plu.services.TblUnitateService;
+import ro.papetti.livrari.plu.services.UnitateService;
 import ro.papetti.livrari.utilitare.Transformers;
+import ro.papetti.pluriva.entity.POrderCap;
+import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.pluriva.entity.SOrderCap;
+import ro.papetti.pluriva.entity.SOrderPoz;
+import ro.papetti.pluriva.entity.Unitate;
 
 
 /**
@@ -43,7 +43,7 @@ public class GeneralRestController {
     private final SOrderPozService sLiniiPluService;
     private final POrderCapService pCapPluService;
     private final POrderPozService pLiniiPluService;
-    private final TblUnitateService tblUnitateService;
+    private final UnitateService tblUnitateService;
 
     public GeneralRestController(
             ComandaCapService capSer, 
@@ -52,7 +52,7 @@ public class GeneralRestController {
             SOrderPozService sLiniiPluService, 
             POrderCapService pCapPluService, 
             POrderPozService pLiniiPluService,
-            TblUnitateService tblUnitateService
+            UnitateService tblUnitateService
             ) {
         this.capSer = capSer;
         this.liniiSer = liniiProSer;
@@ -85,29 +85,29 @@ public class GeneralRestController {
         int unitateId=0 ;
 //        int orderCapId = 0;
         List listPluPoz = new ArrayList<ComandaPluPoz>();
-        Unitate unitate ;
+        Unitate unitate = new Unitate() ;
         //aduc lista cu liniile de la comanda specifica
         if (com == 0) { //furnizori
             List<POrderPoz> listPoz = pLiniiPluService.findPozitiiByPOrderCapId(orderCapId);
             listPluPoz = Transformers.getComandaPluPozFromP(listPoz);
             POrderCap orderCap = pCapPluService.findById(orderCapId).orElse(null);
             if(orderCap != null)
-                unitateId = orderCap.getFurnizorId();
+                unitate = orderCap.getFurnizorUnitate();
         }else if(com == 1){//clienti
             List<SOrderPoz> listPoz = sLiniiPluService.findPozitiiBySOrderCapId(orderCapId);
             listPluPoz = Transformers.getComandaPluPozFromS(listPoz);
             SOrderCap orderCap = sCapPluService.findById(orderCapId).get();
-            unitateId = orderCap.getClientID();
+            unitate = orderCap.getClientUnitate();
         }else if(com == 2){//Activitati programate
             //TODO implementare
             
          }else if(com == 1){//Obiective fixe
                //TODO implementare
          }
-         unitate = tblUnitateService.findUnitateWrwpperById(unitateId);
+//         unitate = tblUnitateService.findUnitateWrwpperById(unitateId);
         
 //        ComandaHarta comanda = new ComandaHarta(comCap);
-        comanda.setPozLiv(listComPoz);
+        comanda.setPozLiv(listComPoz);  
         comanda.setPozPlu(listPluPoz);
         comanda.setUnitate(unitate);
         

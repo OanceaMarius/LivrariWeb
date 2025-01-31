@@ -8,8 +8,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ro.papetti.PlurivaTabele.entity.POrderPoz;
-import ro.papetti.PlurivaTabele.entity.SOrderPoz;
+import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.pluriva.entity.SOrderPoz;
+
 
 /**
  *

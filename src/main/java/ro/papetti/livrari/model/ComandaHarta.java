@@ -5,16 +5,15 @@
 package ro.papetti.livrari.model;
 
 import java.util.List;
-import lombok.Data;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.LivrariTabele.entity.ComandaPoz;
+import ro.papetti.pluriva.entity.Unitate;
 
 /**
  *
  * @author MariusO
  */
-
-public @Data class ComandaHarta {
+public class ComandaHarta {
     private ComandaCap capLiv;
     private List<ComandaPoz> pozLiv; 
     private List<ComandaPluPoz>  pozPlu;
@@ -25,6 +24,38 @@ public @Data class ComandaHarta {
     }
 
     public ComandaHarta() {
+    }
+
+    public ComandaCap getCapLiv() {
+        return capLiv;
+    }
+
+    public void setCapLiv(ComandaCap capLiv) {
+        this.capLiv = capLiv;
+    }
+
+    public List<ComandaPoz> getPozLiv() {
+        return pozLiv;
+    }
+
+    public void setPozLiv(List<ComandaPoz> pozLiv) {
+        this.pozLiv = pozLiv;
+    }
+
+    public List<ComandaPluPoz> getPozPlu() {
+        return pozPlu;
+    }
+
+    public void setPozPlu(List<ComandaPluPoz> pozPlu) {
+        this.pozPlu = pozPlu;
+    }
+
+    public Unitate getUnitate() {
+        return unitate;
+    }
+
+    public void setUnitate(Unitate unitate) {
+        this.unitate = unitate;
     }
     
     

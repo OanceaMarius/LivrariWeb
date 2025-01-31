@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ro.papetti.PlurivaTabele.entity.POrderCap;
-import ro.papetti.PlurivaTabele.entity.POrderPoz;
-import ro.papetti.PlurivaTabele.entity.SOrderCap;
-import ro.papetti.PlurivaTabele.entity.SOrderPoz;
-import ro.papetti.PlurivaTabele.entity.TblTipLivrare;
-import ro.papetti.livrari.model.Unitate;
 import ro.papetti.livrari.plu.services.POrderCapService;
 import ro.papetti.livrari.plu.services.POrderPozService;
 import ro.papetti.livrari.plu.services.SOrderCapService;
 import ro.papetti.livrari.plu.services.SOrderPozService;
-import ro.papetti.livrari.plu.services.TblTipLivrareService;
-import ro.papetti.livrari.plu.services.TblUnitateService;
+import ro.papetti.livrari.plu.services.TipLivrareService;
+import ro.papetti.livrari.plu.services.UnitateService;
+import ro.papetti.pluriva.entity.POrderCap;
+import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.pluriva.entity.SOrderCap;
+import ro.papetti.pluriva.entity.SOrderPoz;
+import ro.papetti.pluriva.entity.TipLivrare;
 
 /**
  *
@@ -47,14 +46,14 @@ public class PlurivaRestController {
     private final SOrderPozService sOrderPozSer;
     private final POrderCapService pOrderCapSer;
     private final POrderPozService pOrderPozSer;    
-    private final TblTipLivrareService tipLivrareSer;
-    private final TblUnitateService unitateSer;
+    private final TipLivrareService tipLivrareSer;
+    private final UnitateService unitateSer;
 
     public PlurivaRestController(
             SOrderPozService sOrderPozSer, 
-            TblTipLivrareService tipLivrare, 
+            TipLivrareService tipLivrare, 
             ro.papetti.livrari.plu.services.SOrderCapService sOrderCapSer, 
-            TblUnitateService unitateSer,
+            UnitateService unitateSer,
             POrderCapService pOrderCapSer,
             POrderPozService pOrderPozSer
             ) {
@@ -92,15 +91,12 @@ public class PlurivaRestController {
 //        return pOrderCapSer.findByPOrderCapId(pOrderCapId);
         return pOrderCapSer.findById(pOrderCapId).orElse(null);
     }
+
     
-    @GetMapping("/Unitati/{unitateId}")
-    public Unitate findUitateWrapperById(@PathVariable int unitateId){
-        return unitateSer.findUnitateWrwpperById(unitateId);
-    }
     
     
     @GetMapping("/tipLivrari")
-    public List<TblTipLivrare> findAllTipLivrari(){
+    public List<TipLivrare> findAllTipLivrari(){
         return tipLivrareSer.findAll();
     }
     

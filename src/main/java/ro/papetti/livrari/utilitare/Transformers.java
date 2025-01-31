@@ -6,9 +6,9 @@ package ro.papetti.livrari.utilitare;
 
 import java.util.ArrayList;
 import java.util.List;
-import ro.papetti.PlurivaTabele.entity.POrderPoz;
-import ro.papetti.PlurivaTabele.entity.SOrderPoz;
 import ro.papetti.livrari.model.ComandaPluPoz;
+import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.pluriva.entity.SOrderPoz;
 
 /**
  *

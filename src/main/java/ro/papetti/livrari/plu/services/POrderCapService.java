@@ -7,9 +7,9 @@ package ro.papetti.livrari.plu.services;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import ro.papetti.PlurivaTabele.entity.POrderCap;
 import ro.papetti.livrari.model.AbstractBaseService;
 import ro.papetti.livrari.plu.repozitories.POrderCapRepozitory;
+import ro.papetti.pluriva.entity.POrderCap;
 
 /**
  *

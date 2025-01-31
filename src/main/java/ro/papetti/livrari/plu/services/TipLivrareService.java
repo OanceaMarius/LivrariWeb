@@ -5,18 +5,18 @@
 package ro.papetti.livrari.plu.services;
 
 import org.springframework.stereotype.Service;
-import ro.papetti.PlurivaTabele.entity.TblTipLivrare;
 import ro.papetti.livrari.model.AbstractBaseService;
-import ro.papetti.livrari.plu.repozitories.TblTipLivrareRepozitory;
+import ro.papetti.livrari.plu.repozitories.TipLivrareRepozitory;
+import ro.papetti.pluriva.entity.TipLivrare;
 
 /**
  *
  * @author MariusO
  */
 @Service
-public class TblTipLivrareService extends AbstractBaseService<TblTipLivrare, TblTipLivrareRepozitory> {
+public class TipLivrareService extends AbstractBaseService<TipLivrare, TipLivrareRepozitory> {
     
-    public TblTipLivrareService(TblTipLivrareRepozitory rep) {
+    public TipLivrareService(TipLivrareRepozitory rep) {
         super(rep);
     }
     

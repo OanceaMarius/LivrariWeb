@@ -4,24 +4,22 @@
  */
 package ro.papetti.livrari.plu.services;
 
-import java.util.List;
 import org.springframework.stereotype.Service;
 import ro.papetti.livrari.model.AbstractBaseService;
-import ro.papetti.livrari.plu.repozitories.POrderPozRepozitory;
-import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.livrari.plu.repozitories.UnitateRepozitory;
+import ro.papetti.pluriva.entity.Unitate;
 
 /**
  *
  * @author MariusO
  */
 @Service
-public class POrderPozService extends AbstractBaseService<POrderPoz, POrderPozRepozitory> {
+public class UnitateService extends AbstractBaseService<Unitate, UnitateRepozitory> {
     
-    public POrderPozService(POrderPozRepozitory rep) {
+    public UnitateService(UnitateRepozitory rep) {
         super(rep);
     }
     
-    public List<POrderPoz> findPozitiiByPOrderCapId(int pOrderCapId){
-        return repository.findByPOrderCapId(pOrderCapId);
-    }
+    
+
 }
