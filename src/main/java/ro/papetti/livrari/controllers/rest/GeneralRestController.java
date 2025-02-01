@@ -4,29 +4,19 @@
  */
 package ro.papetti.livrari.controllers.rest;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ro.papetti.LivrariTabele.entity.ComandaCap;
-import ro.papetti.LivrariTabele.entity.ComandaPoz;
 import ro.papetti.livrari.liv.services.ComandaCapService;
+import ro.papetti.livrari.liv.services.ComandaHartaService;
 import ro.papetti.livrari.liv.services.ComandaPozService;
 import ro.papetti.livrari.model.ComandaHarta;
-import ro.papetti.livrari.model.ComandaPluPoz;
 import ro.papetti.livrari.plu.services.POrderCapService;
 import ro.papetti.livrari.plu.services.POrderPozService;
 import ro.papetti.livrari.plu.services.SOrderCapService;
 import ro.papetti.livrari.plu.services.SOrderPozService;
 import ro.papetti.livrari.plu.services.UnitateService;
-import ro.papetti.livrari.utilitare.Transformers;
-import ro.papetti.pluriva.entity.POrderCap;
-import ro.papetti.pluriva.entity.POrderPoz;
-import ro.papetti.pluriva.entity.SOrderCap;
-import ro.papetti.pluriva.entity.SOrderPoz;
-import ro.papetti.pluriva.entity.Unitate;
 
 
 /**
@@ -44,78 +34,27 @@ public class GeneralRestController {
     private final POrderCapService pCapPluService;
     private final POrderPozService pLiniiPluService;
     private final UnitateService tblUnitateService;
+    private final ComandaHartaService hartaService;
 
-    public GeneralRestController(
-            ComandaCapService capSer, 
-            ComandaPozService liniiProSer, 
-            SOrderCapService sCapPluService, 
-            SOrderPozService sLiniiPluService, 
-            POrderCapService pCapPluService, 
-            POrderPozService pLiniiPluService,
-            UnitateService tblUnitateService
-            ) {
+
+    
+    public GeneralRestController(ComandaCapService capSer, ComandaPozService liniiSer, SOrderCapService sCapPluService, SOrderPozService sLiniiPluService, POrderCapService pCapPluService, POrderPozService pLiniiPluService, UnitateService tblUnitateService, ComandaHartaService hartaService){
         this.capSer = capSer;
-        this.liniiSer = liniiProSer;
-        this.sCapPluService=sCapPluService;
-        this.sLiniiPluService=sLiniiPluService;
-        this.pCapPluService=pCapPluService;
-        this.pLiniiPluService=pLiniiPluService;
-        this.tblUnitateService=tblUnitateService;
-    }
-    
-    @GetMapping("/ComandaHarta/{capId}")
-    public ComandaHarta getComadaCapById(@PathVariable int capId){
+        this.liniiSer = liniiSer;
+        this.sCapPluService = sCapPluService;
+        this.sLiniiPluService = sLiniiPluService;
+        this.pCapPluService = pCapPluService;
+        this.pLiniiPluService = pLiniiPluService;
+        this.tblUnitateService = tblUnitateService;
+        this.hartaService = hartaService;
         
 
-        ComandaCap comCap = capSer.findById(capId).get();
-        ComandaHarta comanda;
-        if (comCap==null){
-            comanda= new ComandaHarta();
-            return comanda;
-        }else{
-            comanda = new ComandaHarta(comCap);
-        }
-        
-        
-//        ComandaHarta comanda = new ComandaHarta(comCap);
-
-        int orderCapId =comCap.getOrderCapId();
-        List<ComandaPoz> listComPoz = liniiSer.findComenziPozByIdCap(capId);
-        int com = comCap.getCom();
-        int unitateId=0 ;
-//        int orderCapId = 0;
-        List listPluPoz = new ArrayList<ComandaPluPoz>();
-        Unitate unitate = new Unitate() ;
-        //aduc lista cu liniile de la comanda specifica
-        if (com == 0) { //furnizori
-            List<POrderPoz> listPoz = pLiniiPluService.findPozitiiByPOrderCapId(orderCapId);
-            listPluPoz = Transformers.getComandaPluPozFromP(listPoz);
-            POrderCap orderCap = pCapPluService.findById(orderCapId).orElse(null);
-            if(orderCap != null)
-                unitate = orderCap.getFurnizorUnitate();
-        }else if(com == 1){//clienti
-            List<SOrderPoz> listPoz = sLiniiPluService.findPozitiiBySOrderCapId(orderCapId);
-            listPluPoz = Transformers.getComandaPluPozFromS(listPoz);
-            SOrderCap orderCap = sCapPluService.findById(orderCapId).get();
-            unitate = orderCap.getClientUnitate();
-        }else if(com == 2){//Activitati programate
-            //TODO implementare
-            
-         }else if(com == 1){//Obiective fixe
-               //TODO implementare
-         }
-//         unitate = tblUnitateService.findUnitateWrwpperById(unitateId);
-        
-//        ComandaHarta comanda = new ComandaHarta(comCap);
-        comanda.setPozLiv(listComPoz);  
-        comanda.setPozPlu(listPluPoz);
-        comanda.setUnitate(unitate);
-        
-        
-        return comanda;
     }
     
-      
+    @GetMapping(value = "/ComandaHarta/{capId}")      
+    public ComandaHarta getComadaCapById(@PathVariable int capId) {
+        return hartaService.getComandaHartaById(capId);
+    }
 //    @GetMapping("/liniiProgram/proc/{nr}")
 //    public List<String> getProcedure(@PathVariable int nr){
 //        return liniiProSer.getTestProc(nr);

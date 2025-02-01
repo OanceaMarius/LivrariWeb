@@ -4,6 +4,7 @@
  */
 package ro.papetti.livrari.plu.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import ro.papetti.livrari.model.AbstractBaseService;
@@ -22,6 +23,6 @@ public class POrderPozService extends AbstractBaseService<POrderPoz, POrderPozRe
     }
     
     public List<POrderPoz> findPozitiiByPOrderCapId(int pOrderCapId){
-        return repository.findByPOrderCapId(pOrderCapId);
+        return repository.findByPOrderCapId(pOrderCapId).orElse(new ArrayList<POrderPoz>());
     }
 }

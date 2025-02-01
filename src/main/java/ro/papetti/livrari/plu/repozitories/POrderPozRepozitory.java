@@ -6,6 +6,7 @@ package ro.papetti.livrari.plu.repozitories;
 
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -22,5 +23,5 @@ public interface POrderPozRepozitory extends JpaRepository<POrderPoz, Integer> {
     
     
     @Query(value="SELECT * FROM POrderPoz p WHERE p.pOrderCapId = :pOrderCapId", nativeQuery = true)
-    public List<POrderPoz> findByPOrderCapId(int pOrderCapId);
+    public Optional<List<POrderPoz>> findByPOrderCapId(int pOrderCapId);
 }

@@ -19,7 +19,11 @@ public final class  Transformers {
     private Transformers() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
-    
+    /**
+     * completeaza din comenzile de cllienti Sale pluriva liniile
+     * @param listPlu
+     * @return 
+     */
     public static List<ComandaPluPoz> getComandaPluPozFromS(List<SOrderPoz> listPlu){
         List listPoz = new ArrayList<ComandaPluPoz>();
         if (listPlu==null)
@@ -33,7 +37,11 @@ public final class  Transformers {
                 
         return listPoz;
     }
-    
+    /**
+     * completeaza din comenzile de furnizori Purch pluriva liniile
+     * @param listPlu
+     * @return 
+     */
         public static List<ComandaPluPoz> getComandaPluPozFromP(List<POrderPoz> listPlu){
         List listPoz = new ArrayList<ComandaPluPoz>();
         if (listPlu==null)
