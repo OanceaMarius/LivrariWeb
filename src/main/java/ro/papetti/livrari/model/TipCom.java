@@ -10,5 +10,5 @@ package ro.papetti.livrari.model;
  */
 public enum TipCom {
     //Aprovizionare, Clienti, Activitati programate, Obiective Fixe
-    APRO, CLI, ACPR, OBFI
+    FURNIZOR, CLIENT, ACT_PRO, OBI_FIX
 }

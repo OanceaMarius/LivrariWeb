@@ -6,6 +6,7 @@ package ro.papetti.livrari.plu.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import ro.papetti.livrari.model.AbstractBaseService;
 import ro.papetti.livrari.plu.repozitories.SOrderCapRepozitory;
@@ -22,7 +23,7 @@ public class SOrderCapService extends AbstractBaseService<SOrderCap, SOrderCapRe
         super(rep);
     }
     
-    public  List<SOrderCap>findByDataLivrare(Date dataLivrare){
+    public  Optional<List<SOrderCap>>findByDataLivrare(Date dataLivrare){
         return repository.findByDataLivrare(dataLivrare);
     }
     

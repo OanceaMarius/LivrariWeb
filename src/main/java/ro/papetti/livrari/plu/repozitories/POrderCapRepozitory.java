@@ -7,6 +7,7 @@ package ro.papetti.livrari.plu.repozitories;
 import jakarta.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ro.papetti.pluriva.entity.POrderCap;
@@ -20,5 +21,5 @@ import ro.papetti.pluriva.entity.POrderCap;
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
 public interface POrderCapRepozitory extends JpaRepository<POrderCap, Integer> {
     
-    public List<POrderCap> findByDataLivrare(Date dataLivrare);
+    public Optional<List<POrderCap>> findByDataLivrare(Date dataLivrare);
 }
