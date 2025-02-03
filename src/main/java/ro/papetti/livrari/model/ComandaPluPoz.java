@@ -6,9 +6,12 @@ package ro.papetti.livrari.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.POrderPoz;
 import ro.papetti.pluriva.entity.Produs;
+import ro.papetti.pluriva.entity.SOrderCap;
 import ro.papetti.pluriva.entity.SOrderPoz;
+import ro.papetti.pluriva.entity.Unitate;
 
 
 /**
@@ -20,35 +23,76 @@ public class ComandaPluPoz implements Serializable {
     private int orderCapId;
     private int orderPozId;
     private int produsId;
-    private int sOrderPozId;
-    private String denumirePartenerAsociat;// TODO: sa aduc informatia de nume partener
-    private String numarComandaAsociata; // TODO:  sa aduc informatia de numar comanda asociata
+    private int orderPozAsociatId;
+    private String denumirePartenerAsociat;
+    private String numarComClientAsociata; 
+    private String numarComAsociata;
     private String denumireProdus;
     private BigDecimal cantPlu;
     private BigDecimal pretPlu;
     private int cantStoc;       // TODO: sa aduc stocul
     private int cantRezervat;   // TODO: sa aduc cantitatea rezervata pt comanda curenta
-    private int cantLivrat;  // TODO: sa aduc cantitatea livrata pt comanda curenta
+    private int cantInActe;  // TODO: sa aduc cantitatea livrata pt comanda curenta
 
     public ComandaPluPoz(SOrderPoz pozPlu) {
-        this.orderCapId = pozPlu.getSOrderCapId();
+        this.orderCapId = pozPlu.getSOrderCap().getSOrderCapId();
         this.orderPozId = pozPlu.getSOrderPozId();
-        this.produsId=pozPlu.getProdusId();
-        this.denumireProdus= pozPlu.getProdus().map(Produs::getDenumireProdus).orElse("Negasit");
+        this.produsId=pozPlu.getProdus()
+                .map(Produs::getProdusId).get();
+        this.orderPozAsociatId = pozPlu.getPOrderPoz()
+                .map(POrderPoz::getPOrderPozId).orElse(0);
+        this.denumirePartenerAsociat= pozPlu.getPOrderPoz()
+                .map(POrderPoz::getPOrderCap)
+                .map(POrderCap::getFurnizorUnitate)
+                .map(Unitate::getDenumireUnitateCompleta).orElse(null);
+        this.numarComAsociata=pozPlu.getPOrderPoz()
+                .map(POrderPoz::getPOrderCap)
+                .map(POrderCap::getPOrderNumber)
+                .orElse(null);
+
+        this.denumireProdus= pozPlu.getProdus()
+                .map(Produs::getDenumireProdus)
+                .orElse("Negasit");
         this.cantPlu= pozPlu.getCant();
         this.pretPlu=pozPlu.getPretValuta();
 
-     // TODO: sa pun legaturile intre comenzi si din partea comenzi de client
     }
     
     public ComandaPluPoz(POrderPoz pozPlu) {
-        this.orderCapId = pozPlu.getPOrderCapId();
+        this.orderCapId = pozPlu.getPOrderCap().getPOrderCapId();
         this.orderPozId = pozPlu.getPOrderPozId();
-        this.produsId=pozPlu.getProdusId();
-        this.denumireProdus= pozPlu.getProdus().map(Produs::getDenumireProdus).orElse("Negasit");
+        this.produsId=pozPlu.getProdus()
+                .map(Produs::getProdusId).orElse(null);
+        this.orderPozAsociatId = pozPlu.getSOrderPoz()
+                .map(SOrderPoz::getSOrderPozId)
+                .orElse(0);
+        this.denumirePartenerAsociat= pozPlu.getSOrderPoz()
+                .map(SOrderPoz::getSOrderCap)
+                .map(SOrderCap::getClient)
+                .map(Unitate::getDenumireUnitateCompleta)
+                .orElse(null);
+        this.numarComClientAsociata=pozPlu.getSOrderPoz()
+                .map(SOrderPoz::getSOrderCap)
+                .map(SOrderCap::getSOClientNumber)
+                .orElse(null);
+        this.numarComAsociata=pozPlu.getSOrderPoz()
+                .map(SOrderPoz::getSOrderCap)
+                .map(SOrderCap::getSOrderNumber)
+                .orElse(null);
+        this.denumireProdus= pozPlu.getProdus()
+                .map(Produs::getDenumireProdus)
+                .orElse("Negasit");
         this.cantPlu= pozPlu.getCant();
         this.pretPlu=pozPlu.getPretValuta();
-        this.sOrderPozId=pozPlu.getSOrderPozId();
+        this.orderPozAsociatId=pozPlu.getSOrderPoz()
+                .map(SOrderPoz::getSOrderPozId)
+                .orElse(0);
+        this.denumirePartenerAsociat=pozPlu.getSOrderPoz()
+                .map(SOrderPoz::getSOrderCap)
+                .map(SOrderCap::getClient)
+                .map(Unitate::getDenumireUnitateCompleta)
+                .orElse(null);
+                
     }
 
     public int getOrderCapId() {
@@ -107,13 +151,15 @@ public class ComandaPluPoz implements Serializable {
         this.cantRezervat = cantRezervat;
     }
 
-    public int getCantLivrat() {
-        return cantLivrat;
+    public int getCantInActe() {
+        return cantInActe;
     }
 
-    public void setCantLivrat(int cantLivrat) {
-        this.cantLivrat = cantLivrat;
+    public void setCantInActe(int cantInActe) {
+        this.cantInActe = cantInActe;
     }
+
+
 
     public String getDenumireProdus() {
         return denumireProdus;
@@ -123,13 +169,15 @@ public class ComandaPluPoz implements Serializable {
         this.denumireProdus = denumireProdus;
     }
 
-    public int getsOrderPozId() {
-        return sOrderPozId;
+    public int getOrderPozAsociatId() {
+        return orderPozAsociatId;
     }
 
-    public void setsOrderPozId(int sOrderPozId) {
-        this.sOrderPozId = sOrderPozId;
+    public void setOrderPozAsociatId(int orderPozAsociatId) {
+        this.orderPozAsociatId = orderPozAsociatId;
     }
+
+
 
     public String getDenumirePartenerAsociat() {
         return denumirePartenerAsociat;
@@ -139,12 +187,20 @@ public class ComandaPluPoz implements Serializable {
         this.denumirePartenerAsociat = denumirePartenerAsociat;
     }
 
-    public String getNumarComandaAsociata() {
-        return numarComandaAsociata;
+    public String getNumarComClientAsociata() {
+        return numarComClientAsociata;
     }
 
-    public void setNumarComandaAsociata(String numarComandaAsociata) {
-        this.numarComandaAsociata = numarComandaAsociata;
+    public void setNumarComClientAsociata(String numarComandaAsociata) {
+        this.numarComClientAsociata = numarComandaAsociata;
+    }
+
+    public String getNumarComAsociata() {
+        return numarComAsociata;
+    }
+
+    public void setNumarComAsociata(String numarComAsociata) {
+        this.numarComAsociata = numarComAsociata;
     }
 
 

@@ -27,4 +27,8 @@ public class SOrderCapService extends AbstractBaseService<SOrderCap, SOrderCapRe
         return repository.findByDataLivrare(dataLivrare);
     }
     
+    public Optional<SOrderCap> findBySOrderCapId(int sOrderCapId){
+        return repository.findById(sOrderCapId);
+    }
+    
 }
