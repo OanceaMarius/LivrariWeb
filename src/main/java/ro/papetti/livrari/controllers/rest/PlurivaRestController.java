@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ro.papetti.livrari.model.PozCantitate;
+import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.livrari.plu.services.FollowUpService;
 import ro.papetti.livrari.plu.services.POrderCapService;
 import ro.papetti.livrari.plu.services.POrderPozService;
@@ -116,10 +118,23 @@ public class PlurivaRestController {
         return tipLivrareSer.findAll();
     }
     
-        @GetMapping("/followUp/{followUpId}")
-        
+    @GetMapping("/followUp/{followUpId}")
     public Optional<FollowUp> findFollowUpById(@PathVariable int followUpId){
         return follwUpSer.findById(followUpId);
     }
     
+    @GetMapping("/StocDisponibil/{firmaId}/{gestiuneId}")
+    public List<StocDisponibil> getStocDisponibil(@PathVariable int firmaId, @PathVariable int gestiuneId){
+        return sOrderPozSer.getStocDisponibil(firmaId, gestiuneId);
+    }
+    
+    @GetMapping("/StocDisponibil/{firmaId}")
+    public List<StocDisponibil>  getStocDisponibilOperational(@PathVariable int firmaId){
+        return sOrderPozSer.getStocDisponibilInGestiuneOperationala(firmaId);
+    }
+    
+    @GetMapping("/SCantLivrate/{sOrderCapId}/{firmaId}")
+    public List<PozCantitate>  getStocDisponibilOperational(@PathVariable int sOrderCapId, @PathVariable int firmaId){
+        return sOrderPozSer.getCantitatiLivrate(sOrderCapId, firmaId);
+    }
 }

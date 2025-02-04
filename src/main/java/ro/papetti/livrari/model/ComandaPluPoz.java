@@ -28,11 +28,13 @@ public class ComandaPluPoz implements Serializable {
     private String numarComClientAsociata; 
     private String numarComAsociata;
     private String denumireProdus;
-    private BigDecimal cantPlu;
     private BigDecimal pretPlu;
-    private int cantStoc;       // TODO: sa aduc stocul
-    private int cantRezervat;   // TODO: sa aduc cantitatea rezervata pt comanda curenta
-    private int cantInActe;  // TODO: sa aduc cantitatea livrata pt comanda curenta
+    private BigDecimal cantPlu;
+    private BigDecimal cantStoc;       
+    private BigDecimal cantRezervat;   // TODO: sa aduc cantitatea rezervata pt comanda curenta
+    private BigDecimal cantFacturata;  // TODO: sa aduc cantitatea facturata
+    private BigDecimal cantLivrata;  // TODO: sa aduc cantitatea livrata
+    
 
     public ComandaPluPoz(SOrderPoz pozPlu) {
         this.orderCapId = pozPlu.getSOrderCap().getSOrderCapId();
@@ -56,6 +58,9 @@ public class ComandaPluPoz implements Serializable {
         this.cantPlu= pozPlu.getCant();
         this.pretPlu=pozPlu.getPretValuta();
 
+
+        
+        
     }
     
     public ComandaPluPoz(POrderPoz pozPlu) {
@@ -135,28 +140,28 @@ public class ComandaPluPoz implements Serializable {
         this.pretPlu = pretPlu;
     }
 
-    public int getCantStoc() {
+    public BigDecimal getCantStoc() {
         return cantStoc;
     }
 
-    public void setCantStoc(int cantStoc) {
+    public void setCantStoc(BigDecimal cantStoc) {
         this.cantStoc = cantStoc;
     }
 
-    public int getCantRezervat() {
+    public BigDecimal getCantRezervat() {
         return cantRezervat;
     }
 
-    public void setCantRezervat(int cantRezervat) {
+    public void setCantRezervat(BigDecimal cantRezervat) {
         this.cantRezervat = cantRezervat;
     }
 
-    public int getCantInActe() {
-        return cantInActe;
+    public BigDecimal getCantFacturata() {
+        return cantFacturata;
     }
 
-    public void setCantInActe(int cantInActe) {
-        this.cantInActe = cantInActe;
+    public void setCantFacturata(BigDecimal cantInActe) {
+        this.cantFacturata = cantInActe;
     }
 
 
@@ -201,6 +206,14 @@ public class ComandaPluPoz implements Serializable {
 
     public void setNumarComAsociata(String numarComAsociata) {
         this.numarComAsociata = numarComAsociata;
+    }
+
+    public BigDecimal getCantLivrata() {
+        return cantLivrata;
+    }
+
+    public void setCantLivrata(BigDecimal cantLivrata) {
+        this.cantLivrata = cantLivrata;
     }
 
 
