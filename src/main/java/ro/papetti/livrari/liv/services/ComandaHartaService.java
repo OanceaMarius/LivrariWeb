@@ -79,6 +79,7 @@ public class ComandaHartaService {
             comandaHarta.setPozPluFromSOrder(pozitiiCom);
             UtilComenzi.putStocuriDisponibile(comandaHarta, stocuri);
             UtilComenzi.putCantitatiLivrateS(comandaHarta, infoMarfaBean);
+            UtilComenzi.putCantitatiRezervateS(comandaHarta, infoMarfaBean);
             return comandaHarta;
             
         }if(comandaCap.getCom().equals(TipCom.ACT_PRO.name())){

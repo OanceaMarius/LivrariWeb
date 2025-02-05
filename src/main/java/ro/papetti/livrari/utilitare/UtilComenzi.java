@@ -102,7 +102,6 @@ public final class UtilComenzi {
      * @param stocuri
      */
     public static void putStocuriDisponibile(ComandaHarta comanda, List<StocDisponibil> stocuri) {
-        
         List<ComandaPluPoz> pozitii = comanda.getPozitiiPluriva();
         for (ComandaPluPoz poz : pozitii) {
             poz.setCantStoc(getStocPeProdus(stocuri, poz.getProdusId()));
@@ -111,12 +110,26 @@ public final class UtilComenzi {
 
     public static void putCantitatiLivrateS(ComandaHarta comanda, InfoMarfa info) {
         List<ComandaPluPoz> listPozPlu = comanda.getPozitiiPluriva();
+        List<PozCantitate> listCantLiv = info.getCantitatiLivrate(
+                comanda.getOrderCapId(), 
+                comanda.getFirmaId());
         for (ComandaPluPoz poz : listPozPlu) {
             BigDecimal cantLiv = UtilComenzi.getCantitatePePoz(
-                    info.getCantitatiLivrate(
-                            poz.getOrderCapId(), comanda.getFirmaId()),
+                    listCantLiv,
                     poz.getOrderPozId());
             poz.setCantLivrata(cantLiv);
+
+        }
+    }
+    
+    public static void putCantitatiRezervateS(ComandaHarta comanda, InfoMarfa info) {
+        List<ComandaPluPoz> listPozPlu = comanda.getPozitiiPluriva();
+        List<PozCantitate> listCantRez = info.getCantitatiRezervate(comanda.getOrderCapId());
+        for (ComandaPluPoz poz : listPozPlu) {
+            BigDecimal cantRez = UtilComenzi.getCantitatePePoz(
+                    listCantRez,
+                    poz.getOrderPozId());
+            poz.setCantRezervat(cantRez);
 
         }
     }

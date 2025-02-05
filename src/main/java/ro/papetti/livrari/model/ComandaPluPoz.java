@@ -30,10 +30,10 @@ public class ComandaPluPoz implements Serializable {
     private String denumireProdus;
     private BigDecimal pretPlu;
     private BigDecimal cantPlu;
-    private BigDecimal cantStoc;       
-    private BigDecimal cantRezervat;   // TODO: sa aduc cantitatea rezervata pt comanda curenta
-    private BigDecimal cantFacturata;  // TODO: sa aduc cantitatea facturata
-    private BigDecimal cantLivrata;  // TODO: sa aduc cantitatea livrata
+    private BigDecimal cantStoc = BigDecimal.valueOf(0);       
+    private BigDecimal cantRezervat = BigDecimal.valueOf(0);   // TODO: sa aduc cantitatea rezervata pt comanda curenta
+    private BigDecimal cantFacturata = BigDecimal.valueOf(0);  // TODO: sa aduc cantitatea facturata
+    private BigDecimal cantLivrata = BigDecimal.valueOf(0); 
     
 
     public ComandaPluPoz(SOrderPoz pozPlu) {

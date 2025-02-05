@@ -35,5 +35,10 @@ public class InfoMarfaImpl implements InfoMarfa {
   public List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId){
       return serv.getCantitatiLivrate(sOrderCapId, firmaId);
   }
+
+    @Override
+    public List<PozCantitate> getCantitatiRezervate(int sOrderCapId) {
+        return serv.getCantitatiRezervate(sOrderCapId);
+    }
     
 }

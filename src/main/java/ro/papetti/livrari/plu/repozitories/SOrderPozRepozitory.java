@@ -78,4 +78,20 @@ public interface SOrderPozRepozitory extends JpaRepository<SOrderPoz, Integer> {
 "	group by SOrderPozId "
             , nativeQuery = true)
     public List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId);
+    // TODO: sa scap de SqlErp.dbo.TableDocumente in getCantitatiLivrate
+    
+    
+    
+    
+
+        @Query(value=
+	"select SOrderPozParentId pozId, SUM(Cant) cantitate " +
+	"from SOrderPoz (nolock) "+
+	"where IntrPozId is not null AND Cant>0  "+
+	"	and SOrderPozParentId in "+
+	"		(select SOrderPozId from dbo.SOrderPoz (nolock) where SOrderCapId = :sOrderCapId) "+
+	"group by SOrderPozParentId"
+         , nativeQuery = true)
+    public List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
 }
+

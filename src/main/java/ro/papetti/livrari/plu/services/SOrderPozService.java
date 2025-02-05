@@ -50,4 +50,13 @@ public class SOrderPozService extends AbstractBaseService<SOrderPoz, SOrderPozRe
         return repository.getCantitatiLivrate(sOrderCapId, firmaId);
     }
     
+    /**
+     * 
+     * @param sOrderCapId
+     * @return cantitatile ce au fost rezervate din stoc pt aceasta comanda 
+     */
+    public List<PozCantitate> getCantitatiRezervate(int sOrderCapId){
+        return repository.getCantitatiRezervate(sOrderCapId);
+    }
+    
 }

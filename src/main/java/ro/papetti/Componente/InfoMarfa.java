@@ -15,6 +15,8 @@ import ro.papetti.livrari.model.StocDisponibil;
 public interface InfoMarfa {
 
     List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId);
+    
+    List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
 
     List<StocDisponibil> getStocuriDisponibile(int firmaId);
     

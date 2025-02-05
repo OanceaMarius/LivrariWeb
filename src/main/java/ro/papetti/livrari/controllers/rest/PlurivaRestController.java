@@ -134,7 +134,12 @@ public class PlurivaRestController {
     }
     
     @GetMapping("/SCantLivrate/{sOrderCapId}/{firmaId}")
-    public List<PozCantitate>  getStocDisponibilOperational(@PathVariable int sOrderCapId, @PathVariable int firmaId){
+    public List<PozCantitate>  getCantitatiLivrate(@PathVariable int sOrderCapId, @PathVariable int firmaId){
         return sOrderPozSer.getCantitatiLivrate(sOrderCapId, firmaId);
+    }
+    
+    @GetMapping("/SCantRezervate/{sOrderCapId}")
+    public List<PozCantitate>  getCantitatiRezervate(@PathVariable int sOrderCapId){
+        return sOrderPozSer.getCantitatiRezervate(sOrderCapId);
     }
 }
