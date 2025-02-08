@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import ro.papetti.Componente.InfoMarfa;
 import ro.papetti.livrari.model.ComandaHarta;
@@ -75,7 +76,7 @@ public final class UtilComenzi {
      * @param produsId
      * @return stocul pt produsul curent
      */
-    public static BigDecimal getStocPeProdus(List<StocDisponibil> stocuri, int produsId) {
+    public static BigDecimal getStocPeProdus(Set<StocDisponibil> stocuri, int produsId) {
         Map<Integer, BigDecimal> stocuriMap = stocuri.stream()
                 .collect(Collectors.toMap(StocDisponibil::getProdusId, StocDisponibil::getStocDisponibil));
         BigDecimal stoc = stocuriMap.get(produsId);
@@ -101,7 +102,7 @@ public final class UtilComenzi {
      * @param pozitiiCom
      * @param stocuri
      */
-    public static void putStocuriDisponibile(ComandaHarta comanda, List<StocDisponibil> stocuri) {
+    public static void putStocuriDisponibile(ComandaHarta comanda, Set<StocDisponibil> stocuri) {
         List<ComandaPluPoz> pozitii = comanda.getPozitiiPluriva();
         for (ComandaPluPoz poz : pozitii) {
             poz.setCantStoc(getStocPeProdus(stocuri, poz.getProdusId()));
@@ -110,8 +111,11 @@ public final class UtilComenzi {
 
     public static void putCantitatiLivrateS(ComandaHarta comanda, InfoMarfa info) {
         List<ComandaPluPoz> listPozPlu = comanda.getPozitiiPluriva();
+        if (listPozPlu.isEmpty()) {
+            return;
+        }
         List<PozCantitate> listCantLiv = info.getCantitatiLivrate(
-                comanda.getOrderCapId(), 
+                comanda.getOrderCapId(),
                 comanda.getFirmaId());
         for (ComandaPluPoz poz : listPozPlu) {
             BigDecimal cantLiv = UtilComenzi.getCantitatePePoz(
@@ -121,9 +125,12 @@ public final class UtilComenzi {
 
         }
     }
-    
+
     public static void putCantitatiRezervateS(ComandaHarta comanda, InfoMarfa info) {
         List<ComandaPluPoz> listPozPlu = comanda.getPozitiiPluriva();
+        if (listPozPlu.isEmpty()) {
+            return;
+        }
         List<PozCantitate> listCantRez = info.getCantitatiRezervate(comanda.getOrderCapId());
         for (ComandaPluPoz poz : listPozPlu) {
             BigDecimal cantRez = UtilComenzi.getCantitatePePoz(

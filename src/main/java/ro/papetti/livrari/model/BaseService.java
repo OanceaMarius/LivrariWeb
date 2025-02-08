@@ -5,33 +5,33 @@
 package ro.papetti.livrari.model;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
  * @author MariusO
- * @param <T>
- * @param <Integer>
+ * @param <T> Clasa Entitate
+ * @param <ID>
+ * @param <Integer> Id-ul entitatii
  */
-public interface BaseService<T, Integer> {
+public interface BaseService<T, ID extends Integer> {
     
     public List<T> findAll();
     
+        
     public List<T> saveAll(Iterable<T> entities);
     
-//    public T save(T entity);
+    public T save(T entity);
     
-//    public Optional<T> findById(ID id);
+    public Optional<T> findById(ID id);
     
-//    public boolean existsById(ID id);
-    
+      
     public long count();
     
-//    public void deleteById(ID id);
+    public void deleteById(ID id);
     
-//    public void delete(T entity);
-    
-    public void deleteAll(Iterable<T> entities);
-    
+    public void delete(T entity);
+        
     public void deleteAll();
     
 

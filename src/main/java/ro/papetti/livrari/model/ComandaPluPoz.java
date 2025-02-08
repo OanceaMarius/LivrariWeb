@@ -37,6 +37,8 @@ public class ComandaPluPoz implements Serializable {
     
 
     public ComandaPluPoz(SOrderPoz pozPlu) {
+        
+        
         this.orderCapId = pozPlu.getSOrderCap().getSOrderCapId();
         this.orderPozId = pozPlu.getSOrderPozId();
         this.produsId=pozPlu.getProdus()
@@ -62,44 +64,98 @@ public class ComandaPluPoz implements Serializable {
         
         
     }
+    //varianta noua
+//        public ComandaPluPoz(SOrderPoz pozPlu) {
+//        SOrderCap capPlu = pozPlu.getSOrderCap();
+//        POrderPoz pozAsociatP = pozPlu.getPOrderPoz().orElse(null);
+//        POrderCap capAsociatP = null;
+//            if (pozAsociatP!=null) {
+//                capAsociatP= pozAsociatP.getPOrderCap();
+//            }
+//        
+//        this.orderCapId = capPlu.getSOrderCapId();
+//        this.orderPozId = pozPlu.getSOrderPozId();
+//        this.produsId=pozPlu.getProdus()
+//                .map(Produs::getProdusId).get();
+//            if (pozAsociatP!=null) {
+//                this.orderPozAsociatId = pozAsociatP.getPOrderPozId();
+//                this.denumirePartenerAsociat= capAsociatP.getFurnizorUnitate()
+//                        .getDenumireUnitateCompleta();
+//                this.numarComAsociata=capAsociatP.getPOrderNumber();
+//            }
+//
+//
+//        this.denumireProdus= pozPlu.getProdus()
+//                .map(Produs::getDenumireProdus)
+//                .orElse("Negasit");
+//        this.cantPlu= pozPlu.getCant();
+//        this.pretPlu=pozPlu.getPretValuta();
+//
+//    }
     
+//    public ComandaPluPoz(POrderPoz pozPlu) {
+//        this.orderCapId = pozPlu.getPOrderCap().getPOrderCapId();
+//        this.orderPozId = pozPlu.getPOrderPozId();
+//        this.produsId=pozPlu.getProdus()
+//                .map(Produs::getProdusId).orElse(null);
+//        this.orderPozAsociatId = pozPlu.getSOrderPoz()
+//                .map(SOrderPoz::getSOrderPozId)
+//                .orElse(0);
+//        this.denumirePartenerAsociat= pozPlu.getSOrderPoz()
+//                .map(SOrderPoz::getSOrderCap)
+//                .map(SOrderCap::getClient)
+//                .map(Unitate::getDenumireUnitateCompleta)
+//                .orElse(null);
+//        this.numarComClientAsociata=pozPlu.getSOrderPoz()
+//                .map(SOrderPoz::getSOrderCap)
+//                .map(SOrderCap::getSOClientNumber)
+//                .orElse(null);
+//        this.numarComAsociata=pozPlu.getSOrderPoz()
+//                .map(SOrderPoz::getSOrderCap)
+//                .map(SOrderCap::getSOrderNumber)
+//                .orElse(null);
+//        this.denumireProdus= pozPlu.getProdus()
+//                .map(Produs::getDenumireProdus)
+//                .orElse("Negasit");
+//        this.cantPlu= pozPlu.getCant();
+//        this.pretPlu=pozPlu.getPretValuta();
+//        this.orderPozAsociatId=pozPlu.getSOrderPoz()
+//                .map(SOrderPoz::getSOrderPozId)
+//                .orElse(0);
+//        this.denumirePartenerAsociat=pozPlu.getSOrderPoz()
+//                .map(SOrderPoz::getSOrderCap)
+//                .map(SOrderCap::getClient)
+//                .map(Unitate::getDenumireUnitateCompleta)
+//                .orElse(null);
+//                
+//    }
+    
+    //varianta noua
     public ComandaPluPoz(POrderPoz pozPlu) {
         this.orderCapId = pozPlu.getPOrderCap().getPOrderCapId();
         this.orderPozId = pozPlu.getPOrderPozId();
         this.produsId=pozPlu.getProdus()
                 .map(Produs::getProdusId).orElse(null);
-        this.orderPozAsociatId = pozPlu.getSOrderPoz()
-                .map(SOrderPoz::getSOrderPozId)
-                .orElse(0);
-        this.denumirePartenerAsociat= pozPlu.getSOrderPoz()
-                .map(SOrderPoz::getSOrderCap)
-                .map(SOrderCap::getClient)
-                .map(Unitate::getDenumireUnitateCompleta)
-                .orElse(null);
-        this.numarComClientAsociata=pozPlu.getSOrderPoz()
-                .map(SOrderPoz::getSOrderCap)
-                .map(SOrderCap::getSOClientNumber)
-                .orElse(null);
-        this.numarComAsociata=pozPlu.getSOrderPoz()
-                .map(SOrderPoz::getSOrderCap)
-                .map(SOrderCap::getSOrderNumber)
-                .orElse(null);
+        SOrderPoz pozAsociatS = pozPlu.getSOrderPoz().orElse(null);
+        if (pozAsociatS!=null) {
+            SOrderCap capAsociatS = pozAsociatS.getSOrderCap();
+            this.orderPozAsociatId=pozAsociatS.getSOrderPozId();
+            this.numarComClientAsociata=capAsociatS.getSOClientNumber();
+            this.numarComAsociata=capAsociatS.getSOrderNumber();
+            this.orderPozAsociatId=pozAsociatS.getSOrderPozId();
+            this.denumirePartenerAsociat=capAsociatS.getClientLivrareUnitate().
+                    orElse(capAsociatS.getClientUnitate()).
+                    getDenumireUnitateCompleta();
+        }
+
         this.denumireProdus= pozPlu.getProdus()
                 .map(Produs::getDenumireProdus)
                 .orElse("Negasit");
         this.cantPlu= pozPlu.getCant();
         this.pretPlu=pozPlu.getPretValuta();
-        this.orderPozAsociatId=pozPlu.getSOrderPoz()
-                .map(SOrderPoz::getSOrderPozId)
-                .orElse(0);
-        this.denumirePartenerAsociat=pozPlu.getSOrderPoz()
-                .map(SOrderPoz::getSOrderCap)
-                .map(SOrderCap::getClient)
-                .map(Unitate::getDenumireUnitateCompleta)
-                .orElse(null);
                 
     }
-
+    
     public int getOrderCapId() {
         return orderCapId;
     }

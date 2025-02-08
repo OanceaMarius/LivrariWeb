@@ -4,7 +4,6 @@
  */
 package ro.papetti.livrari.plu.repozitories;
 
-import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +17,7 @@ import ro.papetti.pluriva.entity.POrderPoz;
  * @author MariusO
  */
 @Repository
-@PersistenceContext(unitName = "plurivaEntityManagerFactory")
+//@PersistenceContext(unitName = "plurivaEntityManagerFactory")
 public interface POrderPozRepozitory extends JpaRepository<POrderPoz, Integer> {
     
     

@@ -5,14 +5,15 @@
 package ro.papetti.livrari.controllers.rest;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.LivrariTabele.entity.ComandaPoz;
-import ro.papetti.livrari.liv.services.ComandaCapService;
-import ro.papetti.livrari.liv.services.ComandaPozService;
+import ro.papetti.livrari.liv.services.jpa.ComandaCapServiceImpl;
+import ro.papetti.livrari.liv.services.jpa.ComandaPozServiceImpl;
 
 
 /**
@@ -20,13 +21,14 @@ import ro.papetti.livrari.liv.services.ComandaPozService;
  * @author MariusO
  */
 @RestController
+@Transactional
 @RequestMapping("/api")
 public class LivrariRestController {
         
-    private final ComandaCapService capSer;
-    private final ComandaPozService liniiSer;
+    private final ComandaCapServiceImpl capSer;
+    private final ComandaPozServiceImpl liniiSer;
 
-    public LivrariRestController(ComandaCapService capSer, ComandaPozService liniiProSer) {
+    public LivrariRestController(ComandaCapServiceImpl capSer, ComandaPozServiceImpl liniiProSer) {
         this.capSer = capSer;
         this.liniiSer = liniiProSer;
     }

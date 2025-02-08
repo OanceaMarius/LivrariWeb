@@ -21,6 +21,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  *
@@ -28,6 +29,7 @@ import org.springframework.transaction.PlatformTransactionManager;
  */
 
 @Configuration
+@EnableTransactionManagement
 @PropertySource("classpath:db-link-livrari.properties")
 @EnableJpaRepositories(basePackages = "${spring.datasource.livrari.repozitories.path}", 
         entityManagerFactoryRef = "livrariEntityManagerFactory", 

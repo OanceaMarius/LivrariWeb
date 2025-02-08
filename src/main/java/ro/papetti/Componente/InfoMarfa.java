@@ -5,6 +5,7 @@
 package ro.papetti.Componente;
 
 import java.util.List;
+import java.util.Set;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
 
@@ -18,6 +19,6 @@ public interface InfoMarfa {
     
     List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
 
-    List<StocDisponibil> getStocuriDisponibile(int firmaId);
+    Set<StocDisponibil> getStocuriDisponibile(int firmaId);
     
 }

@@ -5,15 +5,17 @@
 package ro.papetti.livrari.plu.services;
 
 import java.util.List;
-import ro.papetti.livrari.model.BaseService;
-import ro.papetti.pluriva.entity.SOrderPoz;
+import java.util.Set;
+import ro.papetti.livrari.model.StocDisponibil;
 
 /**
  *
  * @author MariusO
  */
-public interface SOrderPozService extends BaseService<SOrderPoz, Integer> {
+public interface StocService {
 
-    List<SOrderPoz> findPozitiiBySOrderCapId(int sOrderCapId);
+    public List<StocDisponibil> getStocDisponibilInGestiune(int FirmaId, int GestiuneId);
+
+    public Set<StocDisponibil> getStocDisponibilInGestiuneOperationala(int FirmaId);
     
 }

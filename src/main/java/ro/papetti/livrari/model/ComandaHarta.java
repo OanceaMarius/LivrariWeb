@@ -5,6 +5,8 @@
 package ro.papetti.livrari.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
@@ -18,10 +20,10 @@ import ro.papetti.pluriva.entity.Unitate;
  * @author MariusO
  */
 public class ComandaHarta extends ComandaCap implements Serializable {
-//    private ComandaCap capLiv;
-//    private List<ComandaPoz> pozLiv; 
-    private List<ComandaPluPoz>  pozitiiPluriva;
+
+    private List<ComandaPluPoz>  pozitiiPluriva = new ArrayList<>();
     private Unitate unitate;
+    private String plata;
    
 
     public ComandaHarta(ComandaCap comandaCap) {
@@ -34,6 +36,14 @@ public class ComandaHarta extends ComandaCap implements Serializable {
 
     public void setPozitiiPluriva(List<ComandaPluPoz> pozitiiPluriva) {
         this.pozitiiPluriva = pozitiiPluriva;
+    }
+
+    public String getPlata() {
+        return plata;
+    }
+
+    public void setPlata(String plata) {
+        this.plata = plata;
     }
 
 
@@ -55,6 +65,14 @@ public class ComandaHarta extends ComandaCap implements Serializable {
 
     public void setUnitate(Unitate unitate) {
         this.unitate = unitate;
+    }
+
+    public ComandaHarta(){}
+
+    public ComandaHarta(Unitate unitate, String plata, Integer capId, int iDMasina, int tipLivrareId, int firmaId, int orderCapId, short indexCom, short ordineLiv, String com, boolean vizitat, boolean anulata, Date momentIntr) {
+        super(capId, iDMasina, tipLivrareId, firmaId, orderCapId, indexCom, ordineLiv, com, vizitat, anulata, momentIntr);
+        this.unitate = unitate;
+        this.plata = plata;
     }
     
     

@@ -5,10 +5,12 @@
 package ro.papetti.Componente;
 
 import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Component;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
-import ro.papetti.livrari.plu.services.SOrderPozService;
+import ro.papetti.livrari.plu.services.SOrderCapService;
+import ro.papetti.livrari.plu.services.StocService;
 
 /**
  *
@@ -16,29 +18,29 @@ import ro.papetti.livrari.plu.services.SOrderPozService;
  */
 @Component
 public class InfoMarfaImpl implements InfoMarfa {
-    private final SOrderPozService serv;
-    
-    public InfoMarfaImpl(SOrderPozService service) {
-        this.serv = service;
+
+    private final StocService stocService;
+    private final SOrderCapService sOrderCapService;
+
+    public InfoMarfaImpl(StocService stocService, SOrderCapService sOrderCapService) {
+        this.stocService = stocService;
+        this.sOrderCapService = sOrderCapService;
         System.out.println("InfoMarfa E ONLINE");
     }
-    
 
-            
-            
     @Override
-  public List<StocDisponibil>  getStocuriDisponibile(int firmaId){        
-        return serv.getStocDisponibilInGestiuneOperationala(firmaId);
+    public Set<StocDisponibil> getStocuriDisponibile(int firmaId) {
+        return stocService.getStocDisponibilInGestiuneOperationala(firmaId);
     }
 
     @Override
-  public List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId){
-      return serv.getCantitatiLivrate(sOrderCapId, firmaId);
-  }
+    public List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId) {
+        return sOrderCapService.getCantitatiLivrate(sOrderCapId, firmaId);
+    }
 
     @Override
     public List<PozCantitate> getCantitatiRezervate(int sOrderCapId) {
-        return serv.getCantitatiRezervate(sOrderCapId);
+        return sOrderCapService.getCantitatiRezervate(sOrderCapId);
     }
-    
+
 }
