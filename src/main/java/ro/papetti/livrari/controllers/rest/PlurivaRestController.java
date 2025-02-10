@@ -28,6 +28,7 @@ import ro.papetti.livrari.plu.services.POrderPozService;
 import ro.papetti.livrari.plu.services.SOrderCapService;
 import ro.papetti.livrari.plu.services.SOrderPozService;
 import ro.papetti.livrari.plu.services.StocService;
+import ro.papetti.pluriva.dto.SOrderPozDTO;
 import ro.papetti.pluriva.entity.FollowUp;
 import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.POrderPoz;
@@ -89,6 +90,12 @@ public class PlurivaRestController {
     }
 
     @Transactional
+    @GetMapping("/SOrderPozDTO/ByCapId/{sOrderCapId}")
+    public List<SOrderPozDTO> findSOrderPozDTOByCapId(@PathVariable int sOrderCapId){
+        return sOrderPozSer.findPozitiiDTOBySOrderCapId(sOrderCapId);
+    }
+    
+       @Transactional
     @GetMapping("/SOrderPoz/ByCapId/{sOrderCapId}")
     public List<SOrderPoz> findSOrderPozByCapId(@PathVariable int sOrderCapId){
         return sOrderPozSer.findPozitiiBySOrderCapId(sOrderCapId);

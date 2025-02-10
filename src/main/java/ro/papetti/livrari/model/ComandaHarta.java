@@ -11,8 +11,8 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.livrari.utilitare.UtilComenzi;
+import ro.papetti.pluriva.dto.SOrderPozDTO;
 import ro.papetti.pluriva.entity.POrderPoz;
-import ro.papetti.pluriva.entity.SOrderPoz;
 import ro.papetti.pluriva.entity.Unitate;
 
 /**
@@ -51,8 +51,8 @@ public class ComandaHarta extends ComandaCap implements Serializable {
 
   
 
-    public void setPozPluFromSOrder(List<SOrderPoz> listSOrderPoz) {
-        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromS(listSOrderPoz)    ;
+    public void setPozPluFromSOrder(List<SOrderPozDTO> listSOrderPoz) {
+        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromSDTO(listSOrderPoz)    ;
     }
     
     public void setPozPluFromPOrder(List<POrderPoz> listPOrderPoz) {

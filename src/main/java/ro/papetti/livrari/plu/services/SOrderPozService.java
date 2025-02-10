@@ -6,6 +6,7 @@ package ro.papetti.livrari.plu.services;
 
 import java.util.List;
 import ro.papetti.livrari.model.BaseService;
+import ro.papetti.pluriva.dto.SOrderPozDTO;
 import ro.papetti.pluriva.entity.SOrderPoz;
 
 /**
@@ -15,5 +16,7 @@ import ro.papetti.pluriva.entity.SOrderPoz;
 public interface SOrderPozService extends BaseService<SOrderPoz, Integer> {
 
     List<SOrderPoz> findPozitiiBySOrderCapId(int sOrderCapId);
+
+    List<SOrderPozDTO> findPozitiiDTOBySOrderCapId(int sOrderCapId);
     
 }

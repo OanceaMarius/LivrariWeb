@@ -4,6 +4,7 @@
  */
 package ro.papetti.livrari.liv.services;
 
+import java.util.Optional;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.livrari.model.BaseService;
 
@@ -12,5 +13,7 @@ import ro.papetti.livrari.model.BaseService;
  * @author MariusO
  */
 public interface ComandaCapService extends BaseService<ComandaCap, Integer> {
+
+    Optional<ComandaCap> findByIdCuPozitii(Integer id);
     
 }

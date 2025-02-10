@@ -6,6 +6,7 @@ package ro.papetti.livrari.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import ro.papetti.pluriva.dto.SOrderPozDTO;
 import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.POrderPoz;
 import ro.papetti.pluriva.entity.Produs;
@@ -20,10 +21,9 @@ import ro.papetti.pluriva.entity.Unitate;
  */
 
 public class ComandaPluPoz implements Serializable {
-    private int orderCapId;
-    private int orderPozId;
-    private int produsId;
-    private int orderPozAsociatId;
+    private Integer orderPozId;
+    private Integer produsId;
+    private Integer orderPozAsociatId;
     private String denumirePartenerAsociat;
     private String numarComClientAsociata; 
     private String numarComAsociata;
@@ -35,23 +35,23 @@ public class ComandaPluPoz implements Serializable {
     private BigDecimal cantFacturata = BigDecimal.valueOf(0);  // TODO: sa aduc cantitatea facturata
     private BigDecimal cantLivrata = BigDecimal.valueOf(0); 
     
-
-    public ComandaPluPoz(SOrderPoz pozPlu) {
+    
+       public ComandaPluPoz(SOrderPoz pozPlu) {
         
         
-        this.orderCapId = pozPlu.getSOrderCap().getSOrderCapId();
-        this.orderPozId = pozPlu.getSOrderPozId();
+//        this.orderCapId = pozPlu.getSOrderCap().getSOrderCapId();
+        this.orderPozId = pozPlu.getsOrderPozId();
         this.produsId=pozPlu.getProdus()
                 .map(Produs::getProdusId).get();
-        this.orderPozAsociatId = pozPlu.getPOrderPoz()
-                .map(POrderPoz::getPOrderPozId).orElse(0);
-        this.denumirePartenerAsociat= pozPlu.getPOrderPoz()
+        this.orderPozAsociatId = pozPlu.getpOrderPoz()
+                .map(POrderPoz::getpOrderPozId).orElse(0);
+        this.denumirePartenerAsociat= pozPlu.getpOrderPoz()
                 .map(POrderPoz::getPOrderCap)
                 .map(POrderCap::getFurnizorUnitate)
                 .map(Unitate::getDenumireUnitateCompleta).orElse(null);
-        this.numarComAsociata=pozPlu.getPOrderPoz()
+        this.numarComAsociata=pozPlu.getpOrderPoz()
                 .map(POrderPoz::getPOrderCap)
-                .map(POrderCap::getPOrderNumber)
+                .map(POrderCap::getpOrderNumber)
                 .orElse(null);
 
         this.denumireProdus= pozPlu.getProdus()
@@ -64,6 +64,31 @@ public class ComandaPluPoz implements Serializable {
         
         
     }
+
+    public ComandaPluPoz(SOrderPozDTO sPozPluDTO) {
+        
+
+        this.orderPozId = sPozPluDTO.sOrderPozId();
+        this.produsId=sPozPluDTO.produs().getProdusId();
+        if (sPozPluDTO.pOrderPoz()!=null) {
+            this.orderPozAsociatId = sPozPluDTO.pOrderPoz().getpOrderPozId();
+            this.denumirePartenerAsociat= sPozPluDTO.pOrderPoz()
+                .getPOrderCap()
+                .getFurnizorUnitate()
+                .getDenumireUnitateCompleta();
+            this.numarComAsociata=sPozPluDTO.pOrderPoz()
+                .getPOrderCap()
+                .getpOrderNumber();
+            
+        }
+
+        this.denumireProdus= sPozPluDTO.produs()
+                .getDenumireProdus();
+        this.cantPlu= sPozPluDTO.cant();
+        this.pretPlu=sPozPluDTO.pretValuta();
+
+    }
+    
     //varianta noua
 //        public ComandaPluPoz(SOrderPoz pozPlu) {
 //        SOrderCap capPlu = pozPlu.getSOrderCap();
@@ -132,17 +157,17 @@ public class ComandaPluPoz implements Serializable {
     
     //varianta noua
     public ComandaPluPoz(POrderPoz pozPlu) {
-        this.orderCapId = pozPlu.getPOrderCap().getPOrderCapId();
-        this.orderPozId = pozPlu.getPOrderPozId();
+//        this.orderCapId = pozPlu.getPOrderCap().getPOrderCapId();
+        this.orderPozId = pozPlu.getpOrderPozId();
         this.produsId=pozPlu.getProdus()
                 .map(Produs::getProdusId).orElse(null);
-        SOrderPoz pozAsociatS = pozPlu.getSOrderPoz().orElse(null);
+        SOrderPoz pozAsociatS = pozPlu.getSOrderPoz();
         if (pozAsociatS!=null) {
-            SOrderCap capAsociatS = pozAsociatS.getSOrderCap();
-            this.orderPozAsociatId=pozAsociatS.getSOrderPozId();
-            this.numarComClientAsociata=capAsociatS.getSOClientNumber();
-            this.numarComAsociata=capAsociatS.getSOrderNumber();
-            this.orderPozAsociatId=pozAsociatS.getSOrderPozId();
+            SOrderCap capAsociatS = pozAsociatS.getsOrderCap();
+            this.orderPozAsociatId=pozAsociatS.getpOrderPozId();
+            this.numarComClientAsociata=capAsociatS.getsOClientNumber();
+            this.numarComAsociata=capAsociatS.getsOrderNumber();
+            this.orderPozAsociatId=pozAsociatS.getsOrderPozId();
             this.denumirePartenerAsociat=capAsociatS.getClientLivrareUnitate().
                     orElse(capAsociatS.getClientUnitate()).
                     getDenumireUnitateCompleta();
@@ -156,13 +181,13 @@ public class ComandaPluPoz implements Serializable {
                 
     }
     
-    public int getOrderCapId() {
-        return orderCapId;
-    }
-
-    public void setOrderCapId(int orderCapId) {
-        this.orderCapId = orderCapId;
-    }
+//    public int getOrderCapId() {
+//        return orderCapId;
+//    }
+//
+//    public void setOrderCapId(int orderCapId) {
+//        this.orderCapId = orderCapId;
+//    }
 
     public int getOrderPozId() {
         return orderPozId;

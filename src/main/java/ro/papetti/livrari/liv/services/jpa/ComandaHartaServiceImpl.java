@@ -24,9 +24,9 @@ import ro.papetti.livrari.plu.services.POrderPozService;
 import ro.papetti.livrari.plu.services.SOrderCapService;
 import ro.papetti.livrari.plu.services.SOrderPozService;
 import ro.papetti.livrari.utilitare.UtilComenzi;
+import ro.papetti.pluriva.dto.SOrderPozDTO;
 import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.SOrderCap;
-import ro.papetti.pluriva.entity.SOrderPoz;
 
 /**
  *
@@ -61,9 +61,9 @@ public class ComandaHartaServiceImpl implements ComandaHartaService{
     public ComandaHarta getComandaHartaById(int capId) {
 
 //        ComandaCap comandaCap = capService.findById(capId).get();
-        ComandaCap comandaCap = capService.findById(capId)
+        ComandaCap comandaCap = capService.findByIdCuPozitii(capId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                "Comanda cu id-ul " + capId + " nu a fost găsită"));
+                "ComandaCap  cu CapId: " + capId + " nu a fost găsită"));
 
         ComandaHarta comandaHarta = new ComandaHarta(comandaCap);
         int firmaId = comandaHarta.getFirmaId();
@@ -93,8 +93,8 @@ public class ComandaHartaServiceImpl implements ComandaHartaService{
             if (sOrderCap != null) {
                 comandaHarta.setPlata(sOrderCap.getPlata());
                 comandaHarta.setUnitate(sOrderCap.getClient());
-                List<SOrderPoz> pozitiiCom = sOrderPozService.
-                        findPozitiiBySOrderCapId(sOrderCap.getSOrderCapId());
+                List<SOrderPozDTO> pozitiiCom = sOrderPozService.
+                        findPozitiiDTOBySOrderCapId(sOrderCap.getsOrderCapId());
                 comandaHarta.setPozPluFromSOrder(pozitiiCom);
             }
 

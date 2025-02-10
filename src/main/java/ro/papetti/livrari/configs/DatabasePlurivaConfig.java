@@ -72,6 +72,9 @@ public class DatabasePlurivaConfig {
         properties.put("hibernate.show_sql", hibernate_show_sql);
         properties.put("hibernate.format_sql", hibernate_format_sql);
 
+//        properties.put("hibernate.generate_statitics",true);
+//        properties.put("org.hibernate.stat","DEBUG");
+        
         
         em.setJpaPropertyMap(properties);
         return em;

@@ -6,6 +6,7 @@ package ro.papetti.livrari.liv.services.jpa;
 
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
@@ -44,6 +45,17 @@ public class ComandaCapServiceImpl implements ComandaCapService{
     @Override
     public Optional<ComandaCap> findById(Integer id) {
         return comandaCapRepozitory.findById(id);
+    }
+    
+    @Override
+    public Optional<ComandaCap> findByIdCuPozitii(Integer id) {
+
+        Optional<ComandaCap> comCap = comandaCapRepozitory.findById(id);
+        if (comCap.isPresent()) {
+            Hibernate.initialize(comCap.get().getPozitiiLivrari());
+            return comCap;
+        }
+        return null;
     }
 
     @Override

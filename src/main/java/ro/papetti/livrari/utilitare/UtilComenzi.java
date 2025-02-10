@@ -15,6 +15,7 @@ import ro.papetti.livrari.model.ComandaHarta;
 import ro.papetti.livrari.model.ComandaPluPoz;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
+import ro.papetti.pluriva.dto.SOrderPozDTO;
 import ro.papetti.pluriva.entity.POrderPoz;
 import ro.papetti.pluriva.entity.SOrderPoz;
 
@@ -31,9 +32,24 @@ public final class UtilComenzi {
     /**
      * completeaza din comenzile de cllienti Sale pluriva liniile
      *
-     * @param listPlu
+     * @param listPluDTO
      * @return
      */
+    public static List<ComandaPluPoz> getComandaPluPozFromSDTO(List<SOrderPozDTO> listPluDTO) {
+        List listPoz = new ArrayList<ComandaPluPoz>();
+        if (listPluDTO == null) {
+            return listPoz;
+        }
+        for (SOrderPozDTO pozPluDTO : listPluDTO) {
+            ComandaPluPoz liniePoz = new ComandaPluPoz(pozPluDTO);
+            //doar liniile care tin de comanda nu si intrarile
+            if (pozPluDTO.sOrderPozParentId() == null) {
+                listPoz.add(liniePoz);
+            }
+        }
+
+        return listPoz;
+    }
     public static List<ComandaPluPoz> getComandaPluPozFromS(List<SOrderPoz> listPlu) {
         List listPoz = new ArrayList<ComandaPluPoz>();
         if (listPlu == null) {
@@ -42,14 +58,13 @@ public final class UtilComenzi {
         for (SOrderPoz pozPlu : listPlu) {
             ComandaPluPoz liniePoz = new ComandaPluPoz(pozPlu);
             //doar liniile care tin de comanda nu si intrarile
-            if (pozPlu.getSOrderPozParentId() == null) {
+            if (pozPlu.getsOrderPozParentId() == null) {
                 listPoz.add(liniePoz);
             }
         }
 
         return listPoz;
     }
-
     /**
      * completeaza din comenzile de furnizori Purch pluriva liniile
      *
