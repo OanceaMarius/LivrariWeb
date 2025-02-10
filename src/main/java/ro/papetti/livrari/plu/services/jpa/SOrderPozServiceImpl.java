@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.plu.repozitories.SOrderPozRepozitory;
 import ro.papetti.livrari.plu.services.SOrderPozService;
-import ro.papetti.pluriva.dto.SOrderPozDTO;
+import ro.papetti.pluriva.dto.SOrderPozDTOI;
 import ro.papetti.pluriva.entity.SOrderPoz;
 
 /**
@@ -30,8 +30,8 @@ public class SOrderPozServiceImpl implements SOrderPozService {
 
     
     @Override
-    public List<SOrderPozDTO> findPozitiiDTOBySOrderCapId(int sOrderCapId){
-        return sOrderPozRepozitory.findBySOrderCapSOrderCapId(sOrderCapId, SOrderPozDTO.class);
+    public List<SOrderPozDTOI> findPozitiiDTOBySOrderCapId(int sOrderCapId){
+        return sOrderPozRepozitory.findBySOrderCapSOrderCapId(sOrderCapId, SOrderPozDTOI.class);
     }
     
     @Override

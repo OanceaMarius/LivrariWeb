@@ -7,6 +7,7 @@ package ro.papetti.livrari.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import ro.papetti.pluriva.dto.SOrderPozDTO;
+import ro.papetti.pluriva.dto.SOrderPozDTOI;
 import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.POrderPoz;
 import ro.papetti.pluriva.entity.Produs;
@@ -14,81 +15,91 @@ import ro.papetti.pluriva.entity.SOrderCap;
 import ro.papetti.pluriva.entity.SOrderPoz;
 import ro.papetti.pluriva.entity.Unitate;
 
-
 /**
  *
  * @author MariusO
  */
-
 public class ComandaPluPoz implements Serializable {
+
     private Integer orderPozId;
     private Integer produsId;
     private Integer orderPozAsociatId;
     private String denumirePartenerAsociat;
-    private String numarComClientAsociata; 
+    private String numarComClientAsociata;
     private String numarComAsociata;
     private String denumireProdus;
     private BigDecimal pretPlu;
     private BigDecimal cantPlu;
-    private BigDecimal cantStoc = BigDecimal.valueOf(0);       
+    private BigDecimal cantStoc = BigDecimal.valueOf(0);
     private BigDecimal cantRezervat = BigDecimal.valueOf(0);   // TODO: sa aduc cantitatea rezervata pt comanda curenta
     private BigDecimal cantFacturata = BigDecimal.valueOf(0);  // TODO: sa aduc cantitatea facturata
-    private BigDecimal cantLivrata = BigDecimal.valueOf(0); 
-    
-    
-       public ComandaPluPoz(SOrderPoz pozPlu) {
-        
-        
+    private BigDecimal cantLivrata = BigDecimal.valueOf(0);
+
+    public ComandaPluPoz(SOrderPoz pozPlu) {
+
 //        this.orderCapId = pozPlu.getSOrderCap().getSOrderCapId();
         this.orderPozId = pozPlu.getsOrderPozId();
-        this.produsId=pozPlu.getProdus()
+        this.produsId = pozPlu.getProdus()
                 .map(Produs::getProdusId).get();
         this.orderPozAsociatId = pozPlu.getpOrderPoz()
                 .map(POrderPoz::getpOrderPozId).orElse(0);
-        this.denumirePartenerAsociat= pozPlu.getpOrderPoz()
+        this.denumirePartenerAsociat = pozPlu.getpOrderPoz()
                 .map(POrderPoz::getPOrderCap)
                 .map(POrderCap::getFurnizorUnitate)
                 .map(Unitate::getDenumireUnitateCompleta).orElse(null);
-        this.numarComAsociata=pozPlu.getpOrderPoz()
+        this.numarComAsociata = pozPlu.getpOrderPoz()
                 .map(POrderPoz::getPOrderCap)
                 .map(POrderCap::getpOrderNumber)
                 .orElse(null);
 
-        this.denumireProdus= pozPlu.getProdus()
+        this.denumireProdus = pozPlu.getProdus()
                 .map(Produs::getDenumireProdus)
                 .orElse("Negasit");
-        this.cantPlu= pozPlu.getCant();
-        this.pretPlu=pozPlu.getPretValuta();
+        this.cantPlu = pozPlu.getCant();
+        this.pretPlu = pozPlu.getPretValuta();
 
-
-        
-        
     }
 
     public ComandaPluPoz(SOrderPozDTO sPozPluDTO) {
-        
 
         this.orderPozId = sPozPluDTO.sOrderPozId();
-        this.produsId=sPozPluDTO.produs().getProdusId();
-        if (sPozPluDTO.pOrderPoz()!=null) {
+        this.produsId = sPozPluDTO.produs().getProdusId();
+        if (sPozPluDTO.pOrderPoz() != null) {
             this.orderPozAsociatId = sPozPluDTO.pOrderPoz().getpOrderPozId();
-            this.denumirePartenerAsociat= sPozPluDTO.pOrderPoz()
-                .getPOrderCap()
-                .getFurnizorUnitate()
-                .getDenumireUnitateCompleta();
-            this.numarComAsociata=sPozPluDTO.pOrderPoz()
-                .getPOrderCap()
-                .getpOrderNumber();
-            
+            this.denumirePartenerAsociat = sPozPluDTO.pOrderPoz()
+                    .getPOrderCap()
+                    .getFurnizorUnitate()
+                    .getDenumireUnitateCompleta();
+            this.numarComAsociata = sPozPluDTO.pOrderPoz()
+                    .getPOrderCap()
+                    .getpOrderNumber();
+
+        }
+    }
+
+    public ComandaPluPoz(SOrderPozDTOI sPozPluDTOI) {
+
+        this.orderPozId = sPozPluDTOI.getsOrderPozId();
+        this.produsId = sPozPluDTOI.getProdus().getProdusId();
+        if (sPozPluDTOI.getpOrderPoz() != null) {
+            this.orderPozAsociatId = sPozPluDTOI.getpOrderPoz().getpOrderPozId();
+            this.denumirePartenerAsociat = sPozPluDTOI.getpOrderPoz()
+                    .getPOrderCap()
+                    .getFurnizorUnitate()
+                    .getDenumireUnitateCompleta();
+            this.numarComAsociata = sPozPluDTOI.getpOrderPoz()
+                    .getPOrderCap()
+                    .getpOrderNumber();
+
         }
 
-        this.denumireProdus= sPozPluDTO.produs()
+        this.denumireProdus = sPozPluDTOI.getProdus()
                 .getDenumireProdus();
-        this.cantPlu= sPozPluDTO.cant();
-        this.pretPlu=sPozPluDTO.pretValuta();
+        this.cantPlu = sPozPluDTOI.getCant();
+        this.pretPlu = sPozPluDTOI.getPretValuta();
 
     }
-    
+
     //varianta noua
 //        public ComandaPluPoz(SOrderPoz pozPlu) {
 //        SOrderCap capPlu = pozPlu.getSOrderCap();
@@ -117,7 +128,6 @@ public class ComandaPluPoz implements Serializable {
 //        this.pretPlu=pozPlu.getPretValuta();
 //
 //    }
-    
 //    public ComandaPluPoz(POrderPoz pozPlu) {
 //        this.orderCapId = pozPlu.getPOrderCap().getPOrderCapId();
 //        this.orderPozId = pozPlu.getPOrderPozId();
@@ -154,33 +164,32 @@ public class ComandaPluPoz implements Serializable {
 //                .orElse(null);
 //                
 //    }
-    
     //varianta noua
     public ComandaPluPoz(POrderPoz pozPlu) {
 //        this.orderCapId = pozPlu.getPOrderCap().getPOrderCapId();
         this.orderPozId = pozPlu.getpOrderPozId();
-        this.produsId=pozPlu.getProdus()
+        this.produsId = pozPlu.getProdus()
                 .map(Produs::getProdusId).orElse(null);
         SOrderPoz pozAsociatS = pozPlu.getSOrderPoz();
-        if (pozAsociatS!=null) {
+        if (pozAsociatS != null) {
             SOrderCap capAsociatS = pozAsociatS.getsOrderCap();
-            this.orderPozAsociatId=pozAsociatS.getpOrderPozId();
-            this.numarComClientAsociata=capAsociatS.getsOClientNumber();
-            this.numarComAsociata=capAsociatS.getsOrderNumber();
-            this.orderPozAsociatId=pozAsociatS.getsOrderPozId();
-            this.denumirePartenerAsociat=capAsociatS.getClientLivrareUnitate().
+            this.orderPozAsociatId = pozAsociatS.getpOrderPozId();
+            this.numarComClientAsociata = capAsociatS.getsOClientNumber();
+            this.numarComAsociata = capAsociatS.getsOrderNumber();
+            this.orderPozAsociatId = pozAsociatS.getsOrderPozId();
+            this.denumirePartenerAsociat = capAsociatS.getClientLivrareUnitate().
                     orElse(capAsociatS.getClientUnitate()).
                     getDenumireUnitateCompleta();
         }
 
-        this.denumireProdus= pozPlu.getProdus()
+        this.denumireProdus = pozPlu.getProdus()
                 .map(Produs::getDenumireProdus)
                 .orElse("Negasit");
-        this.cantPlu= pozPlu.getCant();
-        this.pretPlu=pozPlu.getPretValuta();
-                
+        this.cantPlu = pozPlu.getCant();
+        this.pretPlu = pozPlu.getPretValuta();
+
     }
-    
+
 //    public int getOrderCapId() {
 //        return orderCapId;
 //    }
@@ -188,7 +197,6 @@ public class ComandaPluPoz implements Serializable {
 //    public void setOrderCapId(int orderCapId) {
 //        this.orderCapId = orderCapId;
 //    }
-
     public int getOrderPozId() {
         return orderPozId;
     }
@@ -245,8 +253,6 @@ public class ComandaPluPoz implements Serializable {
         this.cantFacturata = cantInActe;
     }
 
-
-
     public String getDenumireProdus() {
         return denumireProdus;
     }
@@ -262,8 +268,6 @@ public class ComandaPluPoz implements Serializable {
     public void setOrderPozAsociatId(int orderPozAsociatId) {
         this.orderPozAsociatId = orderPozAsociatId;
     }
-
-
 
     public String getDenumirePartenerAsociat() {
         return denumirePartenerAsociat;
@@ -296,9 +300,5 @@ public class ComandaPluPoz implements Serializable {
     public void setCantLivrata(BigDecimal cantLivrata) {
         this.cantLivrata = cantLivrata;
     }
-
-
-
- 
 
 }

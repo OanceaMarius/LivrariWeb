@@ -16,6 +16,7 @@ import ro.papetti.livrari.model.ComandaPluPoz;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.pluriva.dto.SOrderPozDTO;
+import ro.papetti.pluriva.dto.SOrderPozDTOI;
 import ro.papetti.pluriva.entity.POrderPoz;
 import ro.papetti.pluriva.entity.SOrderPoz;
 
@@ -44,6 +45,22 @@ public final class UtilComenzi {
             ComandaPluPoz liniePoz = new ComandaPluPoz(pozPluDTO);
             //doar liniile care tin de comanda nu si intrarile
             if (pozPluDTO.sOrderPozParentId() == null) {
+                listPoz.add(liniePoz);
+            }
+        }
+
+        return listPoz;
+    }
+    
+        public static List<ComandaPluPoz> getComandaPluPozFromSDTOI(List<SOrderPozDTOI> listPluDTO) {
+        List listPoz = new ArrayList<ComandaPluPoz>();
+        if (listPluDTO == null) {
+            return listPoz;
+        }
+        for (SOrderPozDTOI pozPluDTOI : listPluDTO) {
+            ComandaPluPoz liniePoz = new ComandaPluPoz(pozPluDTOI);
+            //doar liniile care tin de comanda nu si intrarile
+            if (pozPluDTOI.getsOrderPozParentId() == null) {
                 listPoz.add(liniePoz);
             }
         }

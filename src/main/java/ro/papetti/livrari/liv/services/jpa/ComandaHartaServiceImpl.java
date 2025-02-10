@@ -24,7 +24,7 @@ import ro.papetti.livrari.plu.services.POrderPozService;
 import ro.papetti.livrari.plu.services.SOrderCapService;
 import ro.papetti.livrari.plu.services.SOrderPozService;
 import ro.papetti.livrari.utilitare.UtilComenzi;
-import ro.papetti.pluriva.dto.SOrderPozDTO;
+import ro.papetti.pluriva.dto.SOrderPozDTOI;
 import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.SOrderCap;
 
@@ -93,9 +93,9 @@ public class ComandaHartaServiceImpl implements ComandaHartaService{
             if (sOrderCap != null) {
                 comandaHarta.setPlata(sOrderCap.getPlata());
                 comandaHarta.setUnitate(sOrderCap.getClient());
-                List<SOrderPozDTO> pozitiiCom = sOrderPozService.
+                List<SOrderPozDTOI> pozitiiCom = sOrderPozService.
                         findPozitiiDTOBySOrderCapId(sOrderCap.getsOrderCapId());
-                comandaHarta.setPozPluFromSOrder(pozitiiCom);
+                comandaHarta.setPozPluFromSOrderI(pozitiiCom);
             }
 
             UtilComenzi.putStocuriDisponibile(comandaHarta, stocuri);
