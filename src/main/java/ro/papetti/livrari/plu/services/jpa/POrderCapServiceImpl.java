@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.plu.repozitories.POrderCapRepozitory;
 import ro.papetti.livrari.plu.services.POrderCapService;
+import ro.papetti.pluriva.dto.POrderCapDTOI;
 import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.POrderPoz;
 
@@ -22,7 +23,7 @@ import ro.papetti.pluriva.entity.POrderPoz;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class POrderCapServiceImpl implements POrderCapService  {
+public class POrderCapServiceImpl implements POrderCapService {
 
     public POrderCapServiceImpl(POrderCapRepozitory pOrderCapRepozitory) {
         this.pOrderCapRepozitory = pOrderCapRepozitory;
@@ -30,74 +31,44 @@ public class POrderCapServiceImpl implements POrderCapService  {
 
     private final POrderCapRepozitory pOrderCapRepozitory;
 
-  
-
     public Optional<POrderCap> findByPOrderCapId(int pOrderCapId) {
         return pOrderCapRepozitory.findById(pOrderCapId);
 
     }
-    
 
     @Override
     public List<POrderPoz> findPOrderPozByPOrderCapId(int pOrderCapId) {
-        
+
         POrderCap cap = pOrderCapRepozitory.findById(pOrderCapId)
-                .orElseThrow(()-> new EntityNotFoundException("Nu gasesc POrderCap cu id: "+ pOrderCapId));
+                .orElseThrow(() -> new EntityNotFoundException("Nu gasesc POrderCap cu id: " + pOrderCapId));
         Hibernate.initialize(cap.getPozitii());
         return cap.getPozitii();
-        
+
     }
 
     @Override
     public Optional<POrderCap> findById(Integer pOrderCapId) {
-        return pOrderCapRepozitory.findById(pOrderCapId);
+
+        Optional<POrderCap> pCap = pOrderCapRepozitory.findById(pOrderCapId);
+        if (pCap.isPresent()) {
+            Hibernate.initialize(pCap.get().getPozitii());
+        }
+        return pCap;
     }
 
     @Override
     public List<POrderCap> findByDataLivrare(Date dataLivrare) {
-       return pOrderCapRepozitory.findByDataLivrare(dataLivrare)
-               .orElseThrow(()-> new EntityNotFoundException("NU gasesc POrderCap-uri cu data livrare mai mica decat: "+dataLivrare));
+        return pOrderCapRepozitory.findByDataLivrare(dataLivrare)
+                .orElseThrow(() -> new EntityNotFoundException("NU gasesc POrderCap-uri cu data livrare mai mica decat: " + dataLivrare));
     }
 
     @Override
-    public List<POrderCap> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Optional<POrderCapDTOI> findDTOByPOrderCapId(Integer pOrderCapId) {
+        Optional<POrderCapDTOI> pCap = pOrderCapRepozitory.findDTOByPOrderCapId(pOrderCapId);
+        if (pCap.isPresent()) {
+            Hibernate.initialize(pCap.get().getPozitii());
+        }
+        return pCap;
     }
-
-    @Override
-    public List<POrderCap> saveAll(Iterable entities) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
-
-    @Override
-    public long count() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
-
-    @Override
-    public void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public POrderCap save(POrderCap entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void delete(POrderCap entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    
 
 }

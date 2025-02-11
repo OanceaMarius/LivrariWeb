@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import ro.papetti.pluriva.dto.POrderCapDTOI;
 import ro.papetti.pluriva.entity.POrderCap;
 
 
@@ -22,4 +24,7 @@ import ro.papetti.pluriva.entity.POrderCap;
 public interface POrderCapRepozitory extends JpaRepository<POrderCap, Integer> {
     
     public Optional<List<POrderCap>> findByDataLivrare(Date dataLivrare);
+    
+    @Query(value="FROM POrderCap c where c.pOrderCapId =:pOrderCapId")
+     public Optional<POrderCapDTOI> findDTOByPOrderCapId(int pOrderCapId);
 }

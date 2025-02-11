@@ -23,4 +23,7 @@ public interface POrderPozRepozitory extends JpaRepository<POrderPoz, Integer> {
     
     @Query(value="SELECT * FROM POrderPoz p WHERE p.pOrderCapId = :pOrderCapId", nativeQuery = true)
     public Optional<List<POrderPoz>> findByPOrderCapId(int pOrderCapId);
+    
+    
+    public <T> List <T> findByPOrderCapPOrderCapId(int pOrderCapId, Class<T> type);
 }

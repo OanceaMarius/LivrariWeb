@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import ro.papetti.livrari.model.BaseService;
 import ro.papetti.livrari.model.PozCantitate;
+import ro.papetti.pluriva.dto.SOrderCapDTOI;
 import ro.papetti.pluriva.entity.SOrderCap;
 
 /**
@@ -22,4 +23,10 @@ public interface SOrderCapService extends BaseService<SOrderCap, Integer> {
     List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId);
     
     public List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
+    
+    public Optional<SOrderCapDTOI> findDTOBySOrderCapId(int sOrderCapId);
+
+    Optional<SOrderCap> findById(Integer sOrderCapId);
+
+    Optional<SOrderCap> findBySOrderCapId(int sOrderCapId);
 }

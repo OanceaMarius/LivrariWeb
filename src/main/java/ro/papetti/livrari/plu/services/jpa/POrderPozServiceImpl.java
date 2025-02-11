@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.plu.repozitories.POrderPozRepozitory;
 import ro.papetti.livrari.plu.services.POrderPozService;
+import ro.papetti.pluriva.dto.POrderPozDTOI;
 import ro.papetti.pluriva.entity.POrderPoz;
 
 /**
@@ -71,6 +72,11 @@ public class POrderPozServiceImpl implements POrderPozService{
     @Override
     public void deleteAll() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<POrderPozDTOI> findPozitiiDTOByPOrderCapId(int pOrderCapId) {
+        return pOrderPozRepozitory.findByPOrderCapPOrderCapId(pOrderCapId, POrderPozDTOI.class);
     }
 
 

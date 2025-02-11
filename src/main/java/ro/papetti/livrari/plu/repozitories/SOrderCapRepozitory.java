@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ro.papetti.livrari.model.PozCantitate;
+import ro.papetti.pluriva.dto.SOrderCapDTOI;
 import ro.papetti.pluriva.entity.SOrderCap;
 
 
@@ -64,4 +65,13 @@ public interface SOrderCapRepozitory extends JpaRepository<SOrderCap, Integer> {
 	"group by SOrderPozParentId"
          , nativeQuery = true)
     public List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
+    
+    
+    
+    @Query(value="FROM SOrderCap c where c.sOrderCapId =:sOrderCapId")
+     public Optional<SOrderCapDTOI> findDTOBySOrderCapId(int sOrderCapId);
+     
+     
+   
+   
 }

@@ -40,7 +40,11 @@ public interface SOrderPozRepozitory extends JpaRepository<SOrderPoz, Integer> {
 //    public <T> List<T> findPozitiiDTOBySOrderCapId(int sOrderCapId,Class<T> type);
     
 //        @Query(value="FROM SOrderPoz p WHERE p.sOrderCapId = :sOrderCapId")
+    
+    
     public <T> List<T> findBySOrderCapSOrderCapId(int sOrderCapId,Class<T> type);
+    
+
     
 
 }

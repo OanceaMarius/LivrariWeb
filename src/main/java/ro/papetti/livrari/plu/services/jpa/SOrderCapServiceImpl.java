@@ -7,11 +7,14 @@ package ro.papetti.livrari.plu.services.jpa;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.plu.repozitories.SOrderCapRepozitory;
 import ro.papetti.livrari.plu.services.SOrderCapService;
+import ro.papetti.pluriva.dto.SOrderCapDTOI;
+import ro.papetti.pluriva.dto.SOrderPozDTOIFaraSOrderCap;
 import ro.papetti.pluriva.entity.SOrderCap;
 
 /**
@@ -52,6 +55,35 @@ public class SOrderCapServiceImpl implements SOrderCapService  {
         return sOrderCapRepozitory.findById(sOrderCapId);
     }
 
+
+
+
+    @Override
+    public List<PozCantitate> getCantitatiRezervate(int sOrderCapId) {
+            return sOrderCapRepozitory.getCantitatiRezervate(sOrderCapId);
+    }
+
+    @Override
+    public Optional<SOrderCapDTOI> findDTOBySOrderCapId(int sOrderCapId) {
+        Optional<SOrderCapDTOI> sCap = sOrderCapRepozitory.findDTOBySOrderCapId(sOrderCapId);
+        if (sCap.isPresent()) {
+            Hibernate.initialize(sCap.get().getPozitii());
+            if (!sCap.get().getPozitii().isEmpty()) {
+                Hibernate.initialize(sCap.get().getPozitii().get(0).getpOrderPoz());
+                
+                for  (SOrderPozDTOIFaraSOrderCap sPoz: sCap.get().getPozitii()){
+                    if (sPoz.getpOrderPoz()!=null) {
+                        Hibernate.initialize(sPoz.getpOrderPoz().getpOrderCap());
+                        Hibernate.initialize(sPoz.getpOrderPoz().getpOrderCap().getFurnizorUnitate());
+                        break;
+                    }
+                }
+            }
+            
+        }
+        return sCap;
+    }
+
     @Override
     public List<SOrderCap> findAll() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -66,8 +98,6 @@ public class SOrderCapServiceImpl implements SOrderCapService  {
     public SOrderCap save(SOrderCap entity) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-
 
     @Override
     public long count() {
@@ -89,10 +119,7 @@ public class SOrderCapServiceImpl implements SOrderCapService  {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
-    public List<PozCantitate> getCantitatiRezervate(int sOrderCapId) {
-            return sOrderCapRepozitory.getCantitatiRezervate(sOrderCapId);
-    }
+
     
   
     

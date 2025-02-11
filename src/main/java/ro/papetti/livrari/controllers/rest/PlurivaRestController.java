@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.hibernate.Hibernate;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,9 @@ import ro.papetti.livrari.plu.services.POrderPozService;
 import ro.papetti.livrari.plu.services.SOrderCapService;
 import ro.papetti.livrari.plu.services.SOrderPozService;
 import ro.papetti.livrari.plu.services.StocService;
+import ro.papetti.pluriva.dto.POrderCapDTOI;
+import ro.papetti.pluriva.dto.POrderPozDTOI;
+import ro.papetti.pluriva.dto.SOrderCapDTOI;
 import ro.papetti.pluriva.dto.SOrderPozDTOI;
 import ro.papetti.pluriva.entity.FollowUp;
 import ro.papetti.pluriva.entity.POrderCap;
@@ -78,6 +82,11 @@ public class PlurivaRestController {
         return ResponseEntity.ok(cap);
     }
     
+    @GetMapping("/SOrderCapDTO/{sOrderCapId}")
+    public ResponseEntity<SOrderCapDTOI> findDTOBySOrderCapId(@PathVariable int sOrderCapId){
+        SOrderCapDTOI cap = sOrderCapSer.findDTOBySOrderCapId(sOrderCapId).orElseThrow(()->new EntityNotFoundException("Nu gasesc SOrderCap cu SorderId: "+sOrderCapId));
+        return ResponseEntity.ok(cap);
+    }
 
     /**
      * 
@@ -101,6 +110,11 @@ public class PlurivaRestController {
         return sOrderPozSer.findPozitiiBySOrderCapId(sOrderCapId);
     }
     
+    @GetMapping("/POrderPozDTO/ByCapId/{pOrderCapId}")
+    public List<POrderPozDTOI> findSOrderPozDTOBySOrderCapId(@PathVariable int pOrderCapId){
+        return pOrderPozSer.findPozitiiDTOByPOrderCapId(pOrderCapId);
+    }
+    
     
     @GetMapping("/POrderPoz/ByCapId/{pOrderCapId}")
     public List<POrderPoz> findPOrderPozByCapId(@PathVariable int pOrderCapId){
@@ -120,6 +134,15 @@ public class PlurivaRestController {
     public ResponseEntity<POrderCap> findPOrderCapById(@PathVariable int pOrderCapId){
         POrderCap cap =  pOrderCapSer.findById(pOrderCapId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc POrderCap cu POrderCapId: "+pOrderCapId));
+        Hibernate.initialize(cap.getPozitii());
+        return ResponseEntity.ok(cap);
+    }
+    
+        @GetMapping("/POrderCapDTO/{pOrderCapId}")
+    public ResponseEntity<POrderCapDTOI> findDTOByPOrderCapId(@PathVariable int pOrderCapId){
+        POrderCapDTOI cap =  pOrderCapSer.findDTOByPOrderCapId(pOrderCapId)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc POrderCap cu POrderCapId: "+pOrderCapId));
+        Hibernate.initialize(cap.getPozitii());
         return ResponseEntity.ok(cap);
     }
 
