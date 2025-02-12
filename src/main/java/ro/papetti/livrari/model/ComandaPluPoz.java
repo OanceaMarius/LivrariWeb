@@ -20,7 +20,7 @@ public class ComandaPluPoz implements Serializable {
 
     private Integer orderPozId;
     private Integer produsId;
-    private Integer orderPozAsociatId;
+    private Integer orderPozAsociatId=0;
     private String denumirePartenerAsociat;
     private String numarComClientAsociata;
     private String numarComAsociata;

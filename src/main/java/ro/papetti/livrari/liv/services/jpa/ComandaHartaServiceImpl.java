@@ -4,8 +4,8 @@
  */
 package ro.papetti.livrari.liv.services.jpa;
 
-import java.util.List;
 import java.util.Set;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,6 @@ import ro.papetti.livrari.plu.services.POrderPozService;
 import ro.papetti.livrari.plu.services.SOrderCapService;
 import ro.papetti.livrari.plu.services.SOrderPozService;
 import ro.papetti.livrari.utilitare.UtilComenzi;
-import ro.papetti.pluriva.dto.SOrderPozDTOI;
 import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.SOrderCap;
 
@@ -71,16 +70,13 @@ public class ComandaHartaServiceImpl implements ComandaHartaService{
 
         if (comandaCap.getCom().equals(TipCom.FURNIZOR.name())) {
             POrderCap pOrderCap = pOrderCapService
-                    .findById(comandaCap.getOrderCapId())
+                    .findByIdCuPozitiiSiLegaturaLaComenzi(comandaCap.getOrderCapId())
                     .orElse(null);
 
-//            Hibernate.initialize(pOrderCap.getPozitii());
+            Hibernate.initialize(pOrderCap.getFurnizorUnitate());
             if (pOrderCap != null) {
                 comandaHarta.setPlata(pOrderCap.getPlata());
                 comandaHarta.setUnitate(pOrderCap.getFurnizorUnitate());
-//                List<POrderPoz> pozitiiCom = pOrderPozService.findPozitiiByPOrderCapId(pOrderCap.getPOrderCapId());
-//                Hibernate.initialize(pOrderCap.getPozitii());
-                   
                 comandaHarta.setPozPluFromPOrder(pOrderCap.getPozitii());
             }
             UtilComenzi.putStocuriDisponibile(comandaHarta, stocuri);
@@ -88,14 +84,12 @@ public class ComandaHartaServiceImpl implements ComandaHartaService{
         }
         if (comandaCap.getCom().equals(TipCom.CLIENT.name())) {
             SOrderCap sOrderCap = sOrderCapService
-                    .findById(comandaCap.getOrderCapId())
+                    .findByIdCuPozitiiSiLegaturaLaAprov(comandaCap.getOrderCapId())
                     .orElse(null);
             if (sOrderCap != null) {
                 comandaHarta.setPlata(sOrderCap.getPlata());
                 comandaHarta.setUnitate(sOrderCap.getClient());
-                List<SOrderPozDTOI> pozitiiCom = sOrderPozService.
-                        findPozitiiDTOBySOrderCapId(sOrderCap.getsOrderCapId());
-                comandaHarta.setPozPluFromSOrderI(pozitiiCom);
+                comandaHarta.setPozPluFromSOrder(sOrderCap.getPozitii());
             }
 
             UtilComenzi.putStocuriDisponibile(comandaHarta, stocuri);

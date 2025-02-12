@@ -11,9 +11,9 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.livrari.utilitare.UtilComenzi;
-import ro.papetti.pluriva.dto.SOrderPozDTO;
 import ro.papetti.pluriva.dto.SOrderPozDTOI;
 import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.pluriva.entity.SOrderPoz;
 import ro.papetti.pluriva.entity.Unitate;
 
 /**
@@ -22,10 +22,9 @@ import ro.papetti.pluriva.entity.Unitate;
  */
 public class ComandaHarta extends ComandaCap implements Serializable {
 
-    private List<ComandaPluPoz>  pozitiiPluriva = new ArrayList<>();
+    private List<ComandaPluPoz> pozitiiPluriva = new ArrayList<>();
     private Unitate unitate;
     private String plata;
-   
 
     public ComandaHarta(ComandaCap comandaCap) {
         BeanUtils.copyProperties(comandaCap, this);
@@ -47,23 +46,19 @@ public class ComandaHarta extends ComandaCap implements Serializable {
         this.plata = plata;
     }
 
-
-
-
-  
-
-    public void setPozPluFromSOrder(List<SOrderPozDTO> listSOrderPoz) {
-        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromSDTO(listSOrderPoz)    ;
+    public void setPozPluFromSOrder(List<SOrderPoz> listSOrderPoz) {
+        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromS(listSOrderPoz);
     }
-    
-        public void setPozPluFromSOrderI(List<SOrderPozDTOI> listSOrderPoz) {
-        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromSDTOI(listSOrderPoz)    ;
+
+    public void setPozPluFromSOrderI(List<SOrderPozDTOI> listSOrderPoz) {
+        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromSDTOI(listSOrderPoz);
     }
-    
+
+
     public void setPozPluFromPOrder(List<POrderPoz> listPOrderPoz) {
-        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromP(listPOrderPoz)    ;
+        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromP(listPOrderPoz);
     }
-    
+
     public Unitate getUnitate() {
         return unitate;
     }
@@ -72,15 +67,13 @@ public class ComandaHarta extends ComandaCap implements Serializable {
         this.unitate = unitate;
     }
 
-    public ComandaHarta(){}
+    public ComandaHarta() {
+    }
 
     public ComandaHarta(Unitate unitate, String plata, Integer capId, int iDMasina, int tipLivrareId, int firmaId, int orderCapId, short indexCom, short ordineLiv, String com, boolean vizitat, boolean anulata, Date momentIntr) {
         super(capId, iDMasina, tipLivrareId, firmaId, orderCapId, indexCom, ordineLiv, com, vizitat, anulata, momentIntr);
         this.unitate = unitate;
         this.plata = plata;
     }
-    
-    
 
- 
 }

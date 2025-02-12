@@ -7,10 +7,10 @@ package ro.papetti.livrari.plu.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import ro.papetti.livrari.model.BaseService;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.pluriva.dto.SOrderCapDTOI;
 import ro.papetti.pluriva.entity.SOrderCap;
-import ro.papetti.livrari.model.BaseService;
 
 /**
  *
@@ -24,9 +24,21 @@ public interface SOrderCapService extends BaseService<SOrderCap, Integer> {
     
     public List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
     
-    public Optional<SOrderCapDTOI> findDTOBySOrderCapId(int sOrderCapId);
-
     Optional<SOrderCap> findById(Integer sOrderCapId);
 
-    Optional<SOrderCap> findBySOrderCapId(int sOrderCapId);
+    Optional<SOrderCap> findByIdCuPozitii(int sOrderCapId);
+
+    Optional<SOrderCap> findByIdCuClient(int sOrderCapId);
+
+    Optional<SOrderCapDTOI> findDTOById(int sOrderCapId);
+
+    Optional<SOrderCapDTOI> findDTOByIdCuClient(int sOrderCapId);
+
+    Optional<SOrderCapDTOI> findDTOByIdCuPozitii(int sOrderCapId);
+
+    Optional<SOrderCapDTOI> findDTOByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId);
+
+    Optional<SOrderCap> findById(int sOrderCapId);
+
+    Optional<SOrderCap> findByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId);
 }

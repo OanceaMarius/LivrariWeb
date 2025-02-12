@@ -27,4 +27,8 @@ public interface POrderCapService  {
     public Optional<POrderCap> findById(Integer pOrderCapId);
     
     public Optional<POrderCapDTOI> findDTOByPOrderCapId(Integer pOrderCapId);
+
+    Optional<POrderCap> findByIdCuPozitii(Integer pOrderCapId);
+
+    Optional<POrderCap> findByIdCuPozitiiSiLegaturaLaComenzi(Integer pOrderCapId);
 }

@@ -5,6 +5,7 @@
 package ro.papetti.livrari.plu.services.jpa;
 
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
@@ -26,13 +27,41 @@ public class SOrderPozServiceImpl extends BaseServiceImpl<SOrderPoz, SOrderPozRe
     }
 
     @Override
-    public List<SOrderPozDTOI> findPozitiiDTOBySOrderCapId(int sOrderCapId){
+    public List<SOrderPozDTOI> findPozitiiDTOBySOrderCapId(int sOrderCapId) {
         return rep.findBySOrderCapSOrderCapId(sOrderCapId, SOrderPozDTOI.class);
     }
-    
+
     @Override
-    public List<SOrderPoz> findPozitiiBySOrderCapId(int sOrderCapId){
+    public List<SOrderPozDTOI> findPozitiiDTOBySOrderCapIdCUProduse(int sOrderCapId) {
+        List<SOrderPozDTOI> listPoz = findPozitiiDTOBySOrderCapId(sOrderCapId);
+        if (listPoz != null) {
+            for (SOrderPozDTOI poz : listPoz) {
+                Hibernate.initialize(poz.getProdus());
+            }
+        }
+        return listPoz;
+    }
+
+
+    public List<SOrderPozDTOI> findPozitiiDTOBySOrderCapIdCuProduseSiFurnizori(int sOrderCapId) {
+        List<SOrderPozDTOI> listPoz = findPozitiiDTOBySOrderCapIdCUProduse(sOrderCapId);
+        if (listPoz != null) {
+            for (SOrderPozDTOI poz : listPoz) {
+                Hibernate.initialize(poz.getpOrderPoz());
+                var pPoz = poz.getpOrderPoz();
+                if (pPoz != null) {
+                    Hibernate.initialize(poz.getpOrderPoz().getpOrderCap());
+                    Hibernate.initialize(poz.getpOrderPoz().getpOrderCap().getFurnizorUnitate());
+                }
+
+            }
+        }
+        return listPoz;
+    }
+
+    @Override
+    public List<SOrderPoz> findPozitiiBySOrderCapId(int sOrderCapId) {
         return rep.findBySOrderCapSOrderCapId(sOrderCapId, SOrderPoz.class);
     }
-  
+
 }

@@ -83,8 +83,8 @@ public class PlurivaRestController {
     }
     
     @GetMapping("/SOrderCapDTO/{sOrderCapId}")
-    public ResponseEntity<SOrderCapDTOI> findDTOBySOrderCapId(@PathVariable int sOrderCapId){
-        SOrderCapDTOI cap = sOrderCapSer.findDTOBySOrderCapId(sOrderCapId).orElseThrow(()->new EntityNotFoundException("Nu gasesc SOrderCap cu SorderId: "+sOrderCapId));
+    public ResponseEntity<SOrderCapDTOI> findDTOById(@PathVariable int sOrderCapId){
+        SOrderCapDTOI cap = sOrderCapSer.findDTOById(sOrderCapId).orElseThrow(()->new EntityNotFoundException("Nu gasesc SOrderCap cu SorderId: "+sOrderCapId));
         return ResponseEntity.ok(cap);
     }
 

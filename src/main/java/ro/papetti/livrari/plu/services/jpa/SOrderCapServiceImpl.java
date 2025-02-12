@@ -16,7 +16,9 @@ import ro.papetti.livrari.plu.repozitories.SOrderCapRepozitory;
 import ro.papetti.livrari.plu.services.SOrderCapService;
 import ro.papetti.pluriva.dto.SOrderCapDTOI;
 import ro.papetti.pluriva.dto.SOrderPozDTOIFaraSOrderCap;
+import ro.papetti.pluriva.entity.POrderPoz;
 import ro.papetti.pluriva.entity.SOrderCap;
+import ro.papetti.pluriva.entity.SOrderPoz;
 
 /**
  *
@@ -24,56 +26,134 @@ import ro.papetti.pluriva.entity.SOrderCap;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRepozitory > implements SOrderCapService  {
+public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRepozitory> implements SOrderCapService {
 
     public SOrderCapServiceImpl(SOrderCapRepozitory repozitory) {
         super(repozitory);
     }
 
     /**
-     * 
+     *
      * @param sOrderCapId
      * @param firmaId
      * @return Cantitatile livrate la fiecare pozitie de comanda in pluriva
      */
     @Override
-    public List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId){
+    public List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId) {
         return rep.getCantitatiLivrate(sOrderCapId, firmaId);
-    }
-    
-    @Override
-    public  Optional<List<SOrderCap>>findByDataLivrare(Date dataLivrare){
-        return rep.findByDataLivrare(dataLivrare);
-    }
-    
-    public Optional<SOrderCap> findBySOrderCapId(int sOrderCapId){
-        return rep.findById(sOrderCapId);
-    }
-    
-    @Override
-    public List<PozCantitate> getCantitatiRezervate(int sOrderCapId) {
-            return rep.getCantitatiRezervate(sOrderCapId);
     }
 
     @Override
-    public Optional<SOrderCapDTOI> findDTOBySOrderCapId(int sOrderCapId) {
-        Optional<SOrderCapDTOI> sCap = rep.findDTOBySOrderCapId(sOrderCapId);
+    public Optional<List<SOrderCap>> findByDataLivrare(Date dataLivrare) {
+        return rep.findByDataLivrare(dataLivrare);
+    }
+
+ 
+    @Override
+    public Optional<SOrderCap> findById(int sOrderCapId) {
+        Optional<SOrderCap> sCap = rep.findById(sOrderCapId);
         if (sCap.isPresent()) {
-            Hibernate.initialize(sCap.get().getPozitii());
-            if (!sCap.get().getPozitii().isEmpty()) {
-                Hibernate.initialize(sCap.get().getPozitii().get(0).getpOrderPoz());
-                
-                for  (SOrderPozDTOIFaraSOrderCap sPoz: sCap.get().getPozitii()){
-                    if (sPoz.getpOrderPoz()!=null) {
-                        Hibernate.initialize(sPoz.getpOrderPoz().getpOrderCap());
-                        Hibernate.initialize(sPoz.getpOrderPoz().getpOrderCap().getFurnizorUnitate());
-                        break;
-                    }
-                }
-            }
-            
+            Hibernate.initialize(sCap.get().getUserIntroducere());
         }
         return sCap;
     }
-   
+
+    @Override
+    public Optional<SOrderCap> findByIdCuClient(int sOrderCapId) {
+        Optional<SOrderCap> sCap = findById(sOrderCapId);
+        if (sCap.isPresent()) {
+            Hibernate.initialize(sCap.get().getClient());
+        }
+        return sCap;
+    }
+    
+    @Override
+    public Optional<SOrderCap> findByIdCuPozitii(int sOrderCapId) {
+        Optional<SOrderCap> sCap = findByIdCuClient(sOrderCapId);
+        if (sCap.isPresent()) {
+            Hibernate.initialize(sCap.get().getPozitii());
+            List<SOrderPoz> listSpoz = sCap.get().getPozitii();
+            if (listSpoz!=null) {
+                for(SOrderPoz sPoz:listSpoz){
+                    Hibernate.initialize(sPoz.getProdus());
+                }
+            }
+        }
+        return sCap;
+    }
+
+
+    @Override
+    public Optional<SOrderCap> findByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId) {
+        Optional<SOrderCap> sCap = findByIdCuPozitii(sOrderCapId);
+        if (sCap.isPresent()) {
+            List<SOrderPoz> listSPoz = sCap.get().getPozitii();
+            for (SOrderPoz sPoz : listSPoz) {
+                Hibernate.initialize(sPoz.getpOrderPoz());
+                POrderPoz pPoz = sPoz.getpOrderPoz();
+                if (pPoz != null) {
+                    Hibernate.initialize(pPoz.getpOrderCap());
+                    Hibernate.initialize(pPoz.getpOrderCap().getFurnizorUnitate());
+                }
+            }
+
+        }
+        return sCap;
+    }
+
+    @Override
+    public List<PozCantitate> getCantitatiRezervate(int sOrderCapId) {
+        return rep.getCantitatiRezervate(sOrderCapId);
+    }
+
+    @Override
+    public Optional<SOrderCapDTOI> findDTOById(int sOrderCapId) {
+        Optional<SOrderCapDTOI> sCap = rep.findDTOBySOrderCapId(sOrderCapId);
+        if (sCap.isPresent()) {
+            Hibernate.initialize(sCap.get().getUserIntroducere());
+        }
+        return sCap;
+    }
+
+    @Override
+    public Optional<SOrderCapDTOI> findDTOByIdCuClient(int sOrderCapId) {
+        Optional<SOrderCapDTOI> sCap = findDTOById(sOrderCapId);
+        if (sCap.isPresent()) {
+            Hibernate.initialize(sCap.get().getClientUnitate());
+            Hibernate.initialize(sCap.get().getClientLivrareUnitate());
+
+        }
+        return sCap;
+    }
+
+    @Override
+    public Optional<SOrderCapDTOI> findDTOByIdCuPozitii(int sOrderCapId) {
+        Optional<SOrderCapDTOI> sCap = findDTOByIdCuClient(sOrderCapId);
+        if (sCap.isPresent()) {
+            Hibernate.initialize(sCap.get().getPozitii());
+            List<SOrderPozDTOIFaraSOrderCap> listSpoz = sCap.get().getPozitii();
+            for (SOrderPozDTOIFaraSOrderCap poz : listSpoz) {
+                Hibernate.initialize(poz.getProdus());
+            }
+        }
+        return sCap;
+    }
+
+    @Override
+    public Optional<SOrderCapDTOI> findDTOByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId) {
+        Optional<SOrderCapDTOI> sCap = findDTOByIdCuPozitii(sOrderCapId);
+        if (sCap.isPresent()) {
+            Hibernate.initialize(sCap.get().getPozitii());
+            List<SOrderPozDTOIFaraSOrderCap> listSpoz = sCap.get().getPozitii();
+            for (SOrderPozDTOIFaraSOrderCap poz : listSpoz) {
+                Hibernate.initialize(poz.getpOrderPoz());
+                Hibernate.initialize(poz.getpOrderPoz().getpOrderCap());
+                Hibernate.initialize(poz.getpOrderPoz().getpOrderCap().getFurnizorUnitate());
+            }
+        }
+        return sCap;
+    }
+
+
+
 }

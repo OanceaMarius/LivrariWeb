@@ -46,13 +46,62 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
         return cap.getPozitii();
 
     }
-
+/**
+ * Aduce doar Capul fara pozitii
+ * @param pOrderCapId
+ * @return 
+ */
     @Override
     public Optional<POrderCap> findById(Integer pOrderCapId) {
 
         Optional<POrderCap> pCap = rep.findById(pOrderCapId);
         if (pCap.isPresent()) {
+            Hibernate.initialize(pCap.get().getUserIntroducere());
+        }
+        return pCap;
+    }
+    
+    public Optional<POrderCap> findByIdCuFurnizor(Integer pOrderCapId) {
+        Optional<POrderCap> pCap = findById(pOrderCapId);
+        if (pCap.isPresent()) {
+            Hibernate.initialize(pCap.get().getFurnizorUnitate());
+        }
+        return pCap;
+    }
+    
+    @Override
+    public Optional<POrderCap> findByIdCuPozitii(Integer pOrderCapId) {
+
+        Optional<POrderCap> pCap = findByIdCuFurnizor(pOrderCapId);
+        if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getPozitii());
+            List<POrderPoz> listPpoz =pCap.get().getPozitii();
+            if (listPpoz!=null) {
+                for(POrderPoz pPoz:listPpoz){
+                    Hibernate.initialize(pPoz.getProdus());
+                }
+            }
+        }
+        return pCap;
+    }
+    
+    @Override
+        public Optional<POrderCap> findByIdCuPozitiiSiLegaturaLaComenzi(Integer pOrderCapId) {
+
+        Optional<POrderCap> pCap = findByIdCuPozitii(pOrderCapId);
+        if (pCap.isPresent()) {
+           
+            List<POrderPoz> listPPoz = pCap.get().getPozitii();
+            if (listPPoz!=null) {
+                for(POrderPoz pPoz: listPPoz){
+                    Hibernate.initialize(pPoz.getsOrderPoz());
+                    Hibernate.initialize(pPoz.getsOrderPoz().getsOrderCap());
+                    Hibernate.initialize(pPoz.getsOrderPoz().getsOrderCap().getUserIntroducere());
+                    Hibernate.initialize(pPoz.getsOrderPoz().getsOrderCap().getClientUnitate());
+                    Hibernate.initialize(pPoz.getsOrderPoz().getsOrderCap().getClientLivrareUnitate());
+                }
+            }
+            
         }
         return pCap;
     }

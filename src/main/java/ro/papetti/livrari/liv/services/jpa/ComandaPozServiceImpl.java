@@ -24,6 +24,7 @@ public class ComandaPozServiceImpl  extends BaseServiceImpl<ComandaPoz, ComandaP
         super(repozitory);
     }
    
+    @Override
     public List<ComandaPoz> findComenziPozByIdCap(int idProgram){
         return rep.findLiniiByIdProgram(idProgram);
     }
