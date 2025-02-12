@@ -4,7 +4,6 @@
  */
 package ro.papetti.livrari.liv.services.jpa;
 
-import java.util.List;
 import java.util.Optional;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.livrari.liv.repozitories.ComandaCapRepozitory;
 import ro.papetti.livrari.liv.services.ComandaCapService;
+import ro.papetti.livrari.model.BaseServiceImpl;
 
 
 /**
@@ -20,65 +20,23 @@ import ro.papetti.livrari.liv.services.ComandaCapService;
  */
 @Service
 @Transactional("livrariTransactionManager")
-public class ComandaCapServiceImpl implements ComandaCapService{
+public class ComandaCapServiceImpl  extends BaseServiceImpl<ComandaCap, ComandaCapRepozitory>  implements ComandaCapService{
 
-    public ComandaCapServiceImpl(ro.papetti.livrari.liv.repozitories.ComandaCapRepozitory comandaCapRepozitory) {
-        this.comandaCapRepozitory = comandaCapRepozitory;
-    }
-    private final ComandaCapRepozitory comandaCapRepozitory;
-
-    @Override
-    public List<ComandaCap> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public ComandaCapServiceImpl(ComandaCapRepozitory repozitory) {
+        super(repozitory);
     }
 
-    @Override
-    public List<ComandaCap> saveAll(Iterable<ComandaCap> entities) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
-    @Override
-    public ComandaCap save(ComandaCap entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Optional<ComandaCap> findById(Integer id) {
-        return comandaCapRepozitory.findById(id);
-    }
     
     @Override
     public Optional<ComandaCap> findByIdCuPozitii(Integer id) {
 
-        Optional<ComandaCap> comCap = comandaCapRepozitory.findById(id);
+        Optional<ComandaCap> comCap = rep.findById(id);
         if (comCap.isPresent()) {
             Hibernate.initialize(comCap.get().getPozitiiLivrari());
             return comCap;
         }
         return null;
     }
-
-    @Override
-    public long count() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void delete(ComandaCap entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    
-    
     
 }

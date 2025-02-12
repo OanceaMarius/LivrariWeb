@@ -6,9 +6,9 @@ package ro.papetti.livrari.plu.services.jpa;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.plu.repozitories.POrderPozRepozitory;
 import ro.papetti.livrari.plu.services.POrderPozService;
 import ro.papetti.pluriva.dto.POrderPozDTOI;
@@ -20,64 +20,19 @@ import ro.papetti.pluriva.entity.POrderPoz;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class POrderPozServiceImpl implements POrderPozService{
+public class POrderPozServiceImpl extends BaseServiceImpl<POrderPoz, POrderPozRepozitory> implements POrderPozService{
 
-    public POrderPozServiceImpl(ro.papetti.livrari.plu.repozitories.POrderPozRepozitory pOrderPozRepozitory) {
-        this.pOrderPozRepozitory = pOrderPozRepozitory;
+    public POrderPozServiceImpl(POrderPozRepozitory repozitory) {
+        super(repozitory);
     }
-    
-    private final  POrderPozRepozitory pOrderPozRepozitory;
-    
+
     @Override
     public List<POrderPoz> findPozitiiByPOrderCapId(int pOrderCapId){
-        return pOrderPozRepozitory.findByPOrderCapId(pOrderCapId).orElse(new ArrayList<POrderPoz>());
-    }
-
-
-    @Override
-    public POrderPoz save(POrderPoz entity) {
-        return pOrderPozRepozitory.save(entity);
-    }
-
-    @Override
-    public List<POrderPoz> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<POrderPoz> saveAll(Iterable<POrderPoz> entities) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Optional<POrderPoz> findById(Integer id) {
-        return pOrderPozRepozitory.findById(id);
-    }
-
-    @Override
-    public long count() {
-           return pOrderPozRepozitory.count();
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void delete(POrderPoz entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return rep.findByPOrderCapId(pOrderCapId).orElse(new ArrayList<POrderPoz>());
     }
 
     @Override
     public List<POrderPozDTOI> findPozitiiDTOByPOrderCapId(int pOrderCapId) {
-        return pOrderPozRepozitory.findByPOrderCapPOrderCapId(pOrderCapId, POrderPozDTOI.class);
+        return rep.findByPOrderCapPOrderCapId(pOrderCapId, POrderPozDTOI.class);
     }
-
-
 }

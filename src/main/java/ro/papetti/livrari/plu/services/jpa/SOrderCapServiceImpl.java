@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.plu.repozitories.SOrderCapRepozitory;
 import ro.papetti.livrari.plu.services.SOrderCapService;
@@ -23,13 +24,12 @@ import ro.papetti.pluriva.entity.SOrderCap;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class SOrderCapServiceImpl implements SOrderCapService  {
+public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRepozitory > implements SOrderCapService  {
 
-    public SOrderCapServiceImpl(SOrderCapRepozitory orderCapRepozitory) {
-        this.sOrderCapRepozitory = orderCapRepozitory;
+    public SOrderCapServiceImpl(SOrderCapRepozitory repozitory) {
+        super(repozitory);
     }
-    private final SOrderCapRepozitory sOrderCapRepozitory;
-    
+
     /**
      * 
      * @param sOrderCapId
@@ -38,34 +38,26 @@ public class SOrderCapServiceImpl implements SOrderCapService  {
      */
     @Override
     public List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId){
-        return sOrderCapRepozitory.getCantitatiLivrate(sOrderCapId, firmaId);
+        return rep.getCantitatiLivrate(sOrderCapId, firmaId);
     }
     
     @Override
     public  Optional<List<SOrderCap>>findByDataLivrare(Date dataLivrare){
-        return sOrderCapRepozitory.findByDataLivrare(dataLivrare);
+        return rep.findByDataLivrare(dataLivrare);
     }
     
     public Optional<SOrderCap> findBySOrderCapId(int sOrderCapId){
-        return sOrderCapRepozitory.findById(sOrderCapId);
+        return rep.findById(sOrderCapId);
     }
     
     @Override
-    public Optional<SOrderCap> findById(Integer sOrderCapId){
-        return sOrderCapRepozitory.findById(sOrderCapId);
-    }
-
-
-
-
-    @Override
     public List<PozCantitate> getCantitatiRezervate(int sOrderCapId) {
-            return sOrderCapRepozitory.getCantitatiRezervate(sOrderCapId);
+            return rep.getCantitatiRezervate(sOrderCapId);
     }
 
     @Override
     public Optional<SOrderCapDTOI> findDTOBySOrderCapId(int sOrderCapId) {
-        Optional<SOrderCapDTOI> sCap = sOrderCapRepozitory.findDTOBySOrderCapId(sOrderCapId);
+        Optional<SOrderCapDTOI> sCap = rep.findDTOBySOrderCapId(sOrderCapId);
         if (sCap.isPresent()) {
             Hibernate.initialize(sCap.get().getPozitii());
             if (!sCap.get().getPozitii().isEmpty()) {
@@ -83,44 +75,5 @@ public class SOrderCapServiceImpl implements SOrderCapService  {
         }
         return sCap;
     }
-
-    @Override
-    public List<SOrderCap> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<SOrderCap> saveAll(Iterable<SOrderCap> entities) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public SOrderCap save(SOrderCap entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public long count() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void delete(SOrderCap entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
-    
-  
-    
+   
 }

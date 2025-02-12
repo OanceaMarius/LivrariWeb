@@ -11,6 +11,7 @@ import java.util.Optional;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.plu.repozitories.POrderCapRepozitory;
 import ro.papetti.livrari.plu.services.POrderCapService;
 import ro.papetti.pluriva.dto.POrderCapDTOI;
@@ -23,23 +24,23 @@ import ro.papetti.pluriva.entity.POrderPoz;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class POrderCapServiceImpl implements POrderCapService {
+public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRepozitory> implements POrderCapService {
 
-    public POrderCapServiceImpl(POrderCapRepozitory pOrderCapRepozitory) {
-        this.pOrderCapRepozitory = pOrderCapRepozitory;
+
+
+    public POrderCapServiceImpl(POrderCapRepozitory repozitory) {
+        super(repozitory);
     }
 
-    private final POrderCapRepozitory pOrderCapRepozitory;
-
     public Optional<POrderCap> findByPOrderCapId(int pOrderCapId) {
-        return pOrderCapRepozitory.findById(pOrderCapId);
+        return rep.findById(pOrderCapId);
 
     }
 
     @Override
     public List<POrderPoz> findPOrderPozByPOrderCapId(int pOrderCapId) {
 
-        POrderCap cap = pOrderCapRepozitory.findById(pOrderCapId)
+        POrderCap cap = rep.findById(pOrderCapId)
                 .orElseThrow(() -> new EntityNotFoundException("Nu gasesc POrderCap cu id: " + pOrderCapId));
         Hibernate.initialize(cap.getPozitii());
         return cap.getPozitii();
@@ -49,7 +50,7 @@ public class POrderCapServiceImpl implements POrderCapService {
     @Override
     public Optional<POrderCap> findById(Integer pOrderCapId) {
 
-        Optional<POrderCap> pCap = pOrderCapRepozitory.findById(pOrderCapId);
+        Optional<POrderCap> pCap = rep.findById(pOrderCapId);
         if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getPozitii());
         }
@@ -58,13 +59,13 @@ public class POrderCapServiceImpl implements POrderCapService {
 
     @Override
     public List<POrderCap> findByDataLivrare(Date dataLivrare) {
-        return pOrderCapRepozitory.findByDataLivrare(dataLivrare)
+        return rep.findByDataLivrare(dataLivrare)
                 .orElseThrow(() -> new EntityNotFoundException("NU gasesc POrderCap-uri cu data livrare mai mica decat: " + dataLivrare));
     }
 
     @Override
     public Optional<POrderCapDTOI> findDTOByPOrderCapId(Integer pOrderCapId) {
-        Optional<POrderCapDTOI> pCap = pOrderCapRepozitory.findDTOByPOrderCapId(pOrderCapId);
+        Optional<POrderCapDTOI> pCap = rep.findDTOByPOrderCapId(pOrderCapId);
         if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getPozitii());
         }

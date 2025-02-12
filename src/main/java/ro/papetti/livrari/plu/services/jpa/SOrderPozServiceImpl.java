@@ -5,9 +5,9 @@
 package ro.papetti.livrari.plu.services.jpa;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.plu.repozitories.SOrderPozRepozitory;
 import ro.papetti.livrari.plu.services.SOrderPozService;
 import ro.papetti.pluriva.dto.SOrderPozDTOI;
@@ -19,69 +19,20 @@ import ro.papetti.pluriva.entity.SOrderPoz;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class SOrderPozServiceImpl implements SOrderPozService {
+public class SOrderPozServiceImpl extends BaseServiceImpl<SOrderPoz, SOrderPozRepozitory> implements SOrderPozService {
 
-    public SOrderPozServiceImpl(ro.papetti.livrari.plu.repozitories.SOrderPozRepozitory sOrderPozRepozitory) {
-        this.sOrderPozRepozitory = sOrderPozRepozitory;
+    public SOrderPozServiceImpl(SOrderPozRepozitory repozitory) {
+        super(repozitory);
     }
-    
-    private final SOrderPozRepozitory sOrderPozRepozitory;
-    
 
-    
     @Override
     public List<SOrderPozDTOI> findPozitiiDTOBySOrderCapId(int sOrderCapId){
-        return sOrderPozRepozitory.findBySOrderCapSOrderCapId(sOrderCapId, SOrderPozDTOI.class);
+        return rep.findBySOrderCapSOrderCapId(sOrderCapId, SOrderPozDTOI.class);
     }
     
     @Override
     public List<SOrderPoz> findPozitiiBySOrderCapId(int sOrderCapId){
-        return sOrderPozRepozitory.findBySOrderCapSOrderCapId(sOrderCapId, SOrderPoz.class);
+        return rep.findBySOrderCapSOrderCapId(sOrderCapId, SOrderPoz.class);
     }
-    
-    
-   
-
-
-
-    @Override
-    public List<SOrderPoz> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<SOrderPoz> saveAll(Iterable<SOrderPoz> entities) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public SOrderPoz save(SOrderPoz entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Optional<SOrderPoz> findById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public long count() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void delete(SOrderPoz entity) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void deleteAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
+  
 }

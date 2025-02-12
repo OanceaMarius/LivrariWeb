@@ -11,28 +11,33 @@ import java.util.Optional;
  *
  * @author MariusO
  * @param <T> Clasa Entitate
- * @param <ID>
+ * @param <ID> Clasa cheii primaare
  * @param <Integer> Id-ul entitatii
  */
 public interface BaseService<T, ID extends Integer> {
-    
-    public List<T> findAll();
-    
-        
-    public List<T> saveAll(Iterable<T> entities);
-    
-    public T save(T entity);
-    
-    public Optional<T> findById(ID id);
-    
-      
-    public long count();
-    
-    public void deleteById(ID id);
-    
-    public void delete(T entity);
-        
-    public void deleteAll();
-    
+
+    List<T> findAll();
+
+    Optional<T> findById(ID id);
+
+    Iterable<T> findAllById(Iterable<ID> ids);
+
+    List<T> saveAll(Iterable<T> entities);
+
+    T save(T entity);
+
+    boolean existsById(ID id);
+
+    long count();
+
+    void deleteById(ID id);
+
+    void delete(T entity);
+
+    void deleteAll();
+
+    void deleteAll(Iterable<? extends T> entities);
+
+    void deleteAllById(Iterable<? extends ID> ids);
 
 }
