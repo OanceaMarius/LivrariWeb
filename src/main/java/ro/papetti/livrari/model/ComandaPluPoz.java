@@ -45,6 +45,7 @@ public class ComandaPluPoz implements Serializable {
             this.numarComAsociata = pPoz.getpOrderCap().getpOrderNumber();
         }
 
+        
         this.denumireProdus = pozPlu.getProdus().getDenumireProdus();
         this.cantPlu = pozPlu.getCant();
         this.pretPlu = pozPlu.getPretValuta();
