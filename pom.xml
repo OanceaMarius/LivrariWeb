@@ -8,6 +8,7 @@
         <version>3.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>ro.papetti</groupId>
     <artifactId>livrari_web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -41,7 +42,7 @@
         <dependency>
             <groupId>ro.papetti</groupId>
             <artifactId>pluriva-tabele-extensibile</artifactId>
-            <version>0.0.2-SNAPSHOT</version>  
+            <version>0.0.4-SNAPSHOT</version>
         </dependency>
 
         <dependency>

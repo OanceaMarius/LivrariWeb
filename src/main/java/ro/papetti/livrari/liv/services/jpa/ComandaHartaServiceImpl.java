@@ -4,14 +4,14 @@
  */
 package ro.papetti.livrari.liv.services.jpa;
 
+import java.util.Optional;
 import java.util.Set;
+
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-import ro.papetti.Componente.InfoMarfa;
+import ro.papetti.componente.InfoMarfa;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.livrari.liv.services.ComandaCapService;
 import ro.papetti.livrari.liv.services.ComandaHartaService;
@@ -26,16 +26,16 @@ import ro.papetti.livrari.plu.services.SOrderPozService;
 import ro.papetti.livrari.utilitare.UtilComenzi;
 import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.SOrderCap;
+import ro.papetti.pluriva.mapper.UnitateMapper;
 
 /**
- *
  * @author MariusO
  */
 @Service
 @Transactional("livrariTransactionManager")
-public class ComandaHartaServiceImpl implements ComandaHartaService{
+public class ComandaHartaServiceImpl implements ComandaHartaService {
 
-//    @Autowired
+    //    @Autowired
     private final ComandaCapService capService;
     private final ComandaPozService pozService;
     private final POrderCapService pOrderCapService;
@@ -47,8 +47,8 @@ public class ComandaHartaServiceImpl implements ComandaHartaService{
     private InfoMarfa infoMarfaBean;
 
     public ComandaHartaServiceImpl(ComandaCapService capService, ComandaPozService pozService,
-            POrderCapService pOrderCapService, POrderPozService pOrderPozService,
-            SOrderCapService sOrderCapService, SOrderPozService sOrderPozService) {
+                                   POrderCapService pOrderCapService, POrderPozService pOrderPozService,
+                                   SOrderCapService sOrderCapService, SOrderPozService sOrderPozService) {
         this.capService = capService;
         this.pozService = pozService;
         this.pOrderCapService = pOrderCapService;
@@ -56,57 +56,59 @@ public class ComandaHartaServiceImpl implements ComandaHartaService{
         this.sOrderCapService = sOrderCapService;
         this.sOrderPozService = sOrderPozService;
     }
+
     @Transactional
-    public ComandaHarta getComandaHartaById(int capId) {
+    public Optional<ComandaHarta> getComandaHartaById(int capId) {
 
 //        ComandaCap comandaCap = capService.findById(capId).get();
-        ComandaCap comandaCap = capService.findByIdCuPozitii(capId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                "ComandaCap  cu CapId: " + capId + " nu a fost găsită"));
+        Optional<ComandaCap> comandaCap = capService.findByIdCuPozitii(capId);
+        if (comandaCap.isEmpty()) {
+            return Optional.empty();
+        }
 
-        ComandaHarta comandaHarta = new ComandaHarta(comandaCap);
+        ComandaHarta comandaHarta = new ComandaHarta(comandaCap.orElse(null));
         int firmaId = comandaHarta.getFirmaId();
         Set<StocDisponibil> stocuri = infoMarfaBean.getStocuriDisponibile(firmaId);
 
-        if (comandaCap.getCom().equals(TipCom.FURNIZOR.name())) {
+        if (comandaCap.get().getCom().equals(TipCom.FURNIZOR.name())) {
             POrderCap pOrderCap = pOrderCapService
-                    .findByIdCuPozitiiSiLegaturaLaComenzi(comandaCap.getOrderCapId())
+                    .findByIdCuPozitiiSiLegaturaLaComenzi(comandaCap.get().getOrderCapId())
                     .orElse(null);
 
-            Hibernate.initialize(pOrderCap.getFurnizorUnitate());
             if (pOrderCap != null) {
+                Hibernate.initialize(pOrderCap.getFurnizorUnitate());
                 comandaHarta.setPlata(pOrderCap.getPlata());
-                comandaHarta.setUnitate(pOrderCap.getFurnizorUnitate());
+                comandaHarta.setUnitate(UnitateMapper.convert(pOrderCap.getFurnizorUnitate(), UnitateMapper::toDTO));
                 comandaHarta.setPozPluFromPOrder(pOrderCap.getPozitii());
             }
             UtilComenzi.putStocuriDisponibile(comandaHarta, stocuri);
-            return comandaHarta;
+            return Optional.of(comandaHarta);
         }
-        if (comandaCap.getCom().equals(TipCom.CLIENT.name())) {
+        if (comandaCap.get().getCom().equals(TipCom.CLIENT.name())) {
             SOrderCap sOrderCap = sOrderCapService
-                    .findByIdCuPozitiiSiLegaturaLaAprov(comandaCap.getOrderCapId())
+                    .findByIdCuPozitiiSiLegaturaLaAprov(comandaCap.get().getOrderCapId())
                     .orElse(null);
             if (sOrderCap != null) {
                 comandaHarta.setPlata(sOrderCap.getPlata());
-                comandaHarta.setUnitate(sOrderCap.getClient());
+                comandaHarta.setUnitate(UnitateMapper.convert(sOrderCap.getClient(), UnitateMapper::toDTO));
                 comandaHarta.setPozPluFromSOrder(sOrderCap.getPozitii());
             }
 
             UtilComenzi.putStocuriDisponibile(comandaHarta, stocuri);
             UtilComenzi.putCantitatiLivrateS(comandaHarta, infoMarfaBean);
             UtilComenzi.putCantitatiRezervateS(comandaHarta, infoMarfaBean);
-            return comandaHarta;
+            return Optional.of(comandaHarta);
 
         }
-        if (comandaCap.getCom().equals(TipCom.ACT_PRO.name())) {
+        if (comandaCap.get().getCom().equals(TipCom.ACT_PRO.name())) {
 
-            return comandaHarta;
+            return Optional.of(comandaHarta);
         }
-        if (comandaCap.getCom().equals(TipCom.OBI_FIX.name())) {
+        if (comandaCap.get().getCom().equals(TipCom.OBI_FIX.name())) {
 
-            return comandaHarta;
+            return Optional.of(comandaHarta);
         } else {
-            throw new RuntimeException("Nu e acceptat inca tipul de comanda: " + comandaCap.getCom());
+            throw new RuntimeException("Nu e acceptat inca tipul de comanda: " + comandaCap.get().getCom());
         }
 
     }

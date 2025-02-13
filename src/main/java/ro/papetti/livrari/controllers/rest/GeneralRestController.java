@@ -4,6 +4,8 @@
  */
 package ro.papetti.livrari.controllers.rest;
 
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +19,6 @@ import ro.papetti.livrari.plu.services.jpa.POrderCapServiceImpl;
 import ro.papetti.livrari.plu.services.jpa.POrderPozServiceImpl;
 import ro.papetti.livrari.plu.services.jpa.SOrderCapServiceImpl;
 import ro.papetti.livrari.plu.services.jpa.SOrderPozServiceImpl;
-
 
 
 /**
@@ -40,7 +41,13 @@ public class GeneralRestController {
 
 
     
-    public GeneralRestController(ComandaCapServiceImpl capSer, ComandaPozServiceImpl liniiSer, SOrderCapServiceImpl sCapPluService, SOrderPozServiceImpl sLiniiPluService, POrderCapServiceImpl pCapPluService, POrderPozServiceImpl pLiniiPluService, ComandaHartaServiceImpl hartaService){
+    public GeneralRestController(ComandaCapServiceImpl capSer,
+                                 ComandaPozServiceImpl liniiSer,
+                                 SOrderCapServiceImpl sCapPluService,
+                                 SOrderPozServiceImpl sLiniiPluService,
+                                 POrderCapServiceImpl pCapPluService,
+                                 POrderPozServiceImpl pLiniiPluService,
+                                 ComandaHartaServiceImpl hartaService){
         this.capSer = capSer;
         this.liniiSer = liniiSer;
         this.sCapPluService = sCapPluService;
@@ -54,8 +61,11 @@ public class GeneralRestController {
     }
     @Transactional
     @GetMapping(value = "/ComandaHarta/{capId}")      
-    public ComandaHarta getComadaCapById(@PathVariable int capId) {
-        return hartaService.getComandaHartaById(capId);
+    public ResponseEntity<ComandaHarta> getComadaCapById(@PathVariable int capId) {
+
+        ComandaHarta comHarta = hartaService.getComandaHartaById(capId)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc ComandaCap cu CapId: "+capId));
+        return ResponseEntity.ok(comHarta);
     }
 //    @GetMapping("/liniiProgram/proc/{nr}")
 //    public List<String> getProcedure(@PathVariable int nr){

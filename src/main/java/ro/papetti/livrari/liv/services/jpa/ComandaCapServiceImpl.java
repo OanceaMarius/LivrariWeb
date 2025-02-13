@@ -36,7 +36,7 @@ public class ComandaCapServiceImpl  extends BaseServiceImpl<ComandaCap, ComandaC
             Hibernate.initialize(comCap.get().getPozitiiLivrari());
             return comCap;
         }
-        return null;
+        return Optional.empty();
     }
     
 }

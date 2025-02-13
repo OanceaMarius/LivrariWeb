@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import ro.papetti.Componente.InfoMarfa;
+import ro.papetti.componente.InfoMarfa;
 import ro.papetti.livrari.model.ComandaHarta;
 import ro.papetti.livrari.model.ComandaPluPoz;
 import ro.papetti.livrari.model.PozCantitate;
@@ -37,7 +37,8 @@ public final class UtilComenzi {
      * @return
      */
     public static List<ComandaPluPoz> getComandaPluPozFromSDTO(List<SOrderPozDTO> listPluDTO) {
-        List listPoz = new ArrayList<ComandaPluPoz>();
+        List<ComandaPluPoz> listPoz;
+        listPoz = new ArrayList<>();
         if (listPluDTO == null) {
             return listPoz;
         }
@@ -53,7 +54,7 @@ public final class UtilComenzi {
     }
     
         public static List<ComandaPluPoz> getComandaPluPozFromSDTOI(List<SOrderPozDTOI> listPluDTO) {
-        List listPoz = new ArrayList<ComandaPluPoz>();
+        List<ComandaPluPoz> listPoz = new ArrayList<>();
         if (listPluDTO == null) {
             return listPoz;
         }
@@ -131,7 +132,7 @@ public final class UtilComenzi {
     /**
      * Completeaza stocurile disponibile pentru pozitiile din comanda
      *
-     * @param pozitiiCom
+     * @param comanda
      * @param stocuri
      */
     public static void putStocuriDisponibile(ComandaHarta comanda, Set<StocDisponibil> stocuri) {
