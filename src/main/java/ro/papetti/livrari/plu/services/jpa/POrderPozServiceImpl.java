@@ -28,11 +28,12 @@ public class POrderPozServiceImpl extends BaseServiceImpl<POrderPoz, POrderPozRe
 
     @Override
     public List<POrderPoz> findPozitiiByPOrderCapId(int pOrderCapId){
-        return rep.findByPOrderCapId(pOrderCapId).orElse(new ArrayList<POrderPoz>());
+        return rep.findByPOrderCapId(pOrderCapId);
     }
 
+
     @Override
-    public List<POrderPozDTOI> findPozitiiDTOByPOrderCapId(int pOrderCapId) {
-        return rep.findByPOrderCapPOrderCapId(pOrderCapId, POrderPozDTOI.class);
+    public <T> List<T> findPozitiiDTOByPOrderCapId(int pOrderCapId, Class<T> type) {
+        return rep.findDTOByPOrderCapId(pOrderCapId,type);
     }
 }

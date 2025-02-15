@@ -6,8 +6,11 @@ package ro.papetti.livrari.plu.repozitories;
 
 import java.util.List;
 import java.util.Optional;
+
+import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import ro.papetti.pluriva.entity.POrderPoz;
 
@@ -17,13 +20,15 @@ import ro.papetti.pluriva.entity.POrderPoz;
  * @author MariusO
  */
 @Repository
-//@PersistenceContext(unitName = "plurivaEntityManagerFactory")
+@PersistenceContext(unitName = "plurivaEntityManagerFactory")
 public interface POrderPozRepozitory extends JpaRepository<POrderPoz, Integer> {
     
     
     @Query(value="SELECT * FROM POrderPoz p WHERE p.pOrderCapId = :pOrderCapId", nativeQuery = true)
-    public Optional<List<POrderPoz>> findByPOrderCapId(int pOrderCapId);
-    
-    
-    public <T> List <T> findByPOrderCapPOrderCapId(int pOrderCapId, Class<T> type);
+    public List<POrderPoz> findByPOrderCapId(int pOrderCapId);
+
+    @Query(value = "SELECT * FROM POrderPoz p WHERE p.pOrderCapId = :pOrderCapId", nativeQuery = true)
+    public <T> List <T> findDTOByPOrderCapId(int pOrderCapId, Class<T> type);
+
+
 }

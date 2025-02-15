@@ -7,6 +7,8 @@ package ro.papetti.livrari.plu.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import ro.papetti.livrari.model.BaseService;
 import ro.papetti.pluriva.dto.POrderCapDTOI;
 import ro.papetti.pluriva.entity.POrderCap;
 import ro.papetti.pluriva.entity.POrderPoz;
@@ -15,7 +17,7 @@ import ro.papetti.pluriva.entity.POrderPoz;
  *
  * @author MariusO
  */
-public interface POrderCapService  {
+public interface POrderCapService extends BaseService<POrderCap, Integer> {
 
 
     public List<POrderPoz> findPOrderPozByPOrderCapId(int pOrderCapId);

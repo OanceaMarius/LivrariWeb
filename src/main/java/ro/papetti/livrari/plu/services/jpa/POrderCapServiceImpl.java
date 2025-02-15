@@ -60,7 +60,12 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
         }
         return pCap;
     }
-    
+
+    /**
+     * Aduce si datele despre partener
+     * @param pOrderCapId
+     * @return
+     */
     public Optional<POrderCap> findByIdCuFurnizor(Integer pOrderCapId) {
         Optional<POrderCap> pCap = findById(pOrderCapId);
         if (pCap.isPresent()) {
@@ -68,7 +73,12 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
         }
         return pCap;
     }
-    
+
+    /**
+     * Aduce si datele departener si de pozitii
+     * @param pOrderCapId
+     * @return
+     */
     @Override
     public Optional<POrderCap> findByIdCuPozitii(Integer pOrderCapId) {
 
@@ -84,7 +94,12 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
         }
         return pCap;
     }
-    
+
+    /**
+     * Aduce si datele despre partener si pozitii dar si cele de comenzile de client legate
+     * @param pOrderCapId
+     * @return
+     */
     @Override
         public Optional<POrderCap> findByIdCuPozitiiSiLegaturaLaComenzi(Integer pOrderCapId) {
 
@@ -108,8 +123,17 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
 
     @Override
     public List<POrderCap> findByDataLivrare(Date dataLivrare) {
-        return rep.findByDataLivrare(dataLivrare)
-                .orElseThrow(() -> new EntityNotFoundException("NU gasesc POrderCap-uri cu data livrare mai mica decat: " + dataLivrare));
+        List<POrderCap> listPcap = rep.findByDataLivrare(dataLivrare);
+        if (!listPcap.isEmpty()){
+            for (POrderCap pOrderCap:listPcap){
+                Hibernate.initialize(pOrderCap.getFurnizorUnitate());
+                Hibernate.initialize(pOrderCap.getPozitii());
+                Hibernate.initialize(pOrderCap.getUserIntroducere());
+                Hibernate.initialize(pOrderCap.getFurnizorUnitate().getUserIntroducere());
+                Hibernate.initialize(pOrderCap.getFurnizorUnitate().getUserModificare());
+            }
+        }
+        return listPcap;
     }
 
     @Override
@@ -117,6 +141,7 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
         Optional<POrderCapDTOI> pCap = rep.findDTOByPOrderCapId(pOrderCapId);
         if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getPozitii());
+            Hibernate.initialize(pCap.get().getFurnizorUnitate());
         }
         return pCap;
     }

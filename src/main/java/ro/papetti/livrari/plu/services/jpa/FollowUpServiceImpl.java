@@ -17,7 +17,8 @@ import ro.papetti.pluriva.entity.FollowUp;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class FollowUpServiceImpl extends BaseServiceImpl<FollowUp, FollowUpRepozitory> implements FollowUpService{
+public class FollowUpServiceImpl extends BaseServiceImpl<FollowUp, FollowUpRepozitory>
+        implements FollowUpService{
 
     public FollowUpServiceImpl(FollowUpRepozitory repozitory) {
         super(repozitory);

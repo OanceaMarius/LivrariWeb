@@ -6,8 +6,11 @@ package ro.papetti.livrari.plu.repozitories;
 
 import java.util.List;
 import java.util.Set;
+
+import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.pluriva.entity.SOrderCap;
 
@@ -15,6 +18,8 @@ import ro.papetti.pluriva.entity.SOrderCap;
  *
  * @author MariusO
  */
+@Repository
+@PersistenceContext(unitName = "plurivaEntityManagerFactory")
 public interface StocRepozitory extends JpaRepository<SOrderCap, Integer> {
         
     @Query(value="select  SUM(s.Stoc) StocDisponibil, ProdusId" +

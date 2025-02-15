@@ -27,11 +27,15 @@ public class ComandaCapServiceImpl  extends BaseServiceImpl<ComandaCap, ComandaC
     }
 
 
-    
+    /**
+     *
+     * @param capId
+     * @return  Aduce si pozitiile de la comanda
+     */
     @Override
-    public Optional<ComandaCap> findByIdCuPozitii(Integer id) {
+    public Optional<ComandaCap> findByIdCuPozitii(Integer capId) {
 
-        Optional<ComandaCap> comCap = rep.findById(id);
+        Optional<ComandaCap> comCap = rep.findById(capId);
         if (comCap.isPresent()) {
             Hibernate.initialize(comCap.get().getPozitiiLivrari());
             return comCap;

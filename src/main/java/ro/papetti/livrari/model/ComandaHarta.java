@@ -10,7 +10,6 @@ import org.springframework.beans.BeanUtils;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.livrari.utilitare.UtilComenzi;
 import ro.papetti.pluriva.dto.SOrderPozDTOI;
-import ro.papetti.pluriva.dto.UnitateDTOI;
 import ro.papetti.pluriva.entity.POrderPoz;
 import ro.papetti.pluriva.entity.SOrderPoz;
 
@@ -23,13 +22,12 @@ import java.util.List;
  *
  * @author MariusO
  */
+
 @Setter
 @Getter
 public class ComandaHarta extends ComandaCap implements Serializable {
 
     private List<ComandaPluPoz> pozitiiPluriva = new ArrayList<>();
-    private UnitateDTOI unitate;
-    private String plata;
 
     public ComandaHarta(ComandaCap comandaCap) {
         BeanUtils.copyProperties(comandaCap, this);
@@ -51,12 +49,11 @@ public class ComandaHarta extends ComandaCap implements Serializable {
     public ComandaHarta() {
     }
 
-    public ComandaHarta(UnitateDTOI unitate, String plata, Integer capId, int iDMasina, int tipLivrareId,
+    public ComandaHarta(Integer capId, int iDMasina, int tipLivrareId,
                         int firmaId, int orderCapId, short indexCom, short ordineLiv, String com, boolean vizitat,
                         boolean anulata, Date momentIntr) {
         super(capId, iDMasina, tipLivrareId, firmaId, orderCapId, indexCom, ordineLiv, com, vizitat, anulata, momentIntr);
-        this.unitate = unitate;
-        this.plata = plata;
+
     }
 
 }

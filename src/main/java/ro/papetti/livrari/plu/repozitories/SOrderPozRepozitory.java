@@ -7,6 +7,7 @@ package ro.papetti.livrari.plu.repozitories;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.pluriva.entity.SOrderPoz;
@@ -41,7 +42,7 @@ public interface SOrderPozRepozitory extends JpaRepository<SOrderPoz, Integer> {
     
 //        @Query(value="FROM SOrderPoz p WHERE p.sOrderCapId = :sOrderCapId")
     
-    
+    @Query("SELECT p FROM SOrderPoz p WHERE p.sOrderCap.sOrderCapId=:sOrderCapId")
     public <T> List<T> findBySOrderCapSOrderCapId(int sOrderCapId,Class<T> type);
     
 

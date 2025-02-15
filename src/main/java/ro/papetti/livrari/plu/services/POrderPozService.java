@@ -16,11 +16,11 @@ import ro.papetti.livrari.model.BaseService;
  */
 public interface POrderPozService extends BaseService<POrderPoz, Integer> {
     
-    public List<POrderPoz> findPozitiiByPOrderCapId(int pOrderCapId);
+     List<POrderPoz> findPozitiiByPOrderCapId(int pOrderCapId);
     
-    public List<POrderPozDTOI> findPozitiiDTOByPOrderCapId(int pOrderCapId);
+     <T>List<T> findPozitiiDTOByPOrderCapId(int pOrderCapId, Class<T> type);
 
-    Optional<POrderPoz> findById(Integer id);
+
     
     
 }

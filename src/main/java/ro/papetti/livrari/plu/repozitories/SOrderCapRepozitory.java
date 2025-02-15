@@ -23,7 +23,8 @@ import ro.papetti.pluriva.entity.SOrderCap;
 @Repository
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
 public interface SOrderCapRepozitory extends JpaRepository<SOrderCap, Integer> {
-    
+
+    @Query("SELECT s FROM SOrderCap s WHERE s.dataLivrare = :dataLivrare")
     public Optional<List<SOrderCap>> findByDataLivrare(Date dataLivrare);
     
             @Query(value="select SOrderPozId pozId, SUM(SumLiv) cantitate from( " +

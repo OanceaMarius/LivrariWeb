@@ -17,7 +17,7 @@ import ro.papetti.livrari.plu.services.StocService;
  * @author MariusO
  */
 @Service
-@Transactional("plurivaTransactionManager")
+@Transactional(value = "plurivaTransactionManager", readOnly = true)
 public class StocServiceImpl implements StocService{
 
     public StocServiceImpl(StocRepozitory stocRepozitory) {
@@ -29,8 +29,7 @@ public class StocServiceImpl implements StocService{
     public List<StocDisponibil> getStocDisponibilInGestiune(int FirmaId, int GestiuneId){
         return stocRepozitory.getStocDisponibilInGestiune(FirmaId, GestiuneId);
     }
-    
-    
+
     @Override
     public Set<StocDisponibil>  getStocDisponibilInGestiuneOperationala(int FirmaId){
         return stocRepozitory.getStocDisponibilInGestiuneOperationala(FirmaId);
