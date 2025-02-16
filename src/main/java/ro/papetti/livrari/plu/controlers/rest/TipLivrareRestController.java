@@ -1,4 +1,4 @@
-package ro.papetti.livrari.controllers.rest.plu;
+package ro.papetti.livrari.plu.controlers.rest;
 
 
 import jakarta.persistence.EntityNotFoundException;
@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.TipLivrareService;
 import ro.papetti.pluriva.dto.TipLivrareDTOI;
-import ro.papetti.pluriva.dto.UmDTOI;
 import ro.papetti.pluriva.entity.TipLivrare;
-import ro.papetti.pluriva.entity.Um;
 
 import java.util.List;
 

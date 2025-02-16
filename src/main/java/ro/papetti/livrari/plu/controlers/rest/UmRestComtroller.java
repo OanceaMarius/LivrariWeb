@@ -1,4 +1,4 @@
-package ro.papetti.livrari.controllers.rest.plu;
+package ro.papetti.livrari.plu.controlers.rest;
 
 
 import jakarta.persistence.EntityNotFoundException;

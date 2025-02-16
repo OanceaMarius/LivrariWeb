@@ -21,4 +21,7 @@ public interface BrandRepozitory extends JpaRepository<Brand, Integer> {
 
     @Query("select t from Brand t where t.brandId = :brandId")
     <T> Optional<T> findDTOById(@Param("brandId") @NonNull Integer brandId, Class<T> type);
+
+
+
 }

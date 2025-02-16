@@ -21,4 +21,6 @@ public interface LocalitateRepozitory extends JpaRepository<Localitate, Integer>
 
     @Query("select t from Localitate t where t.localitateID = :localitateID")
     <T> Optional<T> findDTOById(@Param("localitateID") @NonNull Integer umId, Class<T> type);
+
+
 }

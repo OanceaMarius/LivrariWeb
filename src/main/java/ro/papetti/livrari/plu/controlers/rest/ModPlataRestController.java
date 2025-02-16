@@ -1,4 +1,4 @@
-package ro.papetti.livrari.controllers.rest.plu;
+package ro.papetti.livrari.plu.controlers.rest;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.ModPlataService;
 import ro.papetti.pluriva.dto.ModPlataDTOI;
-import ro.papetti.pluriva.dto.UmDTOI;
 import ro.papetti.pluriva.entity.ModPlata;
-import ro.papetti.pluriva.entity.Um;
 
 import java.util.List;
 
