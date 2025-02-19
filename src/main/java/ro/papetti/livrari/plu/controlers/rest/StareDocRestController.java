@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.StareDocService;
-import ro.papetti.pluriva.dto.StareDocDTOI;
+import ro.papetti.pluriva.dtoi.StareDocDTOI;
 import ro.papetti.pluriva.entity.StareDoc;
 
 import java.util.List;

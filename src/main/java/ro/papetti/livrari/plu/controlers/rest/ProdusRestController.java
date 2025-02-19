@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.ProdusService;
-import ro.papetti.pluriva.dto.ProdusDTOI;
+import ro.papetti.pluriva.dtoi.ProdusDTOI;
 import ro.papetti.pluriva.entity.Produs;
 
 import java.util.List;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.TermenPlataService;
-import ro.papetti.pluriva.dto.TermenPlataDTOI;
+import ro.papetti.pluriva.dtoi.TermenPlataDTOI;
 import ro.papetti.pluriva.entity.TermenPlata;
 
 import java.util.List;

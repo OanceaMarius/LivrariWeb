@@ -30,6 +30,7 @@
     <properties>
         <java.version>21</java.version>
         <maven.compiler.release>23</maven.compiler.release>
+        <org.mapstruct.version>1.6.3</org.mapstruct.version>
     </properties>
     <dependencies>
             
@@ -42,7 +43,7 @@
         <dependency>
             <groupId>ro.papetti</groupId>
             <artifactId>pluriva-tabele-extensibile</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <version>0.0.5-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -87,6 +88,26 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${org.mapstruct.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -111,12 +132,24 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+<!--                <version>3.11.0</version>-->
                 <configuration>
                     <compilerArgs>
                         <arg>--enable-preview</arg>
                     </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
+
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

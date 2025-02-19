@@ -4,37 +4,24 @@
  */
 package ro.papetti.livrari.model;
 
+import lombok.*;
+
 import java.math.BigDecimal;
 
 /**
  *
  * @author MariusO
  */
+@Getter
+@Setter
+@AllArgsConstructor
+@Builder
+@ToString
 public class PozCantitate {
     private int pozId;
     private BigDecimal cantitate;
 
-    public PozCantitate(int pozId, BigDecimal cantitate) {
-        this.pozId = pozId;
-        this.cantitate = cantitate;
-    }
 
-    public int getPozId() {
-        return pozId;
-    }
 
-    public void setPozId(int pozId) {
-        this.pozId = pozId;
-    }
 
-    public BigDecimal getCantitate() {
-        return cantitate;
-    }
-
-    public void setCantitate(BigDecimal cantitate) {
-        this.cantitate = cantitate;
-    }
-
-   
-    
 }

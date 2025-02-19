@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.livrari.plu.services.*;
-import ro.papetti.pluriva.dto.*;
+import ro.papetti.pluriva.dtoi.*;
 import ro.papetti.pluriva.entity.*;
 
 import java.text.SimpleDateFormat;
@@ -37,39 +37,39 @@ public class PlurivaRestController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
     
-    private final SOrderCapService sOrderCapSer;
-    private final SOrderPozService sOrderPozSer;
-    private final POrderCapService pOrderCapSer;
-    private final POrderPozService pOrderPozSer;    
-    private final FollowUpService follwUpSer;
+    private final SorderCapService sorderCapService;
+    private final SorderPozService sorderPozService;
+    private final PorderCapService porderCapService;
+    private final PorderPozService porderPozService;
+    private final FollowUpService followUpService;
     private final StocService stocService;
     private final UserService userService;
     private final TvaService tvaService;
 
     public PlurivaRestController(
-            SOrderPozService sOrderPozSer, SOrderCapService sOrderCapSer,
-            POrderCapService pOrderCapSer, POrderPozService pOrderPozSer,
-            FollowUpService follwUpSer, StocService stocService, UserService userService, TvaService tvaService) {
-        this.sOrderPozSer = sOrderPozSer;
-        this.sOrderCapSer = sOrderCapSer;
-        this.pOrderCapSer=pOrderCapSer;
-        this.pOrderPozSer=pOrderPozSer;
-        this.follwUpSer=follwUpSer;
+            SorderPozService sorderPozService, SorderCapService sorderCapService,
+            PorderCapService porderCapService, PorderPozService porderPozService,
+            FollowUpService followUpService, StocService stocService, UserService userService, TvaService tvaService) {
+        this.sorderPozService = sorderPozService;
+        this.sorderCapService = sorderCapService;
+        this.porderCapService =porderCapService;
+        this.porderPozService =porderPozService;
+        this.followUpService =followUpService;
         this.stocService = stocService;
         this.userService = userService;
         this.tvaService = tvaService;
     }
     
     @GetMapping("/SOrderCap/{sOrderCapId}")
-    public ResponseEntity<SOrderCap> findSOrderCapById(@PathVariable int sOrderCapId){
-        SOrderCap cap = sOrderCapSer.findById(sOrderCapId)
+    public ResponseEntity<SorderCap> findSOrderCapById(@PathVariable int sOrderCapId){
+        SorderCap cap = sorderCapService.findById(sOrderCapId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc SOrderCap cu SorderId: "+sOrderCapId));
         return ResponseEntity.ok(cap);
     }
     
     @GetMapping("/SOrderCapDTO/{sOrderCapId}")
-    public ResponseEntity<SOrderCapDTOI> findDTOById(@PathVariable int sOrderCapId){
-        SOrderCapDTOI cap = sOrderCapSer.findDTOById(sOrderCapId).orElseThrow(()->new EntityNotFoundException("Nu gasesc SOrderCap cu SorderId: "+sOrderCapId));
+    public ResponseEntity<SorderCapDTOI> findDTOById(@PathVariable int sOrderCapId){
+        SorderCapDTOI cap = sorderCapService.findDTOById(sOrderCapId).orElseThrow(()->new EntityNotFoundException("Nu gasesc SOrderCap cu SorderId: "+sOrderCapId));
         return ResponseEntity.ok(cap);
     }
 
@@ -79,53 +79,53 @@ public class PlurivaRestController {
      * @return 
      */
     @GetMapping("/SOrderCap/ByDataLivrarii/{dataLivrarii}")
-    public List<SOrderCap> findSOrderCapByDataLivrarii(@PathVariable Date dataLivrarii){
-        return sOrderCapSer.findByDataLivrare(dataLivrarii).orElse(new ArrayList<SOrderCap>());
+    public List<SorderCap> findSOrderCapByDataLivrarii(@PathVariable Date dataLivrarii){
+        return sorderCapService.findByDataLivrare(dataLivrarii).orElse(new ArrayList<SorderCap>());
     }
 
     @Transactional
     @GetMapping("/SOrderPozDTO/ByCapId/{sOrderCapId}")
-    public List<SOrderPozDTOI> findSOrderPozDTOByCapId(@PathVariable int sOrderCapId){
-        return sOrderPozSer.findPozitiiDTOBySOrderCapId(sOrderCapId);
+    public List<SorderPozDTOI> findSOrderPozDTOByCapId(@PathVariable int sOrderCapId){
+        return sorderPozService.findPozitiiDTOBySOrderCapId(sOrderCapId);
     }
     
        @Transactional
     @GetMapping("/SOrderPoz/ByCapId/{sOrderCapId}")
-    public List<SOrderPoz> findSOrderPozByCapId(@PathVariable int sOrderCapId){
-        return sOrderPozSer.findPozitiiBySOrderCapId(sOrderCapId);
+    public List<SorderPoz> findSOrderPozByCapId(@PathVariable int sOrderCapId){
+        return sorderPozService.findPozitiiBySOrderCapId(sOrderCapId);
     }
     
     @GetMapping("/POrderPozDTO/ByCapId/{pOrderCapId}")
-    public List<POrderPozDTOI> findSOrderPozDTOBySOrderCapId(@PathVariable int pOrderCapId){
-        return pOrderPozSer.findPozitiiDTOByPOrderCapId(pOrderCapId, POrderPozDTOI.class);
+    public List<PorderPozDTOI> findSOrderPozDTOBySOrderCapId(@PathVariable int pOrderCapId){
+        return porderPozService.findPozitiiDTOByPOrderCapId(pOrderCapId, PorderPozDTOI.class);
     }
     
     
     @GetMapping("/POrderPoz/ByCapId/{pOrderCapId}")
-    public List<POrderPoz> findPOrderPozByCapId(@PathVariable int pOrderCapId){
-        return pOrderPozSer.findPozitiiByPOrderCapId(pOrderCapId);
+    public List<PorderPoz> findPOrderPozByCapId(@PathVariable int pOrderCapId){
+        return porderPozService.findPozitiiByPOrderCapId(pOrderCapId);
     }
     
     //studiu
     @Transactional
     @GetMapping("/POrderPozByCapId/{pOrderCapId}")
-    public List<POrderPoz> findPOrderPoz_CapId(@PathVariable int pOrderCapId){
-        return  pOrderCapSer.findPOrderPozByPOrderCapId(pOrderCapId);
+    public List<PorderPoz> findPOrderPoz_CapId(@PathVariable int pOrderCapId){
+        return  porderCapService.findPOrderPozByPOrderCapId(pOrderCapId);
 
 
     }
     
     @GetMapping("/POrderCap/{pOrderCapId}")
-    public ResponseEntity<POrderCap> findPOrderCapById(@PathVariable int pOrderCapId){
-        POrderCap cap =  pOrderCapSer.findById(pOrderCapId)
+    public ResponseEntity<PorderCap> findPOrderCapById(@PathVariable int pOrderCapId){
+        PorderCap cap =  porderCapService.findById(pOrderCapId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc POrderCap cu POrderCapId: "+pOrderCapId));
         Hibernate.initialize(cap.getPozitii());
         return ResponseEntity.ok(cap);
     }
     
         @GetMapping("/POrderCapDTO/{pOrderCapId}")
-    public ResponseEntity<POrderCapDTOI> findDTOByPOrderCapId(@PathVariable int pOrderCapId){
-        POrderCapDTOI cap =  pOrderCapSer.findDTOByPOrderCapId(pOrderCapId)
+    public ResponseEntity<PorderCapDTOI> findDTOByPOrderCapId(@PathVariable int pOrderCapId){
+        PorderCapDTOI cap =  porderCapService.findDTOByPOrderCapId(pOrderCapId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc POrderCap cu POrderCapId: "+pOrderCapId));
         Hibernate.initialize(cap.getPozitii());
             Hibernate.initialize(cap.getFurnizorUnitate());
@@ -134,8 +134,8 @@ public class PlurivaRestController {
 
 
     @GetMapping("/POrderCap/ByDataLivrarii/{dataLivrarii}")
-    public List<POrderCap> findPOrderCapByDataLivrarii(@PathVariable Date dataLivrarii){
-        return pOrderCapSer.findByDataLivrare(dataLivrarii);
+    public List<PorderCap> findPOrderCapByDataLivrarii(@PathVariable Date dataLivrarii){
+        return porderCapService.findByDataLivrare(dataLivrarii);
     }
     
     
@@ -143,7 +143,7 @@ public class PlurivaRestController {
     
     @GetMapping("/followUp/{followUpId}")
     public Optional<FollowUp> findFollowUpById(@PathVariable int followUpId){
-        return follwUpSer.findById(followUpId);
+        return followUpService.findById(followUpId);
     }
     
     @GetMapping("/StocDisponibil/{firmaId}/{gestiuneId}")
@@ -158,12 +158,12 @@ public class PlurivaRestController {
     
     @GetMapping("/SCantLivrate/{sOrderCapId}/{firmaId}")
     public List<PozCantitate>  getCantitatiLivrate(@PathVariable int sOrderCapId, @PathVariable int firmaId){
-        return sOrderCapSer.getCantitatiLivrate(sOrderCapId, firmaId);
+        return sorderCapService.getCantitatiLivrate(sOrderCapId, firmaId);
     }
     
     @GetMapping("/SCantRezervate/{sOrderCapId}")
     public List<PozCantitate>  getCantitatiRezervate(@PathVariable int sOrderCapId){
-        return sOrderCapSer.getCantitatiRezervate(sOrderCapId);
+        return sorderCapService.getCantitatiRezervate(sOrderCapId);
     }
 
     @GetMapping("/User")

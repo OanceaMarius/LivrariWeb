@@ -5,14 +5,13 @@
 package ro.papetti.livrari.plu.repozitories;
 
 import java.util.List;
-import java.util.Optional;
 
 import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
-import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.pluriva.entity.PorderPoz;
 
 
 /**
@@ -21,14 +20,16 @@ import ro.papetti.pluriva.entity.POrderPoz;
  */
 @Repository
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
-public interface POrderPozRepozitory extends JpaRepository<POrderPoz, Integer> {
+public interface PorderPozRepozitory extends JpaRepository<PorderPoz, Integer> {
     
     
-    @Query(value="SELECT * FROM POrderPoz p WHERE p.pOrderCapId = :pOrderCapId", nativeQuery = true)
-    public List<POrderPoz> findByPOrderCapId(int pOrderCapId);
+    @Query(value="SELECT * FROM PorderPoz p WHERE p.pOrderCapId = :pOrderCapId", nativeQuery = true)
+    public List<PorderPoz> findByPOrderCapId(@NonNull int pOrderCapId);
 
-    @Query(value = "SELECT * FROM POrderPoz p WHERE p.pOrderCapId = :pOrderCapId", nativeQuery = true)
-    public <T> List <T> findDTOByPOrderCapId(int pOrderCapId, Class<T> type);
+    @Query(value = "SELECT p FROM PorderPoz p WHERE p.porderCap.pOrderCapId = :pOrderCapId")
+    public <T> List <T> findDTOByPOrderCapId(@NonNull int pOrderCapId, Class<T> type);
+
+
 
 
 }

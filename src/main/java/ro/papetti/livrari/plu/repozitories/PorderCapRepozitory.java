@@ -10,13 +10,11 @@ import java.util.Optional;
 
 import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
-import ro.papetti.pluriva.dto.POrderCapDTOI;
-import ro.papetti.pluriva.entity.POrderCap;
+import ro.papetti.pluriva.dtoi.PorderCapDTOI;
+import ro.papetti.pluriva.entity.PorderCap;
 
 
 /**
@@ -25,14 +23,14 @@ import ro.papetti.pluriva.entity.POrderCap;
  */
 @Repository
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
-public interface POrderCapRepozitory extends JpaRepository<POrderCap, Integer> {
+public interface PorderCapRepozitory extends JpaRepository<PorderCap, Integer> {
 
 
-    @Query(value = "SELECT * FROM POrderCap c  where c.pOrderCapId =:pOrderCapId", nativeQuery = true)
-    public Optional<POrderCapDTOI> findDTOByPOrderCapId(@NonNull int pOrderCapId);
+    @Query(value = "SELECT * FROM PorderCap c  where c.pOrderCapId =:pOrderCapId", nativeQuery = true)
+    public Optional<PorderCapDTOI> findDTOByPOrderCapId(@NonNull int pOrderCapId);
 
-    @Query("select p from POrderCap p where p.dataLivrare = :dataLivrare")
-    List<POrderCap> findByDataLivrare(@NonNull Date dataLivrare);
+    @Query("select p from PorderCap p where p.dataLivrare = :dataLivrare")
+    List<PorderCap> findByDataLivrare(@NonNull Date dataLivrare);
 
 
 

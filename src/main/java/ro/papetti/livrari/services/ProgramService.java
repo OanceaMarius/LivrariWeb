@@ -4,23 +4,16 @@
  */
 package ro.papetti.livrari.services;
 
+import org.springframework.stereotype.Service;
+import ro.papetti.pluriva.entity.Brand;
+import ro.papetti.pluriva.entity.Partener;
+
 /**
  *
  * @author MariusO
  */
-//@Service
-//public class ProgramService {
-//
-//    public ProgramService(ro.papetti.livrari.liv.repozitories.ComandaAntetProgramRepozitory comA, ro.papetti.livrari.liv.repozitories.ComandaLiniiProgramRepozitory comL, ro.papetti.livrari.liv.repozitories.MasiniRepozitory masiniRep, ro.papetti.livrari.plu.repozitories.SOrderCapRepozitory comPluARep, ro.papetti.livrari.plu.repozitories.SOrderPozRepozitory comPluPRep) {
-//        this.comARep = comA;
-//        this.comLRep = comL;
-//        this.masiniRep = masiniRep;
-//        this.comPluARep = comPluARep;
-//        this.comPluLRep = comPluPRep;
-//    }
-//    private final ComandaAntetProgramRepozitory comARep;
-//    private final ComandaLiniiProgramRepozitory comLRep;
-//    private final MasiniRepozitory masiniRep;
-//    private final SOrderCapRepozitory comPluARep;
-//    private final SOrderPozRepozitory comPluLRep;
-//}
+@Service
+public class ProgramService {
+// Partener p = Partener
+
+}

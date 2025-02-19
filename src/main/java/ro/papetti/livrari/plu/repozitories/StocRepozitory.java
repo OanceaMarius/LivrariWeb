@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ro.papetti.livrari.model.StocDisponibil;
-import ro.papetti.pluriva.entity.SOrderCap;
+import ro.papetti.pluriva.entity.SorderCap;
 
 /**
  *
@@ -20,7 +20,7 @@ import ro.papetti.pluriva.entity.SOrderCap;
  */
 @Repository
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
-public interface StocRepozitory extends JpaRepository<SOrderCap, Integer> {
+public interface StocRepozitory extends JpaRepository<SorderCap, Integer> {
         
     @Query(value="select  SUM(s.Stoc) StocDisponibil, ProdusId" +
 "       from inv.Stoc (Nolock) s  where Stoc <>0 AND " +

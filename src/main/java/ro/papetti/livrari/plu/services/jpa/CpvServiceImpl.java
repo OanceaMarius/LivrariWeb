@@ -5,17 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.configs.cache.CacheName;
 import ro.papetti.livrari.model.BaseServiceImpl;
-import ro.papetti.livrari.plu.repozitories.CPVRepozitory;
-import ro.papetti.livrari.plu.services.CPVService;
-import ro.papetti.pluriva.entity.CPV;
+import ro.papetti.livrari.plu.repozitories.CpvRepozitory;
+import ro.papetti.livrari.plu.services.CpvService;
+import ro.papetti.pluriva.entity.Cpv;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional("plurivaTransactionManager")
-public class CPVServiceImpl extends BaseServiceImpl<CPV, CPVRepozitory> implements CPVService {
-    public CPVServiceImpl(CPVRepozitory repozitory) {
+public class CpvServiceImpl extends BaseServiceImpl<Cpv, CpvRepozitory> implements CpvService {
+    public CpvServiceImpl(CpvRepozitory repozitory) {
         super(repozitory);
     }
 
@@ -33,7 +33,7 @@ public class CPVServiceImpl extends BaseServiceImpl<CPV, CPVRepozitory> implemen
 
     //Neavand DTO iau cache-ul normal de acolo
     @Cacheable(cacheNames = CacheName.CPV_DTO,key = "#cPVId")
-    public Optional<CPV> findById(int cPVId) {
+    public Optional<Cpv> findById(int cPVId) {
         return super.findById(cPVId);
     }
 

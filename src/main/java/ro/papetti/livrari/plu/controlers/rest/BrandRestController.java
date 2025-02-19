@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.BrandService;
-import ro.papetti.pluriva.dto.BrandDTOI;
+import ro.papetti.pluriva.dto.BrandDto;
+import ro.papetti.pluriva.dtoi.BrandDTOI;
 import ro.papetti.pluriva.entity.Brand;
 
 import java.util.List;
@@ -30,14 +31,14 @@ public class BrandRestController {
     }
 
     @GetMapping("/BrandDTO")
-    public List<BrandDTOI> findBrandDTOAll(){
-        return brandService.findDTOAll(BrandDTOI.class);
+    public List<BrandDto> findBrandDtoAll(){
+        return brandService.findDtoAll();
     }
 
     @GetMapping("/BrandDTO/{brandId}")
-    public ResponseEntity<BrandDTOI> findBrandDTOById(@NonNull @PathVariable int brandId){
-        BrandDTOI entity = brandService.findDTOById(brandId,BrandDTOI.class)
-                .orElseThrow(()->new EntityNotFoundException("Nu gasesc BrandDTOI cu brandId: "+brandId));
+    public ResponseEntity<BrandDto> findBrandDtoById(@NonNull @PathVariable int brandId){
+        BrandDto entity = brandService.findDtoById(brandId)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc BrandDto cu brandId: "+brandId));
         return ResponseEntity.ok(entity);
     }
 

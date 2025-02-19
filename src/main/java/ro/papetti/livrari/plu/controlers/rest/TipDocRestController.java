@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.TipDocService;
-import ro.papetti.pluriva.dto.TipDocDTOI;
+import ro.papetti.pluriva.dtoi.TipDocDTOI;
 import ro.papetti.pluriva.entity.TipDoc;
 
 import java.util.List;

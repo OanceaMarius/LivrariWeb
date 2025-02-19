@@ -1,15 +1,18 @@
 package ro.papetti.livrari.configs.cache;
 
 import jakarta.annotation.PostConstruct;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 import ro.papetti.livrari.plu.services.*;
-import ro.papetti.pluriva.dto.*;
+import ro.papetti.pluriva.dto.BrandDto;
+import ro.papetti.pluriva.dto.JudetDto;
+import ro.papetti.pluriva.dto.LocalitateDto;
+import ro.papetti.pluriva.dtoi.*;
 import ro.papetti.pluriva.entity.*;
+import ro.papetti.pluriva.mapstruct.JudetMapStruct;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ public class CacheConfig {
     @Autowired
     private BrandService brandService;
     @Autowired
-    private CPVService cpvService;
+    private CpvService cpvService;
     @Autowired
     private JudetService judetService;
     @Autowired
@@ -52,6 +55,8 @@ public class CacheConfig {
     private ProdusService produsService;
     @Autowired
     private UnitateService unitateService;
+    @Autowired
+    private JudetMapStruct judetMapStruct;
 
 
 
@@ -82,30 +87,31 @@ public class CacheConfig {
 
         //Brands
         Cache cacheBrand = cacheManager.getCache(CacheName.BRAND_DTO);
-        List<BrandDTOI> listBrands = brandService.findDTOAll(BrandDTOI.class);
-        for (BrandDTOI brandDTOI: listBrands){
-            cacheBrand.put(brandDTOI.getBrandId(),brandDTOI);
+        List<BrandDto> listBrands = brandService.findDtoAll();
+        for (BrandDto brandDto: listBrands){
+            cacheBrand.put(brandDto.getBrandId(),brandDto);
         }
 
         //CPV astea nu au DTO
         Cache cacheCPV = cacheManager.getCache(CacheName.CPV_DTO);
-        List<CPV> listCPVs = cpvService.findAll();
-        for (CPV cpv:listCPVs){
+        List<Cpv> listCPVs = cpvService.findAll();
+        for (Cpv cpv:listCPVs){
             cacheCPV.put(cpv.getCPVId(), cpv);
         }
 
         //Judet
         Cache cacheJudet = cacheManager.getCache(CacheName.JUDET_DTO);
-        List<JudetDTOI> listJudete = judetService.findDTOAll(JudetDTOI.class);
-        for (JudetDTOI judetDTOI: listJudete){
-            cacheJudet.put(judetDTOI.getJudetID(), judetDTOI);
+        List<Judet> listJudete = judetService.findAll();
+
+        for (JudetDto judetDto: judetMapStruct.toDtoList(listJudete)){
+            cacheJudet.put(judetDto.getJudetID(), judetDto);
         }
 
         //Localitate
         Cache cacheLocalitate = cacheManager.getCache(CacheName.LOCALITATE_DTO);
-        List<LocalitateDTOI> listLocalitati = localitateService.findDTOAll(LocalitateDTOI.class);
-        for (LocalitateDTOI localitateDTOI:listLocalitati){
-            cacheLocalitate.put(localitateDTOI.getLocalitateID(),localitateDTOI);
+        List<LocalitateDto> listLocalitati = localitateService.findDtoAll();
+        for (LocalitateDto localitateDto:listLocalitati){
+            cacheLocalitate.put(localitateDto.getLocalitateID(),localitateDto);
         }
 
         //ModPlata
@@ -173,11 +179,11 @@ public class CacheConfig {
         }
 
         //Produs
-        Cache cacheProdus = cacheManager.getCache(CacheName.PRODUS_DTO);
-        List<ProdusDTOI> produsList = produsService.findDTOAll(ProdusDTOI.class);
-        for (ProdusDTOI produsDTOI :produsList){
-            cacheProdus.put(produsDTOI.getProdusId(),produsDTOI);
-        }
+//        Cache cacheProdus = cacheManager.getCache(CacheName.PRODUS_DTO);
+//        List<ProdusDTOI> produsList = produsService.findDTOAll(ProdusDTOI.class);
+//        for (ProdusDTOI produsDTOI :produsList){
+//            cacheProdus.put(produsDTOI.getProdusId(),produsDTOI);
+//        }
 
         //Unitate dureaza prea mult
 //        Cache cacheUnitate = cacheManager.getCache(CacheName.UNITATE_DTO);

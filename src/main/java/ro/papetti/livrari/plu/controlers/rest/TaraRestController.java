@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.TaraService;
-import ro.papetti.pluriva.dto.TaraDTOI;
+import ro.papetti.pluriva.dtoi.TaraDTOI;
 import ro.papetti.pluriva.entity.Tara;
 
 import java.util.List;

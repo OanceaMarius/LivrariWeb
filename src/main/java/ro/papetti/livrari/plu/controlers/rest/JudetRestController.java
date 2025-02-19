@@ -1,6 +1,7 @@
 package ro.papetti.livrari.plu.controlers.rest;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,21 +10,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.JudetService;
-import ro.papetti.pluriva.dto.JudetDTOI;
+import ro.papetti.pluriva.dto.JudetDto;
+import ro.papetti.pluriva.dtoi.JudetDTOI;
 import ro.papetti.pluriva.entity.Judet;
+import ro.papetti.pluriva.mapstruct.JudetMapStruct;
 
 import java.util.List;
 
 @RestController
 @Transactional
+@RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class JudetRestController {
 
     private final JudetService judetService;
 
-    public JudetRestController(JudetService judetService) {
-        this.judetService = judetService;
-    }
 
     @GetMapping("/Judet")
     public List<Judet> findJudetAll(){
@@ -31,13 +32,13 @@ public class JudetRestController {
     }
 
     @GetMapping("/JudetDTO")
-    public List<JudetDTOI> findJudetDTOAll(){
-        return judetService.findDTOAll(JudetDTOI.class);
+    public  List<JudetDto> findJudetDtoAll(){
+        return judetService.findDtoAll();
     }
 
     @GetMapping("/JudetDTO/{judetId}")
-    public ResponseEntity<JudetDTOI> findJudetDTOById(@NonNull @PathVariable int judetId){
-        JudetDTOI entity = judetService.findDTOById(judetId,JudetDTOI.class)
+    public ResponseEntity<JudetDto> findJudetDTOById(@NonNull @PathVariable int judetId){
+        JudetDto entity = judetService.findDtoById(judetId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc JudetDTO cu judetId: " + judetId));
         return ResponseEntity.ok(entity);
     }

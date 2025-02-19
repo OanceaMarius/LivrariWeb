@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.LocalitateService;
-import ro.papetti.pluriva.dto.LocalitateDTOI;
+import ro.papetti.pluriva.dto.LocalitateDto;
+import ro.papetti.pluriva.dtoi.LocalitateDTOI;
 import ro.papetti.pluriva.entity.Localitate;
 
 import java.util.List;
@@ -31,14 +32,14 @@ public class LocalitateRestController {
     }
 
     @GetMapping("/LocalitateDTO")
-    public List<LocalitateDTOI> findLocalitateDTOAll(){
-        return localitateService.findDTOAll(LocalitateDTOI.class);
+    public List<LocalitateDto> findLocalitateDtoAll(){
+        return localitateService.findDtoAll();
     }
 
     @GetMapping("/LocalitateDTO/{localitateID}")
-    public ResponseEntity<LocalitateDTOI> findUmDTOById(@NonNull @PathVariable int localitateID){
-        LocalitateDTOI entity = localitateService.findDTOById(localitateID,LocalitateDTOI.class)
-                .orElseThrow(()->new EntityNotFoundException("Nu gasesc LocalitateDTO cu localitateID: " + localitateID));
+    public ResponseEntity<LocalitateDto> findUmDtoById(@NonNull @PathVariable int localitateID){
+        LocalitateDto entity = localitateService.findDtoById(localitateID)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc LocalitateDto cu localitateID: " + localitateID));
         return ResponseEntity.ok(entity);
     }
 

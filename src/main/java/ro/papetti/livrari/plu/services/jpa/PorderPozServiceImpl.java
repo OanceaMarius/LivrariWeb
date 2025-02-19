@@ -4,15 +4,13 @@
  */
 package ro.papetti.livrari.plu.services.jpa;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
-import ro.papetti.livrari.plu.repozitories.POrderPozRepozitory;
-import ro.papetti.livrari.plu.services.POrderPozService;
-import ro.papetti.pluriva.dto.POrderPozDTOI;
-import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.livrari.plu.repozitories.PorderPozRepozitory;
+import ro.papetti.livrari.plu.services.PorderPozService;
+import ro.papetti.pluriva.entity.PorderPoz;
 
 /**
  *
@@ -20,14 +18,14 @@ import ro.papetti.pluriva.entity.POrderPoz;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class POrderPozServiceImpl extends BaseServiceImpl<POrderPoz, POrderPozRepozitory> implements POrderPozService{
+public class PorderPozServiceImpl extends BaseServiceImpl<PorderPoz, PorderPozRepozitory> implements PorderPozService {
 
-    public POrderPozServiceImpl(POrderPozRepozitory repozitory) {
+    public PorderPozServiceImpl(PorderPozRepozitory repozitory) {
         super(repozitory);
     }
 
     @Override
-    public List<POrderPoz> findPozitiiByPOrderCapId(int pOrderCapId){
+    public List<PorderPoz> findPozitiiByPOrderCapId(int pOrderCapId){
         return rep.findByPOrderCapId(pOrderCapId);
     }
 

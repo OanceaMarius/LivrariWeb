@@ -9,7 +9,7 @@ import java.util.Set;
 import org.springframework.stereotype.Component;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
-import ro.papetti.livrari.plu.services.SOrderCapService;
+import ro.papetti.livrari.plu.services.SorderCapService;
 import ro.papetti.livrari.plu.services.StocService;
 
 /**
@@ -20,9 +20,9 @@ import ro.papetti.livrari.plu.services.StocService;
 public class InfoMarfaImpl implements InfoMarfa {
 
     private final StocService stocService;
-    private final SOrderCapService sOrderCapService;
+    private final SorderCapService sOrderCapService;
 
-    public InfoMarfaImpl(StocService stocService, SOrderCapService sOrderCapService) {
+    public InfoMarfaImpl(StocService stocService, SorderCapService sOrderCapService) {
         this.stocService = stocService;
         this.sOrderCapService = sOrderCapService;
         System.out.println("InfoMarfa E ONLINE");

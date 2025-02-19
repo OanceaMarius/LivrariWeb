@@ -16,13 +16,13 @@ import ro.papetti.livrari.liv.services.ComandaPozService;
 import ro.papetti.livrari.model.ComandaHarta;
 import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.livrari.model.TipCom;
-import ro.papetti.livrari.plu.services.POrderCapService;
-import ro.papetti.livrari.plu.services.POrderPozService;
-import ro.papetti.livrari.plu.services.SOrderCapService;
-import ro.papetti.livrari.plu.services.SOrderPozService;
+import ro.papetti.livrari.plu.services.PorderCapService;
+import ro.papetti.livrari.plu.services.PorderPozService;
+import ro.papetti.livrari.plu.services.SorderCapService;
+import ro.papetti.livrari.plu.services.SorderPozService;
 import ro.papetti.livrari.utilitare.UtilComenzi;
-import ro.papetti.pluriva.entity.POrderCap;
-import ro.papetti.pluriva.entity.SOrderCap;
+import ro.papetti.pluriva.entity.PorderCap;
+import ro.papetti.pluriva.entity.SorderCap;
 
 import java.util.Optional;
 import java.util.Set;
@@ -37,23 +37,23 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
     //    @Autowired
     private final ComandaCapService capService;
     private final ComandaPozService pozService;
-    private final POrderCapService pOrderCapService;
-    private final POrderPozService pOrderPozService;
-    private final SOrderCapService sOrderCapService;
-    private final SOrderPozService sOrderPozService;
+    private final PorderCapService porderCapService;
+    private final PorderPozService porderPozService;
+    private final SorderCapService sorderCapService;
+    private final SorderPozService sorderPozService;
 
     @Autowired
     private InfoMarfa infoMarfaBean;
 
     public ComandaHartaServiceImpl(ComandaCapService capService, ComandaPozService pozService,
-                                   POrderCapService pOrderCapService, POrderPozService pOrderPozService,
-                                   SOrderCapService sOrderCapService, SOrderPozService sOrderPozService) {
+                                   PorderCapService pOrderCapService, PorderPozService pOrderPozService,
+                                   SorderCapService sOrderCapService, SorderPozService sOrderPozService) {
         this.capService = capService;
         this.pozService = pozService;
-        this.pOrderCapService = pOrderCapService;
-        this.pOrderPozService = pOrderPozService;
-        this.sOrderCapService = sOrderCapService;
-        this.sOrderPozService = sOrderPozService;
+        this.porderCapService = pOrderCapService;
+        this.porderPozService = pOrderPozService;
+        this.sorderCapService = sOrderCapService;
+        this.sorderPozService = sOrderPozService;
     }
 
     @Transactional
@@ -70,7 +70,7 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
         Set<StocDisponibil> stocuri = infoMarfaBean.getStocuriDisponibile(firmaId);
 
         if (comandaCap.get().getCom().equals(TipCom.FURNIZOR.name())) {
-            POrderCap pOrderCap = pOrderCapService
+            PorderCap pOrderCap = porderCapService
                     .findByIdCuPozitiiSiLegaturaLaComenzi(comandaCap.get().getOrderCapId())
                     .orElse(null);
 
@@ -82,7 +82,7 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
             return Optional.of(comandaHarta);
         }
         if (comandaCap.get().getCom().equals(TipCom.CLIENT.name())) {
-            Optional<SOrderCap> sOrderCap = sOrderCapService
+            Optional<SorderCap> sOrderCap = sorderCapService
                     .findByIdCuPozitiiSiLegaturaLaAprov(comandaCap.get().getCapId());
             if (sOrderCap.isPresent()) {
                 comandaHarta.setPozPluFromSOrder(sOrderCap.get().getPozitii());

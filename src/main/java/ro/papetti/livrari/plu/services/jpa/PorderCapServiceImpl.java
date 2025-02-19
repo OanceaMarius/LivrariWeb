@@ -12,11 +12,11 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
-import ro.papetti.livrari.plu.repozitories.POrderCapRepozitory;
-import ro.papetti.livrari.plu.services.POrderCapService;
-import ro.papetti.pluriva.dto.POrderCapDTOI;
-import ro.papetti.pluriva.entity.POrderCap;
-import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.livrari.plu.repozitories.PorderCapRepozitory;
+import ro.papetti.livrari.plu.services.PorderCapService;
+import ro.papetti.pluriva.dtoi.PorderCapDTOI;
+import ro.papetti.pluriva.entity.PorderCap;
+import ro.papetti.pluriva.entity.PorderPoz;
 
 /**
  *
@@ -24,23 +24,23 @@ import ro.papetti.pluriva.entity.POrderPoz;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRepozitory> implements POrderCapService {
+public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRepozitory> implements PorderCapService {
 
 
 
-    public POrderCapServiceImpl(POrderCapRepozitory repozitory) {
+    public PorderCapServiceImpl(PorderCapRepozitory repozitory) {
         super(repozitory);
     }
 
-    public Optional<POrderCap> findByPOrderCapId(int pOrderCapId) {
+    public Optional<PorderCap> findByPOrderCapId(int pOrderCapId) {
         return rep.findById(pOrderCapId);
 
     }
 
     @Override
-    public List<POrderPoz> findPOrderPozByPOrderCapId(int pOrderCapId) {
+    public List<PorderPoz> findPOrderPozByPOrderCapId(int pOrderCapId) {
 
-        POrderCap cap = rep.findById(pOrderCapId)
+        PorderCap cap = rep.findById(pOrderCapId)
                 .orElseThrow(() -> new EntityNotFoundException("Nu gasesc POrderCap cu id: " + pOrderCapId));
         Hibernate.initialize(cap.getPozitii());
         return cap.getPozitii();
@@ -52,9 +52,9 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
  * @return 
  */
     @Override
-    public Optional<POrderCap> findById(Integer pOrderCapId) {
+    public Optional<PorderCap> findById(Integer pOrderCapId) {
 
-        Optional<POrderCap> pCap = rep.findById(pOrderCapId);
+        Optional<PorderCap> pCap = rep.findById(pOrderCapId);
         if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getUserIntroducere());
         }
@@ -66,8 +66,8 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
      * @param pOrderCapId
      * @return
      */
-    public Optional<POrderCap> findByIdCuFurnizor(Integer pOrderCapId) {
-        Optional<POrderCap> pCap = findById(pOrderCapId);
+    public Optional<PorderCap> findByIdCuFurnizor(Integer pOrderCapId) {
+        Optional<PorderCap> pCap = findById(pOrderCapId);
         if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getFurnizorUnitate());
         }
@@ -80,14 +80,14 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
      * @return
      */
     @Override
-    public Optional<POrderCap> findByIdCuPozitii(Integer pOrderCapId) {
+    public Optional<PorderCap> findByIdCuPozitii(Integer pOrderCapId) {
 
-        Optional<POrderCap> pCap = findByIdCuFurnizor(pOrderCapId);
+        Optional<PorderCap> pCap = findByIdCuFurnizor(pOrderCapId);
         if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getPozitii());
-            List<POrderPoz> listPpoz =pCap.get().getPozitii();
+            List<PorderPoz> listPpoz =pCap.get().getPozitii();
             if (listPpoz!=null) {
-                for(POrderPoz pPoz:listPpoz){
+                for(PorderPoz pPoz:listPpoz){
                     Hibernate.initialize(pPoz.getProdus());
                 }
             }
@@ -101,19 +101,19 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
      * @return
      */
     @Override
-        public Optional<POrderCap> findByIdCuPozitiiSiLegaturaLaComenzi(Integer pOrderCapId) {
+        public Optional<PorderCap> findByIdCuPozitiiSiLegaturaLaComenzi(Integer pOrderCapId) {
 
-        Optional<POrderCap> pCap = findByIdCuPozitii(pOrderCapId);
+        Optional<PorderCap> pCap = findByIdCuPozitii(pOrderCapId);
         if (pCap.isPresent()) {
            
-            List<POrderPoz> listPPoz = pCap.get().getPozitii();
+            List<PorderPoz> listPPoz = pCap.get().getPozitii();
             if (listPPoz!=null) {
-                for(POrderPoz pPoz: listPPoz){
-                    Hibernate.initialize(pPoz.getsOrderPoz());
-                    Hibernate.initialize(pPoz.getsOrderPoz().getsOrderCap());
-                    Hibernate.initialize(pPoz.getsOrderPoz().getsOrderCap().getUserIntroducere());
-                    Hibernate.initialize(pPoz.getsOrderPoz().getsOrderCap().getClientUnitate());
-                    Hibernate.initialize(pPoz.getsOrderPoz().getsOrderCap().getClientLivrareUnitate());
+                for(PorderPoz pPoz: listPPoz){
+                    Hibernate.initialize(pPoz.getSorderPoz());
+                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap());
+                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getUserIntroducere());
+                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getClientUnitate());
+                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getClientLivrareUnitate());
                 }
             }
             
@@ -122,10 +122,10 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
     }
 
     @Override
-    public List<POrderCap> findByDataLivrare(Date dataLivrare) {
-        List<POrderCap> listPcap = rep.findByDataLivrare(dataLivrare);
+    public List<PorderCap> findByDataLivrare(Date dataLivrare) {
+        List<PorderCap> listPcap = rep.findByDataLivrare(dataLivrare);
         if (!listPcap.isEmpty()){
-            for (POrderCap pOrderCap:listPcap){
+            for (PorderCap pOrderCap:listPcap){
                 Hibernate.initialize(pOrderCap.getFurnizorUnitate());
                 Hibernate.initialize(pOrderCap.getPozitii());
                 Hibernate.initialize(pOrderCap.getUserIntroducere());
@@ -137,8 +137,8 @@ public class POrderCapServiceImpl extends BaseServiceImpl<POrderCap, POrderCapRe
     }
 
     @Override
-    public Optional<POrderCapDTOI> findDTOByPOrderCapId(Integer pOrderCapId) {
-        Optional<POrderCapDTOI> pCap = rep.findDTOByPOrderCapId(pOrderCapId);
+    public Optional<PorderCapDTOI> findDTOByPOrderCapId(Integer pOrderCapId) {
+        Optional<PorderCapDTOI> pCap = rep.findDTOByPOrderCapId(pOrderCapId);
         if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getPozitii());
             Hibernate.initialize(pCap.get().getFurnizorUnitate());

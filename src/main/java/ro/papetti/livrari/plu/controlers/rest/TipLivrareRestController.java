@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.TipLivrareService;
-import ro.papetti.pluriva.dto.TipLivrareDTOI;
+import ro.papetti.pluriva.dtoi.TipLivrareDTOI;
 import ro.papetti.pluriva.entity.TipLivrare;
 
 import java.util.List;

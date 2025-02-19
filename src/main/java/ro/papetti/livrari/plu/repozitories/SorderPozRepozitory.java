@@ -5,12 +5,13 @@
 package ro.papetti.livrari.plu.repozitories;
 
 import jakarta.persistence.PersistenceContext;
-import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ro.papetti.pluriva.entity.SOrderPoz;
+import ro.papetti.pluriva.entity.SorderPoz;
+
+import java.util.List;
 
 
 /**
@@ -20,7 +21,7 @@ import ro.papetti.pluriva.entity.SOrderPoz;
 @Repository
 @Transactional("plurivaTransactionManager")
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
-public interface SOrderPozRepozitory extends JpaRepository<SOrderPoz, Integer> {
+public interface SorderPozRepozitory extends JpaRepository<SorderPoz, Integer> {
     
 //    @Query(value="SELECT * FROM SOrderPoz p WHERE p.sOrderCapId = :sOrderCapId", nativeQuery = true)
 //    public List<SOrderPozDTO> findPozitiiBySOrderCapId(int sOrderCapId);
@@ -42,7 +43,7 @@ public interface SOrderPozRepozitory extends JpaRepository<SOrderPoz, Integer> {
     
 //        @Query(value="FROM SOrderPoz p WHERE p.sOrderCapId = :sOrderCapId")
     
-    @Query("SELECT p FROM SOrderPoz p WHERE p.sOrderCap.sOrderCapId=:sOrderCapId")
+    @Query("SELECT p FROM SorderPoz p WHERE p.sorderCap.sOrderCapId=:sOrderCapId")
     public <T> List<T> findBySOrderCapSOrderCapId(int sOrderCapId,Class<T> type);
     
 

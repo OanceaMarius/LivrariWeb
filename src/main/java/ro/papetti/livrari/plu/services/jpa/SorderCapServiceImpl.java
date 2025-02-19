@@ -12,13 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.model.PozCantitate;
-import ro.papetti.livrari.plu.repozitories.SOrderCapRepozitory;
-import ro.papetti.livrari.plu.services.SOrderCapService;
-import ro.papetti.pluriva.dto.SOrderCapDTOI;
-import ro.papetti.pluriva.dto.SOrderPozDTOIFaraSOrderCap;
-import ro.papetti.pluriva.entity.POrderPoz;
-import ro.papetti.pluriva.entity.SOrderCap;
-import ro.papetti.pluriva.entity.SOrderPoz;
+import ro.papetti.livrari.plu.repozitories.SorderCapRepozitory;
+import ro.papetti.livrari.plu.services.SorderCapService;
+import ro.papetti.pluriva.dtoi.SorderCapDTOI;
+import ro.papetti.pluriva.dtoi.SorderPozDTOIFaraSorderCap;
+import ro.papetti.pluriva.entity.PorderPoz;
+import ro.papetti.pluriva.entity.SorderCap;
+import ro.papetti.pluriva.entity.SorderPoz;
+
+
 
 /**
  *
@@ -26,9 +28,9 @@ import ro.papetti.pluriva.entity.SOrderPoz;
  */
 @Service
 @Transactional("plurivaTransactionManager")
-public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRepozitory> implements SOrderCapService {
+public class SorderCapServiceImpl extends BaseServiceImpl<SorderCap, SorderCapRepozitory> implements SorderCapService {
 
-    public SOrderCapServiceImpl(SOrderCapRepozitory repozitory) {
+    public SorderCapServiceImpl(SorderCapRepozitory repozitory) {
         super(repozitory);
     }
 
@@ -44,14 +46,14 @@ public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRe
     }
 
     @Override
-    public Optional<List<SOrderCap>> findByDataLivrare(Date dataLivrare) {
+    public Optional<List<SorderCap>> findByDataLivrare(Date dataLivrare) {
         return rep.findByDataLivrare(dataLivrare);
     }
 
  
     @Override
-    public Optional<SOrderCap> findById(int sOrderCapId) {
-        Optional<SOrderCap> sCap = rep.findById(sOrderCapId);
+    public Optional<SorderCap> findById(int sOrderCapId) {
+        Optional<SorderCap> sCap = rep.findById(sOrderCapId);
         if (sCap.isPresent()) {
             Hibernate.initialize(sCap.get().getUserIntroducere());
         }
@@ -59,8 +61,8 @@ public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRe
     }
 
     @Override
-    public Optional<SOrderCap> findByIdCuClient(int sOrderCapId) {
-        Optional<SOrderCap> sCap = findById(sOrderCapId);
+    public Optional<SorderCap> findByIdCuClient(int sOrderCapId) {
+        Optional<SorderCap> sCap = findById(sOrderCapId);
         if (sCap.isPresent()) {
             Hibernate.initialize(sCap.get().getClient());
         }
@@ -68,13 +70,13 @@ public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRe
     }
     
     @Override
-    public Optional<SOrderCap> findByIdCuPozitii(int sOrderCapId) {
-        Optional<SOrderCap> sCap = findByIdCuClient(sOrderCapId);
+    public Optional<SorderCap> findByIdCuPozitii(int sOrderCapId) {
+        Optional<SorderCap> sCap = findByIdCuClient(sOrderCapId);
         if (sCap.isPresent()) {
             Hibernate.initialize(sCap.get().getPozitii());
-            List<SOrderPoz> listSpoz = sCap.get().getPozitii();
+            List<SorderPoz> listSpoz = sCap.get().getPozitii();
             if (listSpoz!=null) {
-                for(SOrderPoz sPoz:listSpoz){
+                for(SorderPoz sPoz:listSpoz){
                     Hibernate.initialize(sPoz.getProdus());
                 }
             }
@@ -84,16 +86,16 @@ public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRe
 
 
     @Override
-    public Optional<SOrderCap> findByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId) {
-        Optional<SOrderCap> sCap = findByIdCuPozitii(sOrderCapId);
+    public Optional<SorderCap> findByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId) {
+        Optional<SorderCap> sCap = findByIdCuPozitii(sOrderCapId);
         if (sCap.isPresent()) {
-            List<SOrderPoz> listSPoz = sCap.get().getPozitii();
-            for (SOrderPoz sPoz : listSPoz) {
-                Hibernate.initialize(sPoz.getpOrderPoz());
-                POrderPoz pPoz = sPoz.getpOrderPoz();
+            List<SorderPoz> listSPoz = sCap.get().getPozitii();
+            for (SorderPoz sPoz : listSPoz) {
+                Hibernate.initialize(sPoz.getPorderPoz());
+                PorderPoz pPoz = sPoz.getPorderPoz();
                 if (pPoz != null) {
-                    Hibernate.initialize(pPoz.getpOrderCap());
-                    Hibernate.initialize(pPoz.getpOrderCap().getFurnizorUnitate());
+                    Hibernate.initialize(pPoz.getPorderCap());
+                    Hibernate.initialize(pPoz.getPorderCap().getFurnizorUnitate());
                 }
             }
 
@@ -107,8 +109,8 @@ public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRe
     }
 
     @Override
-    public Optional<SOrderCapDTOI> findDTOById(int sOrderCapId) {
-        Optional<SOrderCapDTOI> sCap = rep.findDTOBySOrderCapId(sOrderCapId);
+    public Optional<SorderCapDTOI> findDTOById(int sOrderCapId) {
+        Optional<SorderCapDTOI> sCap = rep.findDTOBySOrderCapId(sOrderCapId);
         if (sCap.isPresent()) {
             Hibernate.initialize(sCap.get().getUserIntroducere());
         }
@@ -116,8 +118,8 @@ public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRe
     }
 
     @Override
-    public Optional<SOrderCapDTOI> findDTOByIdCuClient(int sOrderCapId) {
-        Optional<SOrderCapDTOI> sCap = findDTOById(sOrderCapId);
+    public Optional<SorderCapDTOI> findDTOByIdCuClient(int sOrderCapId) {
+        Optional<SorderCapDTOI> sCap = findDTOById(sOrderCapId);
         if (sCap.isPresent()) {
             Hibernate.initialize(sCap.get().getClientUnitate());
             Hibernate.initialize(sCap.get().getClientLivrareUnitate());
@@ -127,12 +129,12 @@ public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRe
     }
 
     @Override
-    public Optional<SOrderCapDTOI> findDTOByIdCuPozitii(int sOrderCapId) {
-        Optional<SOrderCapDTOI> sCap = findDTOByIdCuClient(sOrderCapId);
+    public Optional<SorderCapDTOI> findDTOByIdCuPozitii(int sOrderCapId) {
+        Optional<SorderCapDTOI> sCap = findDTOByIdCuClient(sOrderCapId);
         if (sCap.isPresent()) {
             Hibernate.initialize(sCap.get().getPozitii());
-            List<SOrderPozDTOIFaraSOrderCap> listSpoz = sCap.get().getPozitii();
-            for (SOrderPozDTOIFaraSOrderCap poz : listSpoz) {
+            List<SorderPozDTOIFaraSorderCap> listSpoz = sCap.get().getPozitii();
+            for (SorderPozDTOIFaraSorderCap poz : listSpoz) {
                 Hibernate.initialize(poz.getProdus());
             }
         }
@@ -140,12 +142,12 @@ public class SOrderCapServiceImpl extends BaseServiceImpl<SOrderCap, SOrderCapRe
     }
 
     @Override
-    public Optional<SOrderCapDTOI> findDTOByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId) {
-        Optional<SOrderCapDTOI> sCap = findDTOByIdCuPozitii(sOrderCapId);
+    public Optional<SorderCapDTOI> findDTOByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId) {
+        Optional<SorderCapDTOI> sCap = findDTOByIdCuPozitii(sOrderCapId);
         if (sCap.isPresent()) {
             Hibernate.initialize(sCap.get().getPozitii());
-            List<SOrderPozDTOIFaraSOrderCap> listSpoz = sCap.get().getPozitii();
-            for (SOrderPozDTOIFaraSOrderCap poz : listSpoz) {
+            List<SorderPozDTOIFaraSorderCap> listSpoz = sCap.get().getPozitii();
+            for (SorderPozDTOIFaraSorderCap poz : listSpoz) {
                 Hibernate.initialize(poz.getpOrderPoz());
                 Hibernate.initialize(poz.getpOrderPoz().getpOrderCap());
                 Hibernate.initialize(poz.getpOrderPoz().getpOrderCap().getFurnizorUnitate());

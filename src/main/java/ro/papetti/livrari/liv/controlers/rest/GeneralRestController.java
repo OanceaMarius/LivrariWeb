@@ -15,10 +15,10 @@ import ro.papetti.livrari.liv.services.jpa.ComandaCapServiceImpl;
 import ro.papetti.livrari.liv.services.jpa.ComandaHartaServiceImpl;
 import ro.papetti.livrari.liv.services.jpa.ComandaPozServiceImpl;
 import ro.papetti.livrari.model.ComandaHarta;
-import ro.papetti.livrari.plu.services.jpa.POrderCapServiceImpl;
-import ro.papetti.livrari.plu.services.jpa.POrderPozServiceImpl;
-import ro.papetti.livrari.plu.services.jpa.SOrderCapServiceImpl;
-import ro.papetti.livrari.plu.services.jpa.SOrderPozServiceImpl;
+import ro.papetti.livrari.plu.services.jpa.PorderCapServiceImpl;
+import ro.papetti.livrari.plu.services.jpa.PorderPozServiceImpl;
+import ro.papetti.livrari.plu.services.jpa.SorderCapServiceImpl;
+import ro.papetti.livrari.plu.services.jpa.SorderPozServiceImpl;
 
 
 /**
@@ -32,10 +32,10 @@ public class GeneralRestController {
         
     private final ComandaCapServiceImpl capSer;
     private final ComandaPozServiceImpl liniiSer;
-    private final SOrderCapServiceImpl sCapPluService;
-    private final SOrderPozServiceImpl sLiniiPluService;
-    private final POrderCapServiceImpl pCapPluService;
-    private final POrderPozServiceImpl pLiniiPluService;
+    private final SorderCapServiceImpl sCapPluService;
+    private final SorderPozServiceImpl sLiniiPluService;
+    private final PorderCapServiceImpl pCapPluService;
+    private final PorderPozServiceImpl pLiniiPluService;
 
     private final ComandaHartaServiceImpl hartaService;
 
@@ -43,10 +43,10 @@ public class GeneralRestController {
     
     public GeneralRestController(ComandaCapServiceImpl capSer,
                                  ComandaPozServiceImpl liniiSer,
-                                 SOrderCapServiceImpl sCapPluService,
-                                 SOrderPozServiceImpl sLiniiPluService,
-                                 POrderCapServiceImpl pCapPluService,
-                                 POrderPozServiceImpl pLiniiPluService,
+                                 SorderCapServiceImpl sCapPluService,
+                                 SorderPozServiceImpl sLiniiPluService,
+                                 PorderCapServiceImpl pCapPluService,
+                                 PorderPozServiceImpl pLiniiPluService,
                                  ComandaHartaServiceImpl hartaService){
         this.capSer = capSer;
         this.liniiSer = liniiSer;
@@ -67,8 +67,5 @@ public class GeneralRestController {
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc ComandaCap cu CapId: "+capId));
         return ResponseEntity.ok(comHarta);
     }
-//    @GetMapping("/liniiProgram/proc/{nr}")
-//    public List<String> getProcedure(@PathVariable int nr){
-//        return liniiProSer.getTestProc(nr);
-//    }
+
 }

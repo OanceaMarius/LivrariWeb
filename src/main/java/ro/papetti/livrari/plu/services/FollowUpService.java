@@ -4,14 +4,21 @@
  */
 package ro.papetti.livrari.plu.services;
 
+import ro.papetti.pluriva.dto.FollowUpDto;
 import ro.papetti.pluriva.entity.FollowUp;
 import ro.papetti.livrari.model.BaseService;
-import ro.papetti.pluriva.entity.POrderPoz;
+import ro.papetti.pluriva.entity.PorderPoz;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  *
  * @author MariusO
  */
 public interface FollowUpService extends BaseService<FollowUp, Integer> {
-    
+
+    Optional<FollowUpDto> findDtoById(int followupId);
+
+    List<FollowUpDto> findDtoAll();
 }

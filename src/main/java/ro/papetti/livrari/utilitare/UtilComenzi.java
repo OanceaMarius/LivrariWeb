@@ -15,10 +15,10 @@ import ro.papetti.livrari.model.ComandaHarta;
 import ro.papetti.livrari.model.ComandaPluPoz;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
-import ro.papetti.pluriva.dto.SOrderPozDTO;
-import ro.papetti.pluriva.dto.SOrderPozDTOI;
-import ro.papetti.pluriva.entity.POrderPoz;
-import ro.papetti.pluriva.entity.SOrderPoz;
+import ro.papetti.pluriva.dtoi.SorderPozDTOI;
+import ro.papetti.pluriva.dtoi.SorderPozDTOI;
+import ro.papetti.pluriva.entity.PorderPoz;
+import ro.papetti.pluriva.entity.SorderPoz;
 
 /**
  *
@@ -36,29 +36,13 @@ public final class UtilComenzi {
      * @param listPluDTO
      * @return
      */
-    public static List<ComandaPluPoz> getComandaPluPozFromSDTO(List<SOrderPozDTO> listPluDTO) {
+    public static List<ComandaPluPoz> getComandaPluPozFromSDTO(List<SorderPozDTOI> listPluDTO) {
         List<ComandaPluPoz> listPoz;
         listPoz = new ArrayList<>();
         if (listPluDTO == null) {
             return listPoz;
         }
-        for (SOrderPozDTO pozPluDTO : listPluDTO) {
-            ComandaPluPoz liniePoz = new ComandaPluPoz(pozPluDTO);
-            //doar liniile care tin de comanda nu si intrarile
-            if (pozPluDTO.sOrderPozParentId() == null) {
-                listPoz.add(liniePoz);
-            }
-        }
-
-        return listPoz;
-    }
-    
-        public static List<ComandaPluPoz> getComandaPluPozFromSDTOI(List<SOrderPozDTOI> listPluDTO) {
-        List<ComandaPluPoz> listPoz = new ArrayList<>();
-        if (listPluDTO == null) {
-            return listPoz;
-        }
-        for (SOrderPozDTOI pozPluDTOI : listPluDTO) {
+        for (SorderPozDTOI pozPluDTOI : listPluDTO) {
             ComandaPluPoz liniePoz = new ComandaPluPoz(pozPluDTOI);
             //doar liniile care tin de comanda nu si intrarile
             if (pozPluDTOI.getsOrderPozParentId() == null) {
@@ -68,12 +52,28 @@ public final class UtilComenzi {
 
         return listPoz;
     }
-    public static List<ComandaPluPoz> getComandaPluPozFromS(List<SOrderPoz> listPlu) {
+    
+        public static List<ComandaPluPoz> getComandaPluPozFromSDTOI(List<SorderPozDTOI> listPluDTO) {
+        List<ComandaPluPoz> listPoz = new ArrayList<>();
+        if (listPluDTO == null) {
+            return listPoz;
+        }
+        for (SorderPozDTOI pozPluDTOI : listPluDTO) {
+            ComandaPluPoz liniePoz = new ComandaPluPoz(pozPluDTOI);
+            //doar liniile care tin de comanda nu si intrarile
+            if (pozPluDTOI.getsOrderPozParentId() == null) {
+                listPoz.add(liniePoz);
+            }
+        }
+
+        return listPoz;
+    }
+    public static List<ComandaPluPoz> getComandaPluPozFromS(List<SorderPoz> listPlu) {
         List listPoz = new ArrayList<ComandaPluPoz>();
         if (listPlu == null) {
             return listPoz;
         }
-        for (SOrderPoz pozPlu : listPlu) {
+        for (SorderPoz pozPlu : listPlu) {
             ComandaPluPoz liniePoz = new ComandaPluPoz(pozPlu);
             //doar liniile care tin de comanda nu si intrarile
             if (pozPlu.getsOrderPozParentId() == null) {
@@ -89,13 +89,13 @@ public final class UtilComenzi {
      * @param listPlu
      * @return
      */
-    public static List<ComandaPluPoz> getComandaPluPozFromP(List<POrderPoz> listPlu) {
+    public static List<ComandaPluPoz> getComandaPluPozFromP(List<PorderPoz> listPlu) {
         List listPoz = new ArrayList<ComandaPluPoz>();
         if (listPlu == null) {
             return listPoz;
         }
 
-        for (POrderPoz pozPlu : listPlu) {
+        for (PorderPoz pozPlu : listPlu) {
             ComandaPluPoz liniePoz = new ComandaPluPoz(pozPlu);
             listPoz.add(liniePoz);
         }

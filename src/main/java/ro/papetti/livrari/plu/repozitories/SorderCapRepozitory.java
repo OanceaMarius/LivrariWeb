@@ -5,15 +5,16 @@
 package ro.papetti.livrari.plu.repozitories;
 
 import jakarta.persistence.PersistenceContext;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ro.papetti.livrari.model.PozCantitate;
-import ro.papetti.pluriva.dto.SOrderCapDTOI;
-import ro.papetti.pluriva.entity.SOrderCap;
+import ro.papetti.pluriva.dtoi.SorderCapDTOI;
+import ro.papetti.pluriva.entity.SorderCap;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -22,10 +23,10 @@ import ro.papetti.pluriva.entity.SOrderCap;
  */
 @Repository
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
-public interface SOrderCapRepozitory extends JpaRepository<SOrderCap, Integer> {
+public interface SorderCapRepozitory extends JpaRepository<SorderCap, Integer> {
 
-    @Query("SELECT s FROM SOrderCap s WHERE s.dataLivrare = :dataLivrare")
-    public Optional<List<SOrderCap>> findByDataLivrare(Date dataLivrare);
+    @Query("SELECT s FROM SorderCap s WHERE s.dataLivrare = :dataLivrare")
+    public Optional<List<SorderCap>> findByDataLivrare(Date dataLivrare);
     
             @Query(value="select SOrderPozId pozId, SUM(SumLiv) cantitate from( " +
 "	select P.SOrderPozId, sum(P.CantIesire) SumLiv"+
@@ -51,7 +52,7 @@ public interface SOrderCapRepozitory extends JpaRepository<SOrderCap, Integer> {
 "			group by  SP.SOrderPozParentId "+
 "	) as A "+
 "       where SOrderPozId is not null "+
-"	group by SOrderPozId "
+"	group by SorderPozId "
             , nativeQuery = true)
     public List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId);
     // TODO: sa scap de SqlErp.dbo.TableDocumente in getCantitatiLivrate
@@ -62,17 +63,16 @@ public interface SOrderCapRepozitory extends JpaRepository<SOrderCap, Integer> {
 	"from SOrderPoz (nolock) "+
 	"where IntrPozId is not null AND Cant>0  "+
 	"	and SOrderPozParentId in "+
-	"		(select SOrderPozId from dbo.SOrderPoz (nolock) where SOrderCapId = :sOrderCapId) "+
+	"		(select SOrderPozId from dbo.SorderPoz (nolock) where SOrderCapId = :sOrderCapId) "+
 	"group by SOrderPozParentId"
          , nativeQuery = true)
     public List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
     
     
     
-    @Query(value="FROM SOrderCap c where c.sOrderCapId =:sOrderCapId")
-     public Optional<SOrderCapDTOI> findDTOBySOrderCapId(int sOrderCapId);
-     
-     
-   
-   
+    @Query(value="FROM SorderCap c where c.sOrderCapId =:sOrderCapId")
+     public Optional<SorderCapDTOI> findDTOBySOrderCapId(int sOrderCapId);
+
+
+
 }
