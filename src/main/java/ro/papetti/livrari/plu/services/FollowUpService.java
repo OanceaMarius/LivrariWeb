@@ -9,6 +9,7 @@ import ro.papetti.pluriva.entity.FollowUp;
 import ro.papetti.livrari.model.BaseService;
 import ro.papetti.pluriva.entity.PorderPoz;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,10 @@ public interface FollowUpService extends BaseService<FollowUp, Integer> {
     Optional<FollowUpDto> findDtoById(int followupId);
 
     List<FollowUpDto> findDtoAll();
+
+    List<FollowUpDto> findDtoDataCreareDupa(Date data);
+
+    List<FollowUpDto> findDtoByTipActivitate(int tipActivitate);
+
+    List<FollowUpDto> findDtoByTipActivitateSiDataCreareDupa(int tipActivitate, Date dataCreare);
 }

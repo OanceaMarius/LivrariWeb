@@ -23,5 +23,6 @@ public class CacheName {
     public static final String PARTENER_DTO="partener";
     public static final String UNITATE_DTO="unitate";
     public static final String USER_DTO="user";
+    public static final String FOLLOWUP_DTO= "followUp";
 
 }

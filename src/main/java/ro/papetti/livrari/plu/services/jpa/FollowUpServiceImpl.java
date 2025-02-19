@@ -14,6 +14,7 @@ import ro.papetti.pluriva.dto.FollowUpDto;
 import ro.papetti.pluriva.entity.FollowUp;
 import ro.papetti.pluriva.mapstruct.FollowUpMapStruct;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,5 +43,20 @@ public class FollowUpServiceImpl extends BaseServiceImpl<FollowUp, FollowUpRepoz
     public List<FollowUpDto> findDtoAll() {
         List<FollowUp> followUpList = rep.findAll();
         return followUpMapStruct.toDtoList(followUpList);
+    }
+
+    @Override
+    public List<FollowUpDto> findDtoDataCreareDupa(Date data) {
+        return followUpMapStruct.toDtoList(rep.findByDataCreareDupa(data));
+    }
+
+    @Override
+    public List<FollowUpDto> findDtoByTipActivitate(int tipActivitate) {
+        return followUpMapStruct.toDtoList(rep.findByTipActivitate(tipActivitate));
+    }
+
+    @Override
+    public List<FollowUpDto> findDtoByTipActivitateSiDataCreareDupa(int tipActivitate, Date dataCreare) {
+        return followUpMapStruct.toDtoList(rep.findByTipActivitateSiDataCreareDupa(tipActivitate, dataCreare));
     }
 }
