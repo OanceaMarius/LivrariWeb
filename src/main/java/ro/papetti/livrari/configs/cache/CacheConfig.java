@@ -1,68 +1,44 @@
 package ro.papetti.livrari.configs.cache;
 
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 import ro.papetti.livrari.plu.services.*;
-import ro.papetti.pluriva.dto.BrandDto;
-import ro.papetti.pluriva.dto.JudetDto;
-import ro.papetti.pluriva.dto.LocalitateDto;
-import ro.papetti.pluriva.dtoi.*;
-import ro.papetti.pluriva.entity.*;
+import ro.papetti.pluriva.dto.*;
+import ro.papetti.pluriva.entity.Judet;
+import ro.papetti.pluriva.entity.TipFirma;
+import ro.papetti.pluriva.entity.TipStrada;
 import ro.papetti.pluriva.mapstruct.JudetMapStruct;
 
 import java.util.List;
-
+@RequiredArgsConstructor
 @Configuration
 @EnableCaching
 public class CacheConfig {
 
-    final private CacheManager cacheManager;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UmService umService;
-    @Autowired
-    private BrandService brandService;
-    @Autowired
-    private CpvService cpvService;
-    @Autowired
-    private JudetService judetService;
-    @Autowired
-    private LocalitateService localitateService;
-    @Autowired
-    private ModPlataService modPlataService;
-    @Autowired
-    private StareDocService stareDocService;
-    @Autowired
-    private TaraService taraService;
-    @Autowired
-    private TermenPlataService termenPlataService;
-    @Autowired
-    private TipDocService tipDocService;
-    @Autowired
-    private TipFirmaService tipFirmaService;
-    @Autowired
-    private TipLivrareService tipLivrareService;
-    @Autowired
-    private TipStradaService tipStradaService;
-    @Autowired
-    private TvaService tvaService;
-    @Autowired
-    private ProdusService produsService;
-    @Autowired
-    private UnitateService unitateService;
-    @Autowired
-    private JudetMapStruct judetMapStruct;
-
-
-
-    public CacheConfig(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
+    private final  CacheManager cacheManager;
+    private final  UserService userService;
+    private final  UmService umService;
+    private final  BrandService brandService;
+    private final  CpvService cpvService;
+    private final  JudetService judetService;
+    private final  LocalitateService localitateService;
+    private final  ModPlataService modPlataService;
+    private final  StareDocService stareDocService;
+    private final  TaraService taraService;
+    private final  TermenPlataService termenPlataService;
+    private final  TipDocService tipDocService;
+    private final  TipFirmaService tipFirmaService;
+    private final  TipLivrareService tipLivrareService;
+    private final  TipStradaService tipStradaService;
+    private final  TvaService tvaService;
+    private final  ProdusService produsService;
+    private final  UnitateService unitateService;
+    private final  JudetMapStruct judetMapStruct;
+    private final  TipActivitateService tipActivitateService;
 
 
 
@@ -73,16 +49,16 @@ public class CacheConfig {
 
         //User
         Cache cacheUser = cacheManager.getCache(CacheName.USER_DTO);
-        List<User> listUsers =userService.findAll();
-        for (User user: listUsers){
-            cacheUser.put(user.getUserId(),user);
+        List<UserDto> listUsers =userService.findDtoAll();
+        for (UserDto userDto: listUsers){
+            cacheUser.put(userDto.getUserId(),userDto);
         }
 
         //UM
         Cache cacheUm = cacheManager.getCache(CacheName.UM_DTO);
-        List<UmDTOI> listUmDTO =umService.findDTOAll(UmDTOI.class);
-        for (UmDTOI um: listUmDTO) {
-            cacheUm.put(um.getUMId(),um);
+        List<UmDto> umDtoList =umService.findDtoAll();
+        for (UmDto umDto: umDtoList) {
+            cacheUm.put(umDto.getUmId(),umDto);
         }
 
         //Brands
@@ -92,11 +68,13 @@ public class CacheConfig {
             cacheBrand.put(brandDto.getBrandId(),brandDto);
         }
 
-        //CPV astea nu au DTO
-        Cache cacheCPV = cacheManager.getCache(CacheName.CPV_DTO);
-        List<Cpv> listCPVs = cpvService.findAll();
-        for (Cpv cpv:listCPVs){
-            cacheCPV.put(cpv.getCPVId(), cpv);
+        //CPV
+        Cache cacheCpv = cacheManager.getCache(CacheName.CPV_DTO);
+        List<CpvDto> cpvDtoList = cpvService.findDtoAll();
+        for (CpvDto cpvDto:cpvDtoList){
+            if (cpvDto.getCPVId()!=null)
+                System.out.println("CPVID+++++"+cpvDto.getCPVId());
+                cacheCpv.put(cpvDto.getCPVId(), cpvDto);
         }
 
         //Judet
@@ -116,37 +94,44 @@ public class CacheConfig {
 
         //ModPlata
         Cache cacheModPlata = cacheManager.getCache(CacheName.MOD_PLATA_DTO);
-        List<ModPlataDTOI> listModPlata = modPlataService.findDTOAll(ModPlataDTOI.class);
-        for (ModPlataDTOI modPlataDTOI:listModPlata){
-            cacheModPlata.put(modPlataDTOI.getModPlataId(),modPlataDTOI);
+        List<ModPlataDto> modPlataDtoList = modPlataService.findDtoAll();
+        for (ModPlataDto modPlataDto:modPlataDtoList){
+            cacheModPlata.put(modPlataDto.getModPlataId(),modPlataDto);
         }
 
         //StareDoc
         Cache cacheStareDoc = cacheManager.getCache(CacheName.STARE_DOC_DTO);
-        List<StareDocDTOI> listStareDoc =stareDocService.findDTOAll(StareDocDTOI.class);
-        for (StareDocDTOI stareDocDTOI: listStareDoc)
+        List<StareDocDto> stareDocDtoList =stareDocService.findDtoAll();
+        for (StareDocDto stareDocDto: stareDocDtoList)
         {
-            cacheStareDoc.put(stareDocDTOI.getStareId(),stareDocDTOI);
+            cacheStareDoc.put(stareDocDto.getStareId(),stareDocDto);
         }
         //Tara
         Cache cacheTara = cacheManager.getCache(CacheName.TARA_DTO);
-        List<TaraDTOI> listTari = taraService.findDTOAll(TaraDTOI.class);
-        for (TaraDTOI taraDTOI:listTari){
-            cacheTara.put(taraDTOI.getTaraID(),taraDTOI);
+        List<TaraDto> taraDtoList = taraService.findDtoAll();
+        for (TaraDto taraDto:taraDtoList){
+            cacheTara.put(taraDto.getTaraID(),taraDto);
         }
 
         //TermanPlata
         Cache cacheTermenPlata = cacheManager.getCache(CacheName.TERMEN_PLATA_DTO);
-        List<TermenPlataDTOI> listTermenePlata = termenPlataService.findDTOAll(TermenPlataDTOI.class);
-        for (TermenPlataDTOI termenPlataDTOI:listTermenePlata)  {
-            cacheTermenPlata.put(termenPlataDTOI.getTermenPlataID(),termenPlataDTOI);
+        List<TermenPlataDto> termenPlataDtoList = termenPlataService.findDtoAll();
+        for (TermenPlataDto termenPlataDto:termenPlataDtoList)  {
+            cacheTermenPlata.put(termenPlataDto.getTermenPlataID(),termenPlataDto);
         }
 
         //TipDoc
         Cache cacheTipDoc = cacheManager.getCache(CacheName.TIP_DOC_DTO);
-        List<TipDocDTOI> listTipDoc =tipDocService.findDTOAll(TipDocDTOI.class);
-        for (TipDocDTOI tipDocDTOI: listTipDoc){
-            cacheTipDoc.put(tipDocDTOI.getTipDocId(),tipDocDTOI);
+        List<TipDocDto> tipDocDtoList =tipDocService.findDtoAll();
+        for (TipDocDto tipDocDto: tipDocDtoList){
+            cacheTipDoc.put(tipDocDto.getTipDocId(),tipDocDto);
+        }
+
+        //TipActivitate
+        Cache cacheTipActivitate = cacheManager.getCache(CacheName.TIP_ACTIVITATE);
+        List<TipActivitateDto> tipActivitateDtoList =tipActivitateService.findDtoAll();
+        for (TipActivitateDto tipActivitateDto: tipActivitateDtoList){
+            cacheTipActivitate.put(tipActivitateDto.getTipActivitateID(),tipActivitateDto);
         }
 
         //TipFirma  nu are DTO ca nu e cazul
@@ -158,9 +143,9 @@ public class CacheConfig {
 
         //TipLivrare
         Cache cacheTipLivrare = cacheManager.getCache(CacheName.TIP_LIVRARE_DTO);
-        List<TipLivrareDTOI> listTipLivrare =tipLivrareService.findDTOAll(TipLivrareDTOI.class);
-        for (TipLivrareDTOI tipLivrareDTOI: listTipLivrare){
-            cacheTipLivrare.put(tipLivrareDTOI.getTipLivrareId(),tipLivrareDTOI);
+        List<TipLivrareDto> tipLivrareDtoList =tipLivrareService.findDtoAll();
+        for (TipLivrareDto tipLivrareDto: tipLivrareDtoList){
+            cacheTipLivrare.put(tipLivrareDto.getTipLivrareId(),tipLivrareDto);
         }
 
         //TipStrada
@@ -173,23 +158,23 @@ public class CacheConfig {
 
         //Tva
         Cache cacheTva = cacheManager.getCache(CacheName.TVA_DTO);
-        List<TvaDTOI> tvaList =tvaService.findDTOAll(TvaDTOI.class);
-        for (TvaDTOI tvaDTOI: tvaList){
-            cacheTva.put(tvaDTOI.getTvaId(),tvaDTOI);
+        List<TvaDto> tvaDtoList =tvaService.findDtoAll();
+        for (TvaDto tvaDto: tvaDtoList){
+            cacheTva.put(tvaDto.getTvaId(),tvaDto);
         }
 
         //Produs
 //        Cache cacheProdus = cacheManager.getCache(CacheName.PRODUS_DTO);
-//        List<ProdusDTOI> produsList = produsService.findDTOAll(ProdusDTOI.class);
-//        for (ProdusDTOI produsDTOI :produsList){
-//            cacheProdus.put(produsDTOI.getProdusId(),produsDTOI);
+//        List<ProdusDto> produsDtoList = produsService.findDtoAll();
+//        for (ProdusDto produsDto :produsDtoList){
+//            cacheProdus.put(produsDto.getProdusId(),produsDto);
 //        }
 
         //Unitate dureaza prea mult
 //        Cache cacheUnitate = cacheManager.getCache(CacheName.UNITATE_DTO);
-//        List<UnitateDTOI> unitateList = unitateService.findDTOAll(UnitateDTOI.class);
-//        for (UnitateDTOI unitateDTOI :unitateList){
-//            cacheUnitate.put(unitateDTOI.getUnitateID(),unitateDTOI);
+//        List<UnitateDto> unitateDtoList = unitateService.findDtoAll();
+//        for (UnitateDto unitateDto :unitateDtoList){
+//            cacheUnitate.put(unitateDto.getUnitateID(),unitateDto);
 //        }
 
 

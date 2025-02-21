@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseService;
+import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dtoi.PorderCapDTOI;
 import ro.papetti.pluriva.entity.PorderCap;
 import ro.papetti.pluriva.entity.PorderPoz;
@@ -17,6 +19,7 @@ import ro.papetti.pluriva.entity.PorderPoz;
  *
  * @author MariusO
  */
+@Transactional
 public interface PorderCapService extends BaseService<PorderCap, Integer> {
 
 
@@ -33,4 +36,6 @@ public interface PorderCapService extends BaseService<PorderCap, Integer> {
     Optional<PorderCap> findByIdCuPozitii(Integer pOrderCapId);
 
     Optional<PorderCap> findByIdCuPozitiiSiLegaturaLaComenzi(Integer pOrderCapId);
+
+    Optional<PorderCapDto> findDtoById(int porderCapId);
 }

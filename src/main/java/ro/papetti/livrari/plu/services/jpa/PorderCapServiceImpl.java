@@ -9,14 +9,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.plu.repozitories.PorderCapRepozitory;
 import ro.papetti.livrari.plu.services.PorderCapService;
+import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dtoi.PorderCapDTOI;
 import ro.papetti.pluriva.entity.PorderCap;
 import ro.papetti.pluriva.entity.PorderPoz;
+import ro.papetti.pluriva.mapstruct.PorderCapMapStruct;
 
 /**
  *
@@ -36,6 +39,8 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
         return rep.findById(pOrderCapId);
 
     }
+    @Autowired
+    private PorderCapMapStruct porderCapMapStruct;
 
     @Override
     public List<PorderPoz> findPOrderPozByPOrderCapId(int pOrderCapId) {
@@ -57,6 +62,8 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
         Optional<PorderCap> pCap = rep.findById(pOrderCapId);
         if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getUserIntroducere());
+            Hibernate.initialize(pCap.get().getPozitii());
+            Hibernate.initialize(pCap.get().getFurnizorUnitate());
         }
         return pCap;
     }
@@ -144,6 +151,18 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
             Hibernate.initialize(pCap.get().getFurnizorUnitate());
         }
         return pCap;
+    }
+
+
+    @Override
+    public Optional<PorderCapDto> findDtoById(int porderCapId){
+        Optional<PorderCap>porderCap=rep.findById(porderCapId);
+        if (porderCap.isPresent()){
+            Hibernate.initialize(porderCap.get().getPozitii());
+            Hibernate.initialize(porderCap.get().getFurnizorUnitate());
+        }
+        return porderCap.map(value-> porderCapMapStruct.toDto(value));
+
     }
 
 }

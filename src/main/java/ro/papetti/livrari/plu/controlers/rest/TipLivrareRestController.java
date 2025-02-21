@@ -2,6 +2,7 @@ package ro.papetti.livrari.plu.controlers.rest;
 
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.TipLivrareService;
+import ro.papetti.pluriva.dto.TipLivrareDto;
 import ro.papetti.pluriva.dtoi.TipLivrareDTOI;
 import ro.papetti.pluriva.entity.TipLivrare;
 
@@ -17,14 +19,10 @@ import java.util.List;
 
 @RestController
 @Transactional
+@RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class TipLivrareRestController {
     private final TipLivrareService tipLivrareService;
-
-
-    public TipLivrareRestController(TipLivrareService tipLivrareService) {
-        this.tipLivrareService = tipLivrareService;
-    }
 
     @GetMapping("/TipLivrare")
     public List<TipLivrare> findTipLivrareAll(){
@@ -32,14 +30,14 @@ public class TipLivrareRestController {
     }
 
     @GetMapping("/TipLivrareDTO")
-    public List<TipLivrareDTOI> findTipLivrareDTOAll(){
-        return tipLivrareService.findDTOAll(TipLivrareDTOI.class);
+    public List<TipLivrareDto> findTipLivrareDtoAll(){
+        return tipLivrareService.findDtoAll();
     }
 
     @GetMapping("/TipLivrareDTO/{tipLivrareId}")
-    public ResponseEntity<TipLivrareDTOI> findTipLivrareDTOById(@NonNull @PathVariable int tipLivrareId){
-        TipLivrareDTOI entity = tipLivrareService.findDTOById(tipLivrareId,TipLivrareDTOI.class)
-                .orElseThrow(()->new EntityNotFoundException("Nu gasesc TipLivrareDTO cu tipLivrareId: " + tipLivrareId));
+    public ResponseEntity<TipLivrareDto> findTipLivrareDtoById(@NonNull @PathVariable int tipLivrareId){
+        TipLivrareDto entity = tipLivrareService.findDtoById(tipLivrareId)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc TipLivrareDto cu tipLivrareId: " + tipLivrareId));
         return ResponseEntity.ok(entity);
     }
 

@@ -17,10 +17,10 @@ import java.util.Optional;
 public interface TipDocRepozitory extends JpaRepository<TipDoc, Integer> {
 
     @Query("SELECT t FROM TipDoc t ")
-    <T> List<T> findDTOAll(Class<T> type);
+    <T> List<T> findDTOIAll(Class<T> type);
 
     @Query("select t from TipDoc t where t.tipDocId = :tipDocId")
-    <T> Optional<T> findDTOById(@Param("tipDocId") @NonNull Integer tipDocId, Class<T> type);
+    <T> Optional<T> findDTOIById(@Param("tipDocId") @NonNull Integer tipDocId, Class<T> type);
 
 
 }

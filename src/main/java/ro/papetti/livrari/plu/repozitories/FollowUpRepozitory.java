@@ -27,12 +27,12 @@ public interface FollowUpRepozitory extends JpaRepository<FollowUp, Integer> {
     @Query("select f from FollowUp f where f.dataCreare > :dataCreare")
     List<FollowUp> findByDataCreareDupa(@Param("dataCreare") Date dataCreare);
 
-    @Query("select f from FollowUp f where f.tipActivitateFollowUp = :tipActivitateFollowUp")
+    @Query("select f from FollowUp f where f.tipActivitateFollowUp.tipActivitateID = :tipActivitateFollowUp")
     List<FollowUp> findByTipActivitate(@Param("tipActivitateFollowUp") Integer tipActivitateFollowUp);
 
     @Query("""
             select f from FollowUp f
-            where f.tipActivitateFollowUp = :tipActivitateFollowUp and f.dataCreare > :dataCreare""")
+            where f.tipActivitateFollowUp.tipActivitateID = :tipActivitateFollowUp and f.dataCreare > :dataCreare""")
     List<FollowUp> findByTipActivitateSiDataCreareDupa(@Param("tipActivitateFollowUp") Integer tipActivitateFollowUp, @Param("dataCreare") Date dataCreare);
 
 

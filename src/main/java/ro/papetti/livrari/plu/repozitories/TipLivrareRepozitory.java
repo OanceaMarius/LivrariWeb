@@ -25,9 +25,9 @@ import java.util.Optional;
 public interface TipLivrareRepozitory extends JpaRepository<TipLivrare, Integer> {
 
     @Query("SELECT t FROM TipLivrare t ")
-    <T> List<T> findDTOAll(Class<T> type);
+    <T> List<T> findDTOIAll(Class<T> type);
 
     @Query("select t from TipLivrare t where t.tipLivrareId = :tipLivrareId")
-    <T> Optional<T> findDTOById(@Param("tipLivrareId") @NonNull Integer tipLivrareId, Class<T> type);
+    <T> Optional<T> findDTOIById(@Param("tipLivrareId") @NonNull Integer tipLivrareId, Class<T> type);
     
 }

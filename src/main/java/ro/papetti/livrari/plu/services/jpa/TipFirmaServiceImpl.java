@@ -19,8 +19,10 @@ public class TipFirmaServiceImpl extends BaseServiceImpl<TipFirma, TipFirmaRepoz
     }
 
 
+
     @Cacheable(cacheNames = CacheName.TIP_FIRMA_DTO,key = "#tipFirmaId")
     public Optional<TipFirma> findById(Integer tipFirmaId){
         return super.findById(tipFirmaId);
     }
+
 }

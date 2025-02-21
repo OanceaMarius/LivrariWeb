@@ -2,6 +2,7 @@ package ro.papetti.livrari.plu.controlers.rest;
 
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,14 +17,10 @@ import java.util.List;
 
 @RestController
 @Transactional
+@RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class TipStradaRestController {
     private final TipStradaService tipStradaService;
-
-
-    public TipStradaRestController(TipStradaService tipStradaService) {
-        this.tipStradaService = tipStradaService;
-    }
 
 
     @GetMapping("/TipStrada")

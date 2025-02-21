@@ -2,6 +2,7 @@ package ro.papetti.livrari.plu.controlers.rest;
 
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.UnitateService;
+import ro.papetti.pluriva.dto.UnitateDto;
 import ro.papetti.pluriva.dtoi.UnitateDTOI;
 import ro.papetti.pluriva.entity.Unitate;
 
@@ -17,16 +19,11 @@ import java.util.List;
 
 @RestController
 @Transactional
+@RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class UnitateRestController {
 
     private final UnitateService unitateService;
-
-
-    public UnitateRestController(UnitateService unitateService) {
-        this.unitateService = unitateService;
-    }
-
 
     @GetMapping("/Unitate")
     public List<Unitate> findUnitateAll(){
@@ -34,14 +31,14 @@ public class UnitateRestController {
     }
 
     @GetMapping("/UnitateDTO")
-    public List<UnitateDTOI> findUnitateDTOAll(){
-        return unitateService.findDTOAll(UnitateDTOI.class);
+    public List<UnitateDto> findUnitateDtoAll(){
+        return unitateService.findDtoAll();
     }
 
     @GetMapping("/UnitateDTO/{unitateID}")
-    public ResponseEntity<UnitateDTOI> findUnitateDTOById(@NonNull @PathVariable int unitateID){
-        UnitateDTOI entity = unitateService.findDTOById(unitateID,UnitateDTOI.class)
-                .orElseThrow(()->new EntityNotFoundException("Nu gasesc UnitateDTO cu unitateID: " + unitateID));
+    public ResponseEntity<UnitateDto> findUnitateDtoById(@NonNull @PathVariable int unitateID){
+        UnitateDto entity = unitateService.findDtoById(unitateID)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc UnitateDto cu unitateID: " + unitateID));
         return ResponseEntity.ok(entity);
     }
 

@@ -17,8 +17,8 @@ import java.util.Optional;
 public interface ProdusRepozitory extends JpaRepository<Produs, Integer> {
 
     @Query("SELECT t FROM Produs t ")
-    <T> List<T> findDTOAll(Class<T> type);
+    <T> List<T> findDTOIAll(Class<T> type);
 
     @Query("select t from Produs t where t.produsId = :produsId")
-    <T> Optional<T> findDTOById(@Param("produsId") @NonNull Integer produsId, Class<T> type);
+    <T> Optional<T> findDTOIById(@Param("produsId") @NonNull Integer produsId, Class<T> type);
 }

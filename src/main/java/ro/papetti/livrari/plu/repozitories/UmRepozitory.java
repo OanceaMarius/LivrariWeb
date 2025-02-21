@@ -17,9 +17,11 @@ import java.util.Optional;
 public interface UmRepozitory extends JpaRepository<Um, Integer> {
 
     @Query("SELECT t FROM Um t ")
-     <T> List<T> findDTOAll(Class<T> type);
+     <T> List<T> findDTOIAll(Class<T> type);
 
-    @Query("select t from Um t where t.uMId = :umId")
-    <T> Optional<T> findDTOById(@Param("umId") @NonNull Integer umId, Class<T> type);
+    @Query("select t from Um t where t.umId = :umId")
+    <T> Optional<T> findDTOIById(@Param("umId") @NonNull Integer umId, Class<T> type);
+
+
 
 }

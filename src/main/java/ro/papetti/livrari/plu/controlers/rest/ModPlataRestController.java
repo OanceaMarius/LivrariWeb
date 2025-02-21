@@ -1,6 +1,7 @@
 package ro.papetti.livrari.plu.controlers.rest;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,20 +10,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.ModPlataService;
+import ro.papetti.pluriva.dto.ModPlataDto;
 import ro.papetti.pluriva.dtoi.ModPlataDTOI;
 import ro.papetti.pluriva.entity.ModPlata;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @Transactional
 @RequestMapping("/api/pluriva")
 public class ModPlataRestController {
     private final ModPlataService modPlataService;
-
-    public ModPlataRestController(ModPlataService modPlataService) {
-        this.modPlataService = modPlataService;
-    }
 
 
     @GetMapping("/ModPlata")
@@ -31,14 +30,14 @@ public class ModPlataRestController {
     }
 
     @GetMapping("/ModPlataDTO")
-    public List<ModPlataDTOI> findModPlataDTOAll(){
-        return modPlataService.findDTOAll(ModPlataDTOI.class);
+    public List<ModPlataDto> findModPlataDtoAll(){
+        return modPlataService.findDtoAll();
     }
 
     @GetMapping("/ModPlataDTO/{modPlataId}")
-    public ResponseEntity<ModPlataDTOI> findModPlataDTOById(@NonNull @PathVariable int modPlataId){
-        ModPlataDTOI entity = modPlataService.findDTOById(modPlataId, ModPlataDTOI.class)
-                .orElseThrow(()->new EntityNotFoundException("Nu gasesc ModPlataDTO cu modPlataId: " + modPlataId));
+    public ResponseEntity<ModPlataDto> findModPlataDtoById(@NonNull @PathVariable int modPlataId){
+        ModPlataDto entity = modPlataService.findDtoById(modPlataId)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc ModPlataDto cu modPlataId: " + modPlataId));
         return ResponseEntity.ok(entity);
     }
 

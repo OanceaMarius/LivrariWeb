@@ -17,8 +17,8 @@ import java.util.Optional;
 public interface CpvRepozitory extends JpaRepository<Cpv, Integer> {
 
     @Query("SELECT t FROM Cpv t ")
-    <T> List<T> findDTOAll(Class<T> type);
+    <T> List<T> findDTOIAll(Class<T> type);
 
     @Query("select t from Cpv t where t.cPVId = :cPVId")
-    <T> Optional<T> findDTOById(@Param("cPVId") @NonNull Integer cPVId, Class<T> type);
+    <T> Optional<T> findDTOIById(@Param("cPVId") @NonNull Integer cPVId, Class<T> type);
 }

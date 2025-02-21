@@ -17,8 +17,8 @@ import java.util.Optional;
 public interface TaraRepozitory extends JpaRepository<Tara, Integer> {
 
     @Query("SELECT t FROM Tara t ")
-    <T> List<T> findDTOAll(Class<T> type);
+    <T> List<T> findDTOIAll(Class<T> type);
 
     @Query("select t from Tara t where t.taraID = :taraID")
-    <T> Optional<T> findDTOById(@Param("taraID") @NonNull Integer taraID, Class<T> type);
+    <T> Optional<T> findDTOIById(@Param("taraID") @NonNull Integer taraID, Class<T> type);
 }

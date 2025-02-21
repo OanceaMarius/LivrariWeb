@@ -1,5 +1,6 @@
 package ro.papetti.livrari.plu.services.jpa;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,7 +8,9 @@ import ro.papetti.livrari.configs.cache.CacheName;
 import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.plu.repozitories.TipDocRepozitory;
 import ro.papetti.livrari.plu.services.TipDocService;
+import ro.papetti.pluriva.dto.TipDocDto;
 import ro.papetti.pluriva.entity.TipDoc;
+import ro.papetti.pluriva.mapstruct.TipDocMapStruct;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,16 +22,29 @@ public class TipDocServiceImpl extends BaseServiceImpl<TipDoc, TipDocRepozitory>
     public TipDocServiceImpl(TipDocRepozitory repozitory) {
         super(repozitory);
     }
+    @Autowired
+    TipDocMapStruct tipDocMapStruct;
 
     @Override
-    public <T> List<T> findDTOAll(Class<T> type) {
-        return rep.findDTOAll(type);
+    public <T> List<T> findDTOIAll(Class<T> type) {
+        return rep.findDTOIAll(type);
     }
 
     @Override
-    @Cacheable(cacheNames = CacheName.TIP_DOC_DTO,key = "#tipDocId")
-    public <T> Optional<T> findDTOById(int tipDocId, Class<T> type) {
-        return rep.findDTOById(tipDocId,type);
+
+    public <T> Optional<T> findDTOIById(int tipDocId, Class<T> type) {
+        return rep.findDTOIById(tipDocId,type);
+    }
+
+    @Cacheable(cacheNames = CacheName.TIP_DOC_DTO, key = "#tipDocId")
+    @Override
+    public Optional<TipDocDto>findDtoById(int tipDocId){
+        return findById(tipDocId).map(value->tipDocMapStruct.toDto(value));
+    }
+
+    @Override
+    public List<TipDocDto>findDtoAll(){
+        return tipDocMapStruct.toDtoList(rep.findAll());
     }
 
 }

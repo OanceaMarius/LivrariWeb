@@ -1,6 +1,7 @@
 package ro.papetti.livrari.plu.controlers.rest;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,20 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.BrandService;
 import ro.papetti.pluriva.dto.BrandDto;
-import ro.papetti.pluriva.dtoi.BrandDTOI;
 import ro.papetti.pluriva.entity.Brand;
 
 import java.util.List;
 
 @RestController
 @Transactional
+@RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class BrandRestController {
     private final BrandService brandService;
-
-    public BrandRestController(BrandService brandService) {
-        this.brandService = brandService;
-    }
 
     @GetMapping("/Brand")
     public List<Brand> findBrandAll(){

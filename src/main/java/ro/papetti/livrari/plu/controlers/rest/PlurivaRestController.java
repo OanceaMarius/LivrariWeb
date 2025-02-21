@@ -5,6 +5,7 @@
 package ro.papetti.livrari.plu.controlers.rest;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.livrari.plu.services.*;
+import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dtoi.*;
 import ro.papetti.pluriva.entity.*;
 
@@ -26,6 +28,7 @@ import java.util.*;
  */
 @RestController
 @Transactional
+@RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class PlurivaRestController {
     
@@ -41,25 +44,9 @@ public class PlurivaRestController {
     private final SorderPozService sorderPozService;
     private final PorderCapService porderCapService;
     private final PorderPozService porderPozService;
-    private final FollowUpService followUpService;
     private final StocService stocService;
-    private final UserService userService;
-    private final TvaService tvaService;
 
-    public PlurivaRestController(
-            SorderPozService sorderPozService, SorderCapService sorderCapService,
-            PorderCapService porderCapService, PorderPozService porderPozService,
-            FollowUpService followUpService, StocService stocService, UserService userService, TvaService tvaService) {
-        this.sorderPozService = sorderPozService;
-        this.sorderCapService = sorderCapService;
-        this.porderCapService =porderCapService;
-        this.porderPozService =porderPozService;
-        this.followUpService =followUpService;
-        this.stocService = stocService;
-        this.userService = userService;
-        this.tvaService = tvaService;
-    }
-    
+
     @GetMapping("/SOrderCap/{sOrderCapId}")
     public ResponseEntity<SorderCap> findSOrderCapById(@PathVariable int sOrderCapId){
         SorderCap cap = sorderCapService.findById(sOrderCapId)
@@ -132,20 +119,22 @@ public class PlurivaRestController {
         return ResponseEntity.ok(cap);
     }
 
+    @GetMapping("/POrderCapDTO2/{porderCapId}")
+    public ResponseEntity<PorderCapDto> findDtoPorderCapById(@PathVariable int porderCapId){
+        PorderCapDto cap =  porderCapService.findDtoById(porderCapId)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc POrderCap cu POrderCapId: "+porderCapId));
+//        Hibernate.initialize(cap.getPozitii());
+//        Hibernate.initialize(cap.getFurnizorUnitate());
+        return ResponseEntity.ok(cap);
+    }
+
 
     @GetMapping("/POrderCap/ByDataLivrarii/{dataLivrarii}")
     public List<PorderCap> findPOrderCapByDataLivrarii(@PathVariable Date dataLivrarii){
         return porderCapService.findByDataLivrare(dataLivrarii);
     }
     
-    
 
-    
-    @GetMapping("/followUp/{followUpId}")
-    public Optional<FollowUp> findFollowUpById(@PathVariable int followUpId){
-        return followUpService.findById(followUpId);
-    }
-    
     @GetMapping("/StocDisponibil/{firmaId}/{gestiuneId}")
     public List<StocDisponibil> getStocDisponibil(@PathVariable int firmaId, @PathVariable int gestiuneId){
         return stocService.getStocDisponibilInGestiune(firmaId, gestiuneId);
@@ -165,39 +154,6 @@ public class PlurivaRestController {
     public List<PozCantitate>  getCantitatiRezervate(@PathVariable int sOrderCapId){
         return sorderCapService.getCantitatiRezervate(sOrderCapId);
     }
-
-    @GetMapping("/User")
-    public List<User> findUserAll(){
-        return  userService.findAll();
-    }
-
-    @GetMapping("/User/{userId}")
-    public Optional<User> findUserById(@PathVariable int userId){
-        return  userService.findById(userId);
-    }
-
-    @GetMapping("/UserDTO")
-    public List<UserDTOI> findDTOUserAll(){
-        return  userService.findDTOAll(UserDTOI.class);
-    }
-
-    @GetMapping("/UserDTO/{userId}")
-    public Optional<UserDTOI> findDTOUserById(@PathVariable int userId){
-        return  userService.findDTOById(userId, UserDTOI.class);
-    }
-
-    @GetMapping("/UserDTOCache")
-    public List<UserDTOI> findUserDTOAllCache(){
-        return  userService.findDTOAllCache(UserDTOI.class);
-    }
-
-    @GetMapping("/UserDTOCache/{userId}")
-    public Optional<UserDTOI> findDTOUserByIdCache(@PathVariable int userId){
-        return  userService.findDTOByIdCache(userId, UserDTOI.class);
-    }
-
-
-
 
 
 }

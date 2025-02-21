@@ -16,8 +16,8 @@ public interface UserRepozitory extends JpaRepository<User, Integer> {
 
 
     @Query("FROM User u where u.userId =:userId")
-    <T> Optional<T> findDTOById(int userId,Class<T> type );
+    <T> Optional<T> findDTOIById(int userId, Class<T> type );
 
     @Query(value = "FROM User u ")
-    <T> List <T> findDTOAll(Class<T> type);
+    <T> List <T> findDTOIAll(Class<T> type);
 }

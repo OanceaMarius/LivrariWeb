@@ -2,6 +2,7 @@ package ro.papetti.livrari.plu.controlers.rest;
 
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.TvaService;
+import ro.papetti.pluriva.dto.TvaDto;
 import ro.papetti.pluriva.dtoi.TvaDTOI;
 import ro.papetti.pluriva.entity.Tva;
 
@@ -17,14 +19,12 @@ import java.util.List;
 
 @RestController
 @Transactional
+@RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class TvaRestComtroller {
 
     private final TvaService tvaService;
 
-    public TvaRestComtroller(TvaService tvaService) {
-        this.tvaService = tvaService;
-    }
 
     @GetMapping("/Tva")
     public List<Tva> findTvaAll(){
@@ -32,14 +32,14 @@ public class TvaRestComtroller {
     }
 
     @GetMapping("/TvaDTO")
-    public List<TvaDTOI> findTvaDTOAll(){
-        return tvaService.findDTOAll(TvaDTOI.class);
+    public List<TvaDto> findTvaDtoAll(){
+        return tvaService.findDtoAll();
     }
 
     @GetMapping("/TvaDTO/{tvaId}")
-    public ResponseEntity<TvaDTOI> findTvaDTOById(@NonNull @PathVariable int tvaId){
-        TvaDTOI entity = tvaService.findDTOById(tvaId,TvaDTOI.class)
-                .orElseThrow(()->new EntityNotFoundException("Nu gasesc TvaDTO cu tvaId: "+tvaId));
+    public ResponseEntity<TvaDto> findTvaDtoById(@NonNull @PathVariable int tvaId){
+        TvaDto entity = tvaService.findDtoById(tvaId)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc TvaDto cu tvaId: "+tvaId));
         return ResponseEntity.ok(entity);
     }
 

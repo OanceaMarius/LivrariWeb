@@ -16,8 +16,8 @@ import java.util.Optional;
 public interface StareDocRepozitory extends JpaRepository<StareDoc, Integer> {
 
     @Query("SELECT t FROM StareDoc t ")
-    <T> List<T> findDTOAll(Class<T> type);
+    <T> List<T> findDTOIAll(Class<T> type);
 
     @Query("select t from StareDoc t where t.stareId = :stareId")
-    <T> Optional<T> findDTOById(@Param("stareId") @NonNull Integer stareId, Class<T> type);
+    <T> Optional<T> findDTOIById(@Param("stareId") @NonNull Integer stareId, Class<T> type);
 }

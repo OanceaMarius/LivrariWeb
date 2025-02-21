@@ -1,6 +1,9 @@
 package ro.papetti.livrari.plu.services;
 
+import org.springframework.cache.annotation.Cacheable;
+import ro.papetti.livrari.configs.cache.CacheName;
 import ro.papetti.livrari.model.BaseService;
+import ro.papetti.pluriva.dto.UserDto;
 import ro.papetti.pluriva.entity.User;
 
 import java.util.List;
@@ -13,9 +16,9 @@ public interface UserService extends BaseService<User, Integer> {
      * @return lista cu toate inregistrarile in structura T (DTO)
      * @param <T> poate folosi orice DTO finca e parametru generic
      */
-     <T> List<T> findDTOAll(Class<T> type);
+     <T> List<T> findDTOIAll(Class<T> type);
 
-     <T >List<T> findDTOAllCache(Class<T> type);
+
 
     /**
      *
@@ -24,8 +27,10 @@ public interface UserService extends BaseService<User, Integer> {
      * @return user-ul in structura DTO
      * @param <T> poate folosi orice DTO finca e parametru generic
      */
-     <T>Optional<T> findDTOById(int userId, Class<T> type);
+     <T>Optional<T> findDTOIById(int userId, Class<T> type);
 
-     <T> Optional<T> findDTOByIdCache(int userId, Class<T> type);
 
+    Optional<UserDto>findDtoById(int userId);
+
+    List<UserDto> findDtoAll();
 }

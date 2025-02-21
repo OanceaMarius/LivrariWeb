@@ -42,10 +42,10 @@ public interface UnitateRepozitory extends JpaRepository<Unitate, Integer> {
 
 
     @Query("SELECT t FROM Unitate t ")
-    <T> List<T> findDTOAll(Class<T> type);
+    <T> List<T> findDTOIAll(Class<T> type);
 
     @Query("select t from Unitate t where t.unitateID = :unitateID")
-    <T> Optional<T> findDTOById(@Param("unitateID") @NonNull Integer unitateID, Class<T> type);
+    <T> Optional<T> findDTOIById(@Param("unitateID") @NonNull Integer unitateID, Class<T> type);
 
     @Query("""
             select u from Unitate u

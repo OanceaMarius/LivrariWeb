@@ -17,10 +17,10 @@ import java.util.Optional;
 public interface TvaRepozitory extends JpaRepository<Tva, Integer> {
 
     @Query("SELECT t FROM Tva t ")
-    public <T> List<T> findDTOAll(Class<T> type);
+    public <T> List<T> findDTOIAll(Class<T> type);
 
     @Query("select t from Tva t where t.tvaId = :tvaId")
-    <T> Optional<T> findDTOById(@Param("tvaId") @NonNull Integer tvaId, Class<T> type);
+    <T> Optional<T> findDTOIById(@Param("tvaId") @NonNull Integer tvaId, Class<T> type);
 
 
 }

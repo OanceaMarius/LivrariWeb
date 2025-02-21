@@ -17,10 +17,10 @@ import java.util.Optional;
 public interface TermenPlataRepozitory extends JpaRepository<TermenPlata, Integer> {
 
     @Query("SELECT t FROM TermenPlata t ")
-    <T> List<T> findDTOAll(Class<T> type);
+    <T> List<T> findDTOIAll(Class<T> type);
 
     @Query("select t from TermenPlata t where t.termenPlataID = :termenPlataID")
-    <T> Optional<T> findDTOById(@Param("termenPlataID") @NonNull Integer termenPlataID, Class<T> type);
+    <T> Optional<T> findDTOIById(@Param("termenPlataID") @NonNull Integer termenPlataID, Class<T> type);
 
 
 }
