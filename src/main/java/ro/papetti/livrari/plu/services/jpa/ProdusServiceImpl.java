@@ -2,6 +2,7 @@ package ro.papetti.livrari.plu.services.jpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.configs.cache.CacheName;
@@ -12,6 +13,7 @@ import ro.papetti.pluriva.dto.*;
 import ro.papetti.pluriva.entity.Produs;
 import ro.papetti.pluriva.mapstruct.ProdusMapStruct;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,7 @@ public class ProdusServiceImpl extends BaseServiceImpl<Produs, ProdusRepozitory>
     public ProdusServiceImpl(ProdusRepozitory repozitory) {
         super(repozitory);
     }
+
     @Autowired
     private ProdusMapStruct produsMapStruct;
     @Autowired
@@ -42,86 +45,96 @@ public class ProdusServiceImpl extends BaseServiceImpl<Produs, ProdusRepozitory>
     @Override
 
     public <T> Optional<T> findDTOIById(int produsId, Class<T> type) {
-        return rep.findDTOIById(produsId,type);
+        return rep.findDTOIById(produsId, type);
     }
 
 
     @Override
-    @Cacheable(cacheNames = CacheName.PRODUS_DTO,key = "#produsId")
-    public Optional<ProdusDto> findDtoById(int produsId){
-        Optional<Produs>produs = rep.findById(produsId);
-
-        setUmDtoFromCache(produs);
-        setBrandDtoFromCache(produs);
-        setTvaDtoFromCache(produs);
-        setCpvDtoFromCache(produs);
-
-        ProdusDto produsDto = produsMapStruct.toDto(produs.get());
-        return Optional.of(produsDto);
-    };
+    @Cacheable(cacheNames = CacheName.PRODUS_DTO, key = "#produsId")
+    public Optional<ProdusDto> findDtoById(int produsId) {
+        Optional<Produs> produs = rep.findById(produsId);
+        Optional<ProdusDto> optionalProdusDto = produs.map( value -> produsMapStruct.toDto(value));
+        optionalProdusDto.ifPresent(this::setDtoFromCache);
+        return optionalProdusDto;
+    }
 
     @Override
-    public List<ProdusDto> findDtoAll(){
-        return produsMapStruct.toDtoList(rep.findAll());
-    };
+    public Optional<Produs> findById(int produsId){
+        return rep.findById(produsId);
+    }
+    ;
 
-    private void setUmDtoFromCache(Optional<Produs> produsOptional){
-        if (produsOptional.isEmpty()){
-            return;
+    @Override
+    public List<ProdusDto> findDtoAll() {
+        List<Produs> produsList= rep.findAll();
+        List<ProdusDto> produsDtoList = produsMapStruct.toDtoList(produsList);
+        for (ProdusDto produsDto: produsDtoList){
+            setDtoFromCache(produsDto);
         }
-        Produs produs = produsOptional.get();
-        Integer umId = produs.getUmId();
-        if (umId == null){
+        return produsDtoList;
+    }
+
+    private void setDtoFromCache(ProdusDto produsDto) {
+        setUmDtoFromCache(produsDto);
+        setBrandDtoFromCache(produsDto);
+        setCpvDtoFromCache(produsDto);
+        setTvaDtoFromCache(produsDto);
+    }
+
+    ;
+
+
+
+    private void setUmDtoFromCache(ProdusDto produsDto) {
+        Integer umId = produsDto.getUmId();
+        if (umId == null  || produsDto.getUmDto() != null) {
+            System.out.println("NU pun DTO din cache pt. umId: " +umId );
             return;
         }
         //aici ul va lua din cache daca e acolo
-        Optional<UmDto> umDto =umService.findDtoById(umId);
-        umDto.ifPresent(produs::setUmDto);
+        Optional<UmDto> umDto = umService.findDtoById(umId);
+        umDto.ifPresent(produsDto::setUmDto);
 
     }
 
-    private void setTvaDtoFromCache(Optional<Produs> produsOptional){
-        if (produsOptional.isEmpty()){
-            return;
-        }
-        Produs produs = produsOptional.get();
-        Integer tvaId = produs.getTvaId();
-        if (tvaId == null){
+
+
+    private void setTvaDtoFromCache(ProdusDto produsDto) {
+        Integer tvaId = produsDto.getTvaId();
+        if (tvaId == null  || produsDto.getTvaDto() != null) {
+            System.out.println("NU pun DTO din cache pt. tvaId: " +tvaId );
             return;
         }
         //aici ul va lua din cache daca e acolo
-        Optional<TvaDto> tvaDto =tvaService.findDtoById(tvaId);
-        tvaDto.ifPresent(produs::setTvaDto);
+        Optional<TvaDto> tvaDto = tvaService.findDtoById(tvaId);
+        tvaDto.ifPresent(produsDto::setTvaDto);
 
     }
 
-    private void setBrandDtoFromCache(Optional<Produs> produsOptional){
-        if (produsOptional.isEmpty()){
-            return;
-        }
-        Produs produs = produsOptional.get();
-        Integer brandId = produs.getBrandId();
-        if (brandId == null){
+
+
+    private void setBrandDtoFromCache(ProdusDto produsDto) {
+        Integer brandId = produsDto.getBrandId();
+        if (brandId == null  || produsDto.getBrandDto() != null) {
+            System.out.println("NU pun DTO din cache pt. brandId: " +brandId );
             return;
         }
         //aici ul va lua din cache daca e acolo
-        Optional<BrandDto> brandDto =brandService.findDtoById(brandId);
-        brandDto.ifPresent(produs::setBrandDto);
+        Optional<BrandDto> brandDto = brandService.findDtoById(brandId);
+        brandDto.ifPresent(produsDto::setBrandDto);
 
     }
 
-    private void setCpvDtoFromCache(Optional<Produs> produsOptional){
-        if (produsOptional.isEmpty()){
-            return;
-        }
-        Produs produs = produsOptional.get();
-        Integer cpvId = produs.getCPVId();
-        if (cpvId == null){
+
+    private void setCpvDtoFromCache(ProdusDto produsDto) {
+        Integer cpvId = produsDto.getCpvId();
+        if (cpvId == null  || produsDto.getCpvDto() != null) {
+            System.out.println("NU pun DTO din cache pt. cpvId: " +cpvId );
             return;
         }
         //aici ul va lua din cache daca e acolo
-        Optional<CpvDto> cpvDto =cpvService.findDtoById(cpvId);
-        cpvDto.ifPresent(produs::setCpvDto);
+        Optional<CpvDto> cpvDto = cpvService.findDtoById(cpvId);
+        cpvDto.ifPresent(produsDto::setCpvDto);
 
     }
 

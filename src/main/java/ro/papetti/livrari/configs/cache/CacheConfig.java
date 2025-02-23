@@ -134,11 +134,11 @@ public class CacheConfig {
             cacheTipActivitate.put(tipActivitateDto.getTipActivitateID(),tipActivitateDto);
         }
 
-        //TipFirma  nu are DTO ca nu e cazul
+        //TipFirma
         Cache cacheTipFirma = cacheManager.getCache(CacheName.TIP_FIRMA_DTO);
-        List<TipFirma> listTipFirma = tipFirmaService.findAll();
-        for (TipFirma tipFirma:listTipFirma){
-            cacheTipFirma.put(tipFirma.getTipFirmaId(),tipFirma);
+        List<TipFirmaDto> tipFirmaDtoList = tipFirmaService.findDtoAll();
+        for (TipFirmaDto tipFirmaDto:tipFirmaDtoList){
+            cacheTipFirma.put(tipFirmaDto.getTipFirmaId(),tipFirmaDto);
         }
 
         //TipLivrare
@@ -150,9 +150,9 @@ public class CacheConfig {
 
         //TipStrada
         Cache cacheTipStrada = cacheManager.getCache(CacheName.TIP_STRADA_DTO);
-        List<TipStrada> tipStradaList = tipStradaService.findAll();
-        for (TipStrada tipStrada:tipStradaList){
-            cacheTipStrada.put(tipStrada.getTipStradaId(),tipStrada);
+        List<TipStradaDto> stradaDtoList = tipStradaService.findDtoAll();
+        for (TipStradaDto tipStradaDto:stradaDtoList){
+            cacheTipStrada.put(tipStradaDto.getTipStradaId(),tipStradaDto);
         }
 
 
@@ -164,11 +164,11 @@ public class CacheConfig {
         }
 
         //Produs
-//        Cache cacheProdus = cacheManager.getCache(CacheName.PRODUS_DTO);
-//        List<ProdusDto> produsDtoList = produsService.findDtoAll();
-//        for (ProdusDto produsDto :produsDtoList){
-//            cacheProdus.put(produsDto.getProdusId(),produsDto);
-//        }
+        Cache cacheProdus = cacheManager.getCache(CacheName.PRODUS_DTO);
+        List<ProdusDto> produsDtoList = produsService.findDtoAll();
+        for (ProdusDto produsDto :produsDtoList){
+            cacheProdus.put(produsDto.getProdusId(),produsDto);
+        }
 
         //Unitate dureaza prea mult
 //        Cache cacheUnitate = cacheManager.getCache(CacheName.UNITATE_DTO);

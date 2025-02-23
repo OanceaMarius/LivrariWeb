@@ -44,7 +44,7 @@ public class UnitateRestController {
 
     @GetMapping("/Unitate/{unitateID}")
     public ResponseEntity<Unitate> findUnitateById(@NonNull @PathVariable int unitateID){
-        Unitate entity = unitateService.findById(unitateID)
+        Unitate entity = unitateService.findEagerByUnitateID(unitateID)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc Unitate cu unitateID: " + unitateID));
         return ResponseEntity.ok(entity);
     }

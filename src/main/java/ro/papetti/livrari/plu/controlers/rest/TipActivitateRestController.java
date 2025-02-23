@@ -42,7 +42,7 @@ public class TipActivitateRestController {
         return ResponseEntity.ok(entity);
     }
 
-    @GetMapping("/TipActivitate/{TipActivitate}")
+    @GetMapping("/TipActivitate/{tipActivitateID}")
     public ResponseEntity<TipActivitate> findtipActivitateIDById(@NonNull @PathVariable int tipActivitateID){
         TipActivitate entity = tipActivitateService.findById(tipActivitateID)
                 .orElseThrow(()-> new EntityNotFoundException("Nu gasesc TipActivitate cu tipActivitateID: "+tipActivitateID));

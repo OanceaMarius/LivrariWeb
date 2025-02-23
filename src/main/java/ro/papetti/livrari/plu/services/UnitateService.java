@@ -1,7 +1,5 @@
 package ro.papetti.livrari.plu.services;
 
-import org.springframework.cache.annotation.Cacheable;
-import ro.papetti.livrari.configs.cache.CacheName;
 import ro.papetti.livrari.model.BaseService;
 import ro.papetti.pluriva.dto.UnitateDto;
 import ro.papetti.pluriva.entity.Unitate;
@@ -22,4 +20,8 @@ public interface UnitateService extends BaseService<Unitate, Integer> {
     Optional<UnitateDto> findDtoById(int unitateID);
 
     List<UnitateDto> findDtoAll();
+
+    Optional<Unitate> findById(int unitateID);
+
+    Optional<Unitate> findEagerByUnitateID(int unitateID);
 }

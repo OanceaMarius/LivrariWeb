@@ -15,5 +15,7 @@ public interface ProdusService extends BaseService<Produs, Integer> {
 
     Optional<ProdusDto> findDtoById(int produsId);
 
+    Optional<Produs> findById(int produsId);
+
     List<ProdusDto> findDtoAll();
 }

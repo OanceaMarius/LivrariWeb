@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.TipStradaService;
+import ro.papetti.pluriva.dto.TipStradaDto;
 import ro.papetti.pluriva.entity.TipStrada;
 
 import java.util.List;
@@ -29,10 +30,23 @@ public class TipStradaRestController {
     }
 
     @GetMapping("/TipStrada/{tipStradaId}")
-    public ResponseEntity<TipStrada> findUmById(@NonNull @PathVariable int tipStradaId){
+    public ResponseEntity<TipStrada> findTipStradaById(@NonNull @PathVariable int tipStradaId){
         TipStrada entity = tipStradaService.findById(tipStradaId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc TipStrada cu tipStradaId: " + tipStradaId));
         return ResponseEntity.ok(entity);
     }
+
+    @GetMapping("/TipStradaDTO")
+    public List<TipStradaDto> findTipStradaDtoAll(){
+        return tipStradaService.findDtoAll();
+    }
+
+    @GetMapping("/TipStradaDTO/{tipStradaId}")
+    public ResponseEntity<TipStradaDto> findTipStradaDtoById(@NonNull @PathVariable int tipStradaId){
+        TipStradaDto entity = tipStradaService.findDtoById(tipStradaId)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc TipStradaDto cu tipStradaId: " + tipStradaId));
+        return ResponseEntity.ok(entity);
+    }
+
 
 }

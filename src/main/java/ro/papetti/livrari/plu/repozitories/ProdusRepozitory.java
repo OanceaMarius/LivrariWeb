@@ -1,6 +1,7 @@
 package ro.papetti.livrari.plu.repozitories;
 
 import jakarta.persistence.PersistenceContext;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +22,7 @@ public interface ProdusRepozitory extends JpaRepository<Produs, Integer> {
 
     @Query("select t from Produs t where t.produsId = :produsId")
     <T> Optional<T> findDTOIById(@Param("produsId") @NonNull Integer produsId, Class<T> type);
+
+    @EntityGraph(attributePaths = {"um", "tva", "cpv", "brand"})
+    Optional<Produs> findById(int produsId);
 }

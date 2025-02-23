@@ -8,6 +8,7 @@ import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -52,5 +53,21 @@ public interface UnitateRepozitory extends JpaRepository<Unitate, Integer> {
             where u.denumireUnitate like concat('%', :denumireUnitate, '%') or u.partener.denumirePartener like concat('%', :denumireUnitate, '%')""")
     List<Unitate> findByNume(@Param("denumireUnitate") String denumireUnitate, @Param("denumirePartener") String denumirePartener);
 
+    /**
+     * aduce toate tabelele asociate
+     * @param unitateID
+     * @return
+     */
+    @EntityGraph(attributePaths = {"tara", "judet", "localitate", "tipStrada", "partener", "userIntroducere",
+            "userModificare", "partener.tipFirma", "partener.tara", "partener.judet", "partener.localitate",
+            "partener.tipStrada", "partener.userIntroducere", "partener.userModificare"},
+        type = EntityGraph.EntityGraphType.FETCH)
+    Optional<Unitate> findEagerByUnitateID(@NonNull int unitateID);
 
+    /**
+     *  tabelele asociate sunt Lazy
+     * @param unitateID
+     * @return
+     */
+    Optional<Unitate>findById(@NonNull int unitateID);
 }
