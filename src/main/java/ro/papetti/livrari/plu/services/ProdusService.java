@@ -1,5 +1,6 @@
 package ro.papetti.livrari.plu.services;
 
+import org.springframework.data.domain.Page;
 import ro.papetti.livrari.model.BaseService;
 import ro.papetti.pluriva.dto.ProdusDto;
 import ro.papetti.pluriva.entity.Produs;
@@ -15,7 +16,9 @@ public interface ProdusService extends BaseService<Produs, Integer> {
 
     Optional<ProdusDto> findDtoById(int produsId);
 
-    Optional<Produs> findById(int produsId);
+    Optional<Produs> findEagerById(int produsId);
+
+    Optional<Produs> findById(int produsID);
 
     List<ProdusDto> findDtoAll();
 }

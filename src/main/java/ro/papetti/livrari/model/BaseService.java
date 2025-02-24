@@ -4,6 +4,10 @@
  */
 package ro.papetti.livrari.model;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,11 +16,15 @@ import java.util.Optional;
  * @author MariusO
  * @param <T> Clasa Entitate
  * @param <ID> Clasa cheii primaare
- * @param <Integer> Id-ul entitatii
+ *
  */
 public interface BaseService<T, ID extends Integer> {
 
     List<T> findAll();
+
+    List<T> findAll(Sort sort);
+
+    Page<T> findAll(Pageable pageable);
 
     Optional<T> findById(ID id);
 
@@ -24,7 +32,7 @@ public interface BaseService<T, ID extends Integer> {
 
     List<T> saveAll(Iterable<T> entities);
 
-    T save(T entity);
+        T save(T entity);
 
     boolean existsById(ID id);
 

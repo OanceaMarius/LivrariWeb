@@ -2,7 +2,7 @@ package ro.papetti.livrari.plu.services.jpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.configs.cache.CacheName;
@@ -13,7 +13,6 @@ import ro.papetti.pluriva.dto.*;
 import ro.papetti.pluriva.entity.Produs;
 import ro.papetti.pluriva.mapstruct.ProdusMapStruct;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,16 +51,22 @@ public class ProdusServiceImpl extends BaseServiceImpl<Produs, ProdusRepozitory>
     @Override
     @Cacheable(cacheNames = CacheName.PRODUS_DTO, key = "#produsId")
     public Optional<ProdusDto> findDtoById(int produsId) {
-        Optional<Produs> produs = rep.findById(produsId);
+        Optional<Produs> produs = rep.findEagerById(produsId);
         Optional<ProdusDto> optionalProdusDto = produs.map( value -> produsMapStruct.toDto(value));
         optionalProdusDto.ifPresent(this::setDtoFromCache);
         return optionalProdusDto;
     }
 
     @Override
-    public Optional<Produs> findById(int produsId){
-        return rep.findById(produsId);
+    public Optional<Produs> findEagerById(int produsId){
+        return rep.findEagerById(produsId);
     }
+
+    @Override
+    public Optional<Produs> findById(int produsID){
+        return rep.findById(produsID);
+    }
+
     ;
 
     @Override

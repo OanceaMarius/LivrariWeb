@@ -2,13 +2,11 @@ package ro.papetti.livrari.plu.controlers.rest;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ro.papetti.livrari.plu.services.ProdusService;
 import ro.papetti.pluriva.dto.ProdusDto;
 import ro.papetti.pluriva.dtoi.ProdusDTOI;
@@ -29,6 +27,7 @@ public class ProdusRestController {
         return produsService.findAll();
     }
 
+
     @GetMapping("/ProdusDTO")
     public List<ProdusDto> findProdusDtoAll(){
         return produsService.findDtoAll();
@@ -43,10 +42,11 @@ public class ProdusRestController {
 
     @GetMapping("/Produs/{produsId}")
     public ResponseEntity<Produs> findProdusById(@NonNull @PathVariable int produsId){
-        Produs entity = produsService.findById(produsId)
+        Produs entity = produsService.findEagerById(produsId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc Produs cu produsId: " + produsId));
         return ResponseEntity.ok(entity);
     }
+
 
 
 }

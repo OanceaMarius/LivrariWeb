@@ -6,6 +6,10 @@ package ro.papetti.livrari.model;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +37,15 @@ public abstract class BaseServiceImpl<T, R extends  JpaRepository<T,Integer>> im
     @Override
     public List<T> findAll() {
         return rep.findAll();
+    }
+
+
+    public List<T> findAll(Sort sort){
+        return rep.findAll(sort);
+    }
+
+    public Page<T> findAll(Pageable pageable){
+        return rep.findAll(pageable);
     }
 
     @Override

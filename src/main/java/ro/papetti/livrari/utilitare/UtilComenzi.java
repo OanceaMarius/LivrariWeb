@@ -15,8 +15,7 @@ import ro.papetti.livrari.model.ComandaHarta;
 import ro.papetti.livrari.model.ComandaPluPoz;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
-import ro.papetti.pluriva.dtoi.SorderPozDTOI;
-import ro.papetti.pluriva.dtoi.SorderPozDTOI;
+import ro.papetti.pluriva.dto.SorderPozDto;
 import ro.papetti.pluriva.entity.PorderPoz;
 import ro.papetti.pluriva.entity.SorderPoz;
 
@@ -33,35 +32,35 @@ public final class UtilComenzi {
     /**
      * completeaza din comenzile de cllienti Sale pluriva liniile
      *
-     * @param listPluDTO
+     * @param sorderPozDtoList
      * @return
      */
-    public static List<ComandaPluPoz> getComandaPluPozFromSDTO(List<SorderPozDTOI> listPluDTO) {
-        List<ComandaPluPoz> listPoz;
-        listPoz = new ArrayList<>();
-        if (listPluDTO == null) {
-            return listPoz;
-        }
-        for (SorderPozDTOI pozPluDTOI : listPluDTO) {
-            ComandaPluPoz liniePoz = new ComandaPluPoz(pozPluDTOI);
-            //doar liniile care tin de comanda nu si intrarile
-            if (pozPluDTOI.getsOrderPozParentId() == null) {
-                listPoz.add(liniePoz);
-            }
-        }
-
-        return listPoz;
-    }
+//    public static List<ComandaPluPoz> getComandaPluPozFromSDTO(List<SorderPozDto> sorderPozDtoList) {
+//        List<ComandaPluPoz> listPoz;
+//        listPoz = new ArrayList<>();
+//        if (sorderPozDtoList == null) {
+//            return listPoz;
+//        }
+//        for (SorderPozDto sorderPozDto : sorderPozDtoList) {
+//            ComandaPluPoz liniePoz = new ComandaPluPoz(sorderPozDto);
+//            //doar liniile care tin de comanda nu si intrarile
+//            if (sorderPozDto.getSOrderPozParentId() == null) {
+//                listPoz.add(liniePoz);
+//            }
+//        }
+//
+//        return listPoz;
+//    }
     
-        public static List<ComandaPluPoz> getComandaPluPozFromSDTOI(List<SorderPozDTOI> listPluDTO) {
+        public static List<ComandaPluPoz> getComandaPluPozFromSDto(List<SorderPozDto> sorderPozDtoList) {
         List<ComandaPluPoz> listPoz = new ArrayList<>();
-        if (listPluDTO == null) {
+        if (sorderPozDtoList == null) {
             return listPoz;
         }
-        for (SorderPozDTOI pozPluDTOI : listPluDTO) {
-            ComandaPluPoz liniePoz = new ComandaPluPoz(pozPluDTOI);
+        for (SorderPozDto sorderPozDto : sorderPozDtoList) {
+            ComandaPluPoz liniePoz = new ComandaPluPoz(sorderPozDto);
             //doar liniile care tin de comanda nu si intrarile
-            if (pozPluDTOI.getsOrderPozParentId() == null) {
+            if (sorderPozDto.getSOrderPozParentId() == null) {
                 listPoz.add(liniePoz);
             }
         }

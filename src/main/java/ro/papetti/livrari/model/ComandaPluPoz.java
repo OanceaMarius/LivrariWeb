@@ -6,8 +6,10 @@ package ro.papetti.livrari.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dto.SorderPozDto;
 import ro.papetti.pluriva.dtoi.SorderPozDTOI;
+import ro.papetti.pluriva.entity.PorderCap;
 import ro.papetti.pluriva.entity.PorderPoz;
 import ro.papetti.pluriva.entity.SorderCap;
 import ro.papetti.pluriva.entity.SorderPoz;
@@ -45,7 +47,8 @@ public class ComandaPluPoz implements Serializable {
         if (pPoz != null) {
             this.orderPozAsociatId = pPoz.getpOrderPozId();
             this.denumirePartenerAsociat = pPoz.getPorderCap()
-                    .getFurnizorUnitate().getDenumireUnitateCompleta();
+                    .getFurnizorUnitate().getPartener().getDenumirePartener() + " " +  pPoz.getPorderCap()
+                    .getFurnizorUnitate().getDenumireUnitate();
             this.numarComAsociata = pPoz.getPorderCap().getpOrderNumber();
         }
 
@@ -56,43 +59,38 @@ public class ComandaPluPoz implements Serializable {
 
     }
 
+//    public ComandaPluPoz(SorderPozDto sorderPozDto) {
+//
+//        this.orderPozId = sorderPozDto.getSOrderPozId();
+//        this.produsId = sorderPozDto.getProdus().getProdusId();
+//        if (sorderPozDto.getPorderPoz() != null) {
+//            this.orderPozAsociatId = sorderPozDto.getPorderPoz().getPOrderPozId();
+//            this.denumirePartenerAsociat = sorderPozDto.getPorderPoz()
+//                    .getPorderCap()
+//                    .getFurnizorUnitate()
+//                    .getDenumireUnitateCompleta();
+//            this.numarComAsociata = sorderPozDto.getPorderPoz()
+//                    .getPorderCap()
+//                    .getPOrderNumber();
+//
+//        }
+//    }
+
     public ComandaPluPoz(SorderPozDto sorderPozDto) {
 
         this.orderPozId = sorderPozDto.getSOrderPozId();
         this.produsId = sorderPozDto.getProdus().getProdusId();
         if (sorderPozDto.getPorderPoz() != null) {
             this.orderPozAsociatId = sorderPozDto.getPorderPoz().getPOrderPozId();
-            this.denumirePartenerAsociat = sorderPozDto.getPorderPoz()
-                    .getPorderCap()
-                    .getFurnizorUnitate()
-                    .getDenumireUnitateCompleta();
-            this.numarComAsociata = sorderPozDto.getPorderPoz()
-                    .getPorderCap()
-                    .getPOrderNumber();
-
-        }
-    }
-
-    public ComandaPluPoz(SorderPozDTOI sPozPluDTOI) {
-
-        this.orderPozId = sPozPluDTOI.getsOrderPozId();
-        this.produsId = sPozPluDTOI.getProdus().getProdusId();
-        if (sPozPluDTOI.getPorderPoz() != null) {
-            this.orderPozAsociatId = sPozPluDTOI.getPorderPoz().getpOrderPozId();
-            this.denumirePartenerAsociat = sPozPluDTOI.getPorderPoz()
-                    .getpOrderCap()
-                    .getFurnizorUnitate()
-                    .getDenumireUnitateCompleta();
-            this.numarComAsociata = sPozPluDTOI.getPorderPoz()
-                    .getpOrderCap()
-                    .getpOrderNumber();
+            this.denumirePartenerAsociat = getDenumireUnitateCompleta(sorderPozDto.getPorderPoz().getPorderCap());
+            this.numarComAsociata = sorderPozDto.getPorderPoz().getPorderCap().getPOrderNumber();
 
         }
 
-        this.denumireProdus = sPozPluDTOI.getProdus()
+        this.denumireProdus = sorderPozDto.getProdus()
                 .getDenumireProdus();
-        this.cantPlu = sPozPluDTOI.getCant();
-        this.pretPlu = sPozPluDTOI.getPretValuta();
+        this.cantPlu = sorderPozDto.getCant();
+        this.pretPlu = sorderPozDto.getPretValuta();
 
     }
 
@@ -108,14 +106,37 @@ public class ComandaPluPoz implements Serializable {
             this.numarComClientAsociata = capAsociatS.getsOClientNumber();
             this.numarComAsociata = capAsociatS.getsOrderNumber();
             this.orderPozAsociatId = pozAsociatS.getsOrderPozId();
-            this.denumirePartenerAsociat = capAsociatS.getClient()
-                    .getDenumireUnitateCompleta();
-        }
+            this.denumirePartenerAsociat = getDenumireUnitateCompleta(capAsociatS);
 
         this.denumireProdus = pozPlu.getProdus().getDenumireProdus();
         this.cantPlu = pozPlu.getCant();
         this.pretPlu = pozPlu.getPretValuta();
 
+        }
     }
+
+    private String getDenumireUnitateCompleta(PorderCap porederCap){
+        String denumireCompleta = porederCap.getFurnizorUnitate().getPartener().getDenumirePartener();
+        if (porederCap.getFurnizorUnitate().getDenumireUnitate()!=null && !porederCap.getFurnizorUnitate().getDenumireUnitate().isEmpty())
+            denumireCompleta=denumireCompleta +" - " + porederCap.getFurnizorUnitate().getDenumireUnitate();
+
+        return denumireCompleta;
+    };
+
+    private String getDenumireUnitateCompleta(PorderCapDto  porderCapDto){
+        String denumireCompleta = porderCapDto.getFurnizorUnitate().getPartenerDto().getDenumirePartener();
+        if (porderCapDto.getFurnizorUnitate().getDenumireUnitate()!=null && !porderCapDto.getFurnizorUnitate().getDenumireUnitate().isEmpty())
+            denumireCompleta=denumireCompleta +" - " + porderCapDto.getFurnizorUnitate().getDenumireUnitate();
+
+        return denumireCompleta;
+    };
+
+    private String getDenumireUnitateCompleta(SorderCap sorderCap){
+        String denumireCompleta = sorderCap.getClientUnitate().getPartener().getDenumirePartener();
+        if (sorderCap.getClientUnitate().getDenumireUnitate()!=null && !sorderCap.getClientUnitate().getDenumireUnitate().isEmpty())
+            denumireCompleta=denumireCompleta +" - " + sorderCap.getClientUnitate().getDenumireUnitate();
+
+        return denumireCompleta;
+    };
 
 }

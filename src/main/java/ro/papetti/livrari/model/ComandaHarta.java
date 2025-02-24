@@ -9,13 +9,12 @@ import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.livrari.utilitare.UtilComenzi;
-import ro.papetti.pluriva.dtoi.SorderPozDTOI;
+import ro.papetti.pluriva.dto.SorderPozDto;
 import ro.papetti.pluriva.entity.PorderPoz;
 import ro.papetti.pluriva.entity.SorderPoz;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,8 +36,8 @@ public class ComandaHarta extends ComandaCap implements Serializable {
         this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromS(listSOrderPoz);
     }
 
-    public void setPozPluFromSOrderI(List<SorderPozDTOI> listSOrderPoz) {
-        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromSDTOI(listSOrderPoz);
+    public void setPozPluFromSOrderI(List<SorderPozDto> listSOrderPoz) {
+        this.pozitiiPluriva = UtilComenzi.getComandaPluPozFromSDto(listSOrderPoz);
     }
 
 

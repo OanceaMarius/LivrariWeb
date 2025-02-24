@@ -37,18 +37,20 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class DatabaseLivrariConfig {
     
     @Value("${spring.jpa.properties.hibernate.show_sql}")
-    private boolean hibernate_show_sql;
+    private boolean show_sql;
     
     @Value("${spring.jpa.properties.hibernate.format_sql}")
-    private boolean hibernate_format_sql;
+    private boolean format_sql;
     
     @Value("${spring.datasource.livrari.hibernate.dialect}")
-    private String hibernate_dialect;
+    private String dialect;
     
     @Value("${spring.datasource.livrari.packages.to.scan}")
     private String packages_to_scan;
-    
-    
+
+    @Value("${spring.datasource.hibernate.generate_statistics}")
+    private String generate_statistics;
+
     @Primary
     @Bean(name= "livrariDataSource")
     @ConfigurationProperties(prefix="spring.datasource.livrari")
@@ -68,9 +70,13 @@ public class DatabaseLivrariConfig {
         em.setJpaVendorAdapter(vendorAdapter);
 
         Map<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.dialect", hibernate_dialect);
-        properties.put("hibernate.show_sql", hibernate_show_sql);
-        properties.put("hibernate.format_sql", hibernate_format_sql);
+        properties.put("hibernate.dialect", dialect);
+        properties.put("hibernate.show_sql", show_sql);
+        properties.put("hibernate.format_sql", format_sql);
+        // Setările corecte pentru activarea statisticilor
+        properties.put("hibernate.generate_statistics", generate_statistics);
+
+
         em.setJpaPropertyMap(properties);
 
         return em;
