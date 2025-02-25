@@ -5,8 +5,9 @@
 package ro.papetti.livrari.plu.services;
 
 import java.util.List;
+import java.util.Optional;
 
-import ro.papetti.pluriva.dtoi.PorderPozDTOI;
+import ro.papetti.pluriva.dto.PorderPozDto;
 import ro.papetti.pluriva.entity.PorderPoz;
 import ro.papetti.livrari.model.BaseService;
 
@@ -16,11 +17,12 @@ import ro.papetti.livrari.model.BaseService;
  */
 public interface PorderPozService extends BaseService<PorderPoz, Integer> {
     
-     List<PorderPoz> findPozitiiByPOrderCapId(int pOrderCapId);
-    
-     <T>List<T> findPozitiiDTOByPOrderCapId(int pOrderCapId, Class<T> type);
+     List<PorderPoz> findEagerByPorderCapId(int pOrderCapId);
+
+    Optional<PorderPoz> findEagerById(int porderPozId);
+
+    <T>List<T> findPozDTOIByPOrderCapId(int pOrderCapId, Class<T> type);
 
 
-    
-    
+     List<PorderPozDto> findPozDtoByPOrderCapId(int pOrderCapId);
 }

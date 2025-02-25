@@ -70,8 +70,8 @@ public interface SorderCapRepozitory extends JpaRepository<SorderCap, Integer> {
     
     
     
-    @Query(value="FROM SorderCap c where c.sOrderCapId =:sOrderCapId")
-     public Optional<SorderCapDTOI> findDTOBySOrderCapId(int sOrderCapId);
+    @Query(value="FROM SorderCap c where c.sorderCapId =:sorderCapId")
+     public Optional<SorderCapDTOI> findDTOIBySorderCapId(int sorderCapId);
 
 
 

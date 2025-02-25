@@ -5,7 +5,10 @@
 package ro.papetti.livrari.plu.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import ro.papetti.livrari.model.BaseService;
+import ro.papetti.pluriva.dto.SorderCapDto;
 import ro.papetti.pluriva.dtoi.SorderPozDTOI;
 import ro.papetti.pluriva.entity.SorderPoz;
 
@@ -22,5 +25,6 @@ public interface SorderPozService extends BaseService<SorderPoz, Integer> {
     List<SorderPozDTOI> findPozitiiDTOBySOrderCapIdCUProduse(int sOrderCapId);
 
     List<SorderPozDTOI> findPozitiiDTOBySOrderCapIdCuProduseSiFurnizori(int sOrderCapId);
-    
+
+    Optional<SorderCapDto> findSorderCapDtoBySorderPozId(int sorderPozId);
 }

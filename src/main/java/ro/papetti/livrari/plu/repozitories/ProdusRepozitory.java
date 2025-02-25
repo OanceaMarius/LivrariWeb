@@ -22,11 +22,17 @@ public interface ProdusRepozitory extends JpaRepository<Produs, Integer> {
     @Query("SELECT t FROM Produs t ")
     <T> List<T> findDTOIAll(Class<T> type);
 
+    @Query("SELECT t FROM Produs t ")
+//    @EntityGraph(attributePaths = {"um", "tva", "cpv", "brand"})
+    @EntityGraph(value = "Produs.complet")
+    <T> List<T> findEagerDTOIAll();
+
     @Query("select t from Produs t where t.produsId = :produsId")
     <T> Optional<T> findDTOIById(@Param("produsId") @NonNull Integer produsId, Class<T> type);
 
     @Query("select t from Produs t where t.produsId = :produsId")
-    @EntityGraph(attributePaths = {"um", "tva", "cpv", "brand"})
+//    @EntityGraph(attributePaths = {"um", "tva", "cpv", "brand"})
+    @EntityGraph(value = "Produs.complet")
     Optional<Produs> findEagerById(int produsId);
 
 

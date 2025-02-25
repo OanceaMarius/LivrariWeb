@@ -84,13 +84,13 @@ public class PlurivaRestController {
     
     @GetMapping("/POrderPozDTO/ByCapId/{pOrderCapId}")
     public List<PorderPozDTOI> findSOrderPozDTOBySOrderCapId(@PathVariable int pOrderCapId){
-        return porderPozService.findPozitiiDTOByPOrderCapId(pOrderCapId, PorderPozDTOI.class);
+        return porderPozService.findPozDTOIByPOrderCapId(pOrderCapId, PorderPozDTOI.class);
     }
     
     
     @GetMapping("/POrderPoz/ByCapId/{pOrderCapId}")
     public List<PorderPoz> findPOrderPozByCapId(@PathVariable int pOrderCapId){
-        return porderPozService.findPozitiiByPOrderCapId(pOrderCapId);
+        return porderPozService.findEagerByPorderCapId(pOrderCapId);
     }
     
     //studiu

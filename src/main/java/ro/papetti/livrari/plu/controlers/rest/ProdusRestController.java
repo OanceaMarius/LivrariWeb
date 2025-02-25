@@ -2,7 +2,6 @@ package ro.papetti.livrari.plu.controlers.rest;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +30,11 @@ public class ProdusRestController {
     @GetMapping("/ProdusDTO")
     public List<ProdusDto> findProdusDtoAll(){
         return produsService.findDtoAll();
+    }
+
+    @GetMapping("/ProdusDTOI")
+    public List<ProdusDTOI> findProdusEagerDTOIAll(){
+        return produsService.findEagerDTOIAll();
     }
 
     @GetMapping("/ProdusDTO/{produsId}")

@@ -2,7 +2,6 @@ package ro.papetti.livrari.plu.services.jpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.configs.cache.CacheName;
@@ -42,7 +41,11 @@ public class ProdusServiceImpl extends BaseServiceImpl<Produs, ProdusRepozitory>
     }
 
     @Override
+    public <T> List<T> findEagerDTOIAll() {
+        return rep.findEagerDTOIAll();
+    }
 
+    @Override
     public <T> Optional<T> findDTOIById(int produsId, Class<T> type) {
         return rep.findDTOIById(produsId, type);
     }
@@ -51,7 +54,7 @@ public class ProdusServiceImpl extends BaseServiceImpl<Produs, ProdusRepozitory>
     @Override
     @Cacheable(cacheNames = CacheName.PRODUS_DTO, key = "#produsId")
     public Optional<ProdusDto> findDtoById(int produsId) {
-        Optional<Produs> produs = rep.findEagerById(produsId);
+        Optional<Produs> produs = rep.findById(produsId);
         Optional<ProdusDto> optionalProdusDto = produs.map( value -> produsMapStruct.toDto(value));
         optionalProdusDto.ifPresent(this::setDtoFromCache);
         return optionalProdusDto;

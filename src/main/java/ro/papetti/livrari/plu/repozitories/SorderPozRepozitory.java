@@ -5,13 +5,19 @@
 package ro.papetti.livrari.plu.repozitories;
 
 import jakarta.persistence.PersistenceContext;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ro.papetti.pluriva.dto.PorderCapDto;
+import ro.papetti.pluriva.dto.SorderCapDto;
+import ro.papetti.pluriva.entity.SorderCap;
 import ro.papetti.pluriva.entity.SorderPoz;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -43,11 +49,15 @@ public interface SorderPozRepozitory extends JpaRepository<SorderPoz, Integer> {
     
 //        @Query(value="FROM SOrderPoz p WHERE p.sOrderCapId = :sOrderCapId")
     
-    @Query("SELECT p FROM SorderPoz p WHERE p.sorderCap.sOrderCapId=:sOrderCapId")
-    public <T> List<T> findBySOrderCapSOrderCapId(int sOrderCapId,Class<T> type);
+    @Query("SELECT p FROM SorderPoz p WHERE p.sorderCapId=:sorderCapId")
+    public <T> List<T> findPozDTOIBySorderCapId(int sorderCapId, Class<T> type);
     
 
-    
+
+//    public SorderCapDto findSorderCapDtoBySorderPozId(int sorderPozId);
+
+    @Query("select c from SorderCap c join c.pozitii poz where  poz.sorderPozId = :sorderPozId")
+    Optional<SorderCap> findSorderCapBySorderPozId(@Param("sorderPozId") Integer sorderPozId);
 
 }
 

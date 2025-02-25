@@ -19,7 +19,7 @@ import ro.papetti.pluriva.dtoi.SorderPozDTOIFaraSorderCap;
 import ro.papetti.pluriva.entity.PorderPoz;
 import ro.papetti.pluriva.entity.SorderCap;
 import ro.papetti.pluriva.entity.SorderPoz;
-
+import ro.papetti.pluriva.entity.Unitate;
 
 
 /**
@@ -61,10 +61,10 @@ public class SorderCapServiceImpl extends BaseServiceImpl<SorderCap, SorderCapRe
     }
 
     @Override
-    public Optional<SorderCap> findByIdCuClient(int sOrderCapId) {
-        Optional<SorderCap> sCap = findById(sOrderCapId);
+    public Optional<SorderCap> findByIdCuClient(int sorderCapId) {
+        Optional<SorderCap> sCap = findById(sorderCapId);
         if (sCap.isPresent()) {
-            Hibernate.initialize(sCap.get().getClient());
+            Hibernate.initialize(getClient(sCap.get()));
         }
         return sCap;
     }
@@ -86,16 +86,17 @@ public class SorderCapServiceImpl extends BaseServiceImpl<SorderCap, SorderCapRe
 
 
     @Override
-    public Optional<SorderCap> findByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId) {
-        Optional<SorderCap> sCap = findByIdCuPozitii(sOrderCapId);
+    public Optional<SorderCap> findByIdCuPozitiiSiLegaturaLaAprov(int sorderCapId) {
+        Optional<SorderCap> sCap = findByIdCuPozitii(sorderCapId);
         if (sCap.isPresent()) {
             List<SorderPoz> listSPoz = sCap.get().getPozitii();
             for (SorderPoz sPoz : listSPoz) {
                 Hibernate.initialize(sPoz.getPorderPoz());
                 PorderPoz pPoz = sPoz.getPorderPoz();
                 if (pPoz != null) {
-                    Hibernate.initialize(pPoz.getPorderCap());
-                    Hibernate.initialize(pPoz.getPorderCap().getFurnizorUnitate());
+                    /* TODO de facut cu dto */
+//                    Hibernate.initialize(pPoz.getPorderCap());
+//                    Hibernate.initialize(pPoz.getPorderCap().getFurnizorUnitate());
                 }
             }
 
@@ -110,7 +111,7 @@ public class SorderCapServiceImpl extends BaseServiceImpl<SorderCap, SorderCapRe
 
     @Override
     public Optional<SorderCapDTOI> findDTOById(int sOrderCapId) {
-        Optional<SorderCapDTOI> sCap = rep.findDTOBySOrderCapId(sOrderCapId);
+        Optional<SorderCapDTOI> sCap = rep.findDTOIBySorderCapId(sOrderCapId);
         if (sCap.isPresent()) {
             Hibernate.initialize(sCap.get().getUserIntroducere());
         }
@@ -156,6 +157,16 @@ public class SorderCapServiceImpl extends BaseServiceImpl<SorderCap, SorderCapRe
         return sCap;
     }
 
+    /**
+     *
+     * @param sorderCap
+     * @return Clientul cu livrare daca exista ori clientul de facturare
+     */
+    private Unitate getClient(SorderCap sorderCap){
+        if (sorderCap.getClientLivrareUnitate()!=null)
+            return sorderCap.getClientLivrareUnitate();
 
+       return sorderCap.getClientUnitate();
+    }
 
 }

@@ -1,6 +1,5 @@
 package ro.papetti.livrari.plu.services;
 
-import org.springframework.data.domain.Page;
 import ro.papetti.livrari.model.BaseService;
 import ro.papetti.pluriva.dto.ProdusDto;
 import ro.papetti.pluriva.entity.Produs;
@@ -11,6 +10,8 @@ import java.util.Optional;
 public interface ProdusService extends BaseService<Produs, Integer> {
 
     <T> List<T> findDTOIAll(Class<T> type);
+
+    <T> List<T> findEagerDTOIAll();
 
     <T> Optional<T> findDTOIById(int produsId, Class<T> type);
 
