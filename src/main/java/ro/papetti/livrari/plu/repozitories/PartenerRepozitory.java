@@ -11,7 +11,7 @@ import java.util.Optional;
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
 public interface PartenerRepozitory extends JpaRepository<Partener, Integer> {
 
-    @EntityGraph(attributePaths = {"tipFirma", "tara", "judet", "localitate", "tipStrada", "userIntroducere", "userModificare"})
+    @EntityGraph(value = "Partener.complet",type = EntityGraph.EntityGraphType.LOAD)
     Optional<Partener> findEagerByPartenerID(int partenerId);
 
 

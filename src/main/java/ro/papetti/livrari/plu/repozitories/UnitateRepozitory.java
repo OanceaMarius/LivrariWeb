@@ -58,10 +58,7 @@ public interface UnitateRepozitory extends JpaRepository<Unitate, Integer> {
      * @param unitateID
      * @return
      */
-    @EntityGraph(attributePaths = {"tara", "judet", "localitate", "tipStrada", "partener", "userIntroducere",
-            "userModificare", "partener.tipFirma", "partener.tara", "partener.judet", "partener.localitate",
-            "partener.tipStrada", "partener.userIntroducere", "partener.userModificare"},
-        type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(value = "Unitate.complet", type = EntityGraph.EntityGraphType.LOAD)
     Optional<Unitate> findEagerByUnitateID(@NonNull int unitateID);
 
     /**

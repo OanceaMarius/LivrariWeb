@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dto.SorderCapDto;
+import ro.papetti.pluriva.entity.PorderPoz;
 import ro.papetti.pluriva.entity.SorderCap;
 import ro.papetti.pluriva.entity.SorderPoz;
 
@@ -32,32 +34,26 @@ public interface SorderPozRepozitory extends JpaRepository<SorderPoz, Integer> {
 //    @Query(value="SELECT * FROM SOrderPoz p WHERE p.sOrderCapId = :sOrderCapId", nativeQuery = true)
 //    public List<SOrderPozDTO> findPozitiiBySOrderCapId(int sOrderCapId);
 
-//    @Query(value="SELECT "
-//            + "p.sOrderPozId AS sOrderPozId, "
-//            + "p.sOrderPozParentId as sOrderPozParentId, "
-//            + "p.produs as produs, "
-//            + "p.cant as cant, "
-//            + "p.pretValuta as pretValuta, "
-//            + "p.valutaId valutaId, "
-//            + "p.cantLivrata as cantLivrata, "
-//            + "p.intrPozId as intrPozId, "
-//            + "p.furnizorId as furnizorId, "
-//            + "p.cantRezervata as cantRezervata, "
-//            + "p.pOrderPoz as POrderPoz  "
-//            + "FROM SOrderPoz p WHERE p.sOrderCapId = :sOrderCapId")
-//    public <T> List<T> findPozitiiDTOBySOrderCapId(int sOrderCapId,Class<T> type);
-    
-//        @Query(value="FROM SOrderPoz p WHERE p.sOrderCapId = :sOrderCapId")
-    
+
     @Query("SELECT p FROM SorderPoz p WHERE p.sorderCapId=:sorderCapId")
     public <T> List<T> findPozDTOIBySorderCapId(int sorderCapId, Class<T> type);
     
 
-
-//    public SorderCapDto findSorderCapDtoBySorderPozId(int sorderPozId);
-
     @Query("select c from SorderCap c join c.pozitii poz where  poz.sorderPozId = :sorderPozId")
     Optional<SorderCap> findSorderCapBySorderPozId(@Param("sorderPozId") Integer sorderPozId);
+
+    @Query(value="SELECT p FROM SorderPoz p WHERE p.sorderPozId = :sorderPozId")
+    @EntityGraph(value = "SorderPoz.complet")
+    public Optional<SorderPoz> findEagerById(@NonNull int sorderPozId);
+
+
+    @Query(value="SELECT p FROM SorderPoz p WHERE p.sorderCapId = :sorderCapId")
+    @EntityGraph(value = "SorderPoz.complet")
+    public List<SorderPoz> findEagerBySorderCapId(@NonNull int sorderCapId);
+
+
+    @Query(value = "SELECT p FROM SorderPoz p WHERE p.sorderCapId = :sorderCapId")
+    public List <SorderPoz> findBySorderCapId(@NonNull int sorderCapId);
 
 }
 

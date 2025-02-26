@@ -57,7 +57,6 @@ public class PorderPozServiceImpl extends BaseServiceImpl<PorderPoz, PorderPozRe
             if (produsService.findDtoById(pozDto.getProdusId()).isPresent())
                 pozDto.setProdusDto(produsService.findDtoById(pozDto.getProdusId()).get());
         }
-
         return porderPozDtoList;
     }
 }
