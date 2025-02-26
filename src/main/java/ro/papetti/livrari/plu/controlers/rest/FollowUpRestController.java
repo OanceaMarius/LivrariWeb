@@ -41,7 +41,7 @@ public class FollowUpRestController {
 
     @GetMapping("/FollowUp/{followupId}")
     public ResponseEntity<FollowUp> findFollowUpById(@NonNull @PathVariable int followupId) {
-        FollowUp entity = followUpService.findById(followupId)
+        FollowUp entity = followUpService.findEagerById(followupId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc FollowUp cu followupId: "+ followupId));
         return ResponseEntity.ok(entity);
     }

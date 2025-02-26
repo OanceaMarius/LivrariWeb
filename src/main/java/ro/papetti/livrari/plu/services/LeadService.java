@@ -1,6 +1,5 @@
 package ro.papetti.livrari.plu.services;
 
-import org.springframework.stereotype.Service;
 import ro.papetti.livrari.model.BaseService;
 import ro.papetti.pluriva.dto.LeadDto;
 import ro.papetti.pluriva.entity.Lead;
@@ -15,4 +14,5 @@ public interface LeadService extends BaseService<Lead, Integer> {
 
     List<LeadDto> findDtoAll();
 
+    Optional<Lead> findEagerById(int leadId);
 }

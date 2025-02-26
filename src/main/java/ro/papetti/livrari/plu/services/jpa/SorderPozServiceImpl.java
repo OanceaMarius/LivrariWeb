@@ -33,8 +33,9 @@ public class SorderPozServiceImpl extends BaseServiceImpl<SorderPoz, SorderPozRe
     public SorderPozServiceImpl(SorderPozRepozitory repozitory) {
         super(repozitory);
     }
-    @Autowired
-    private UnitateService unitateService;
+
+    private CompletareDtoService completareDtoService;
+
     @Autowired
     private ProdusService produsService;
     @Autowired
@@ -42,17 +43,7 @@ public class SorderPozServiceImpl extends BaseServiceImpl<SorderPoz, SorderPozRe
     @Autowired
     private SorderPozMapStruct sorderPozMapStruct;
     @Autowired
-    private UserService userService;
-    @Autowired
-    private StareDocService stareDocService;
-    @Autowired
-    private TipLivrareService tipLivrareService;
-    @Autowired
-    private ModPlataService  modPlataService;
-    @Autowired
-    private TermenPlataService termenPlataService;
-    @Autowired
-    private TipDocService tipDocService;
+    private UnitateService unitateService;
 
 
     @Override
@@ -100,7 +91,7 @@ public class SorderPozServiceImpl extends BaseServiceImpl<SorderPoz, SorderPozRe
         Optional<SorderCapDto> sorderCapDto = sorderCap.map(value->sorderCapMapStruct.toDto(value));
         if (sorderCapDto.isPresent())
         {
-            setSorderCapDtoByCache(sorderCapDto);
+            setSorderCapDtoByCache(sorderCapDto.get());
         }
         return sorderCapDto;
 
@@ -126,90 +117,17 @@ public class SorderPozServiceImpl extends BaseServiceImpl<SorderPoz, SorderPozRe
         }
         return sorderPozDtoList;
     }
-    private void setSorderCapDtoByCache(Optional<SorderCapDto> sorderCapDto){
-        if (sorderCapDto.isPresent()){
-            setDtoClientSinteza(sorderCapDto.get());
-            setDtoUserIntroducere(sorderCapDto.get());
-            setDtoStareDoc(sorderCapDto.get());
-            setDtoTipLivrare(sorderCapDto.get());
-            setDtoModPlata(sorderCapDto.get());
-            setDtoTermenPlata(sorderCapDto.get());
-            setDtoTipDoc(sorderCapDto.get());
-        }
+    private void setSorderCapDtoByCache(SorderCapDto sorderCapDto){
 
+            sorderCapDto.setClientUnitateDto(unitateService.findDtoById(sorderCapDto.getClientSintezaId()).orElse(null));
+            sorderCapDto.setUserIntroducereDto(completareDtoService.getUserDtoById(sorderCapDto.getUserIntroducereId()));
+            sorderCapDto.setStareDocDto(completareDtoService.getStareDocDtoById(sorderCapDto.getStareId()));
+            sorderCapDto.setTipLivrareDto(completareDtoService.getTipLivrareById(sorderCapDto.getTipLivrareId()));
+            sorderCapDto.setModPlataDto(completareDtoService.getModPlataById(sorderCapDto.getModPlataId()));
+            sorderCapDto.setTermenPlataDto(completareDtoService.getTermenPlataById(sorderCapDto.getTermenPlataId()));
+            sorderCapDto.setTipDocDto(completareDtoService.getTipDocById(sorderCapDto.getTipDocId()));
 
     }
-
-    private void setDtoClientSinteza(SorderCapDto sorderCapDto){
-        int clientSintezaId = sorderCapDto.getClientSintezaId();
-        Optional<UnitateDto> clientSintezaDto = unitateService.findDtoById(clientSintezaId);
-        if (clientSintezaDto.isPresent()){
-            sorderCapDto.setClientLivrareUnitateDto(clientSintezaDto.get());
-        }
-    }
-
-    private void setDtoUserIntroducere(SorderCapDto sorderCapDto){
-        Integer userIntroducereId = sorderCapDto.getUserIntroducereId();
-        if (userIntroducereId==null)
-            return;
-
-        Optional<UserDto> userIntroducere = userService.findDtoById(userIntroducereId);
-        if (userIntroducere.isPresent()){
-            sorderCapDto.setUserIntroducereDto(userIntroducere.get());
-        }
-    }
-
-    private void setDtoStareDoc(SorderCapDto sorderCapDto){
-        Integer stareDocId = sorderCapDto.getStareId();
-        if (stareDocId==null)
-            return;
-
-        Optional<StareDocDto> stareDocDto = stareDocService.findDtoById(stareDocId);
-        if (stareDocDto.isPresent())
-            sorderCapDto.setStareDocDto(stareDocDto.get());
-
-    }
-
-    private void setDtoTipLivrare(SorderCapDto sorderCapDto){
-        Integer tipLivrareId = sorderCapDto.getTipLivrareId();
-        if (tipLivrareId==null)
-            return;
-
-        Optional<TipLivrareDto>tipLivrareDto =tipLivrareService.findDtoById(tipLivrareId);
-        if (tipLivrareDto.isPresent())
-            sorderCapDto.setTipLivrareDto(tipLivrareDto.get());
-    }
-
-    private void setDtoModPlata(SorderCapDto sorderCapDto){
-        Integer modPlataId = sorderCapDto.getModPlataId();
-        if (modPlataId==null)
-            return;
-
-        Optional<ModPlataDto>modPlataDto = modPlataService.findDtoById(modPlataId);
-        if (modPlataDto.isPresent())
-            sorderCapDto.setModPlataDto(modPlataDto.get());
-    }
-
-    private void setDtoTermenPlata(SorderCapDto sorderCapDto){
-        Integer termenPlataId = sorderCapDto.getTermenPlataId();
-        if (termenPlataId==null)
-            return;
-        Optional<TermenPlataDto> termenPlataDto= termenPlataService.findDtoById(termenPlataId);
-        if (termenPlataDto.isPresent())
-            sorderCapDto.setTermenPlataDto(termenPlataDto.get());
-
-    }
-
-    private void setDtoTipDoc(SorderCapDto sorderCapDto){
-        Integer tipDocId = sorderCapDto.getTipDocId();
-        if (tipDocId==null)
-            return;
-
-        Optional<TipDocDto> tipDocDto = tipDocService.findDtoById(tipDocId);
-        if (tipDocDto.isPresent())
-            sorderCapDto.setTipDocDto(tipDocDto.get());
-    }
-
 
 
 }

@@ -111,20 +111,21 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
         public Optional<PorderCap> findByIdCuPozitiiSiLegaturaLaComenzi(Integer pOrderCapId) {
 
         Optional<PorderCap> pCap = findByIdCuPozitii(pOrderCapId);
-        if (pCap.isPresent()) {
-           
-            List<PorderPoz> listPPoz = pCap.get().getPozitii();
-            if (listPPoz!=null) {
-                for(PorderPoz pPoz: listPPoz){
-                    Hibernate.initialize(pPoz.getSorderPoz());
-                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap());
-                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getUserIntroducere());
-                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getClientUnitate());
-                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getClientLivrareUnitate());
-                }
-            }
-            
-        }
+//        if (pCap.isPresent()) {
+//
+//            List<PorderPoz> listPPoz = pCap.get().getPozitii();
+//            if (listPPoz!=null) {
+//                for(PorderPoz pPoz: listPPoz){
+//                    Hibernate.initialize(pPoz.getSorderPoz());
+//                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap());
+//                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getUserIntroducere());
+//                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getClientUnitate());
+//                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getClientLivrareUnitate());
+//                }
+//            }
+//
+//        }
+        /* TODO de refacut cu Dto */
         return pCap;
     }
 

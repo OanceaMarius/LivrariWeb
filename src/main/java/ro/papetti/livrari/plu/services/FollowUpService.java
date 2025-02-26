@@ -19,6 +19,8 @@ import java.util.Optional;
  */
 public interface FollowUpService extends BaseService<FollowUp, Integer> {
 
+    Optional<FollowUp> findEagerById(int followUpId);
+
     Optional<FollowUpDto> findDtoById(int followupId);
 
     List<FollowUpDto> findDtoAll();

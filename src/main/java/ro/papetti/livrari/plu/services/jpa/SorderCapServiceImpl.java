@@ -88,19 +88,19 @@ public class SorderCapServiceImpl extends BaseServiceImpl<SorderCap, SorderCapRe
     @Override
     public Optional<SorderCap> findByIdCuPozitiiSiLegaturaLaAprov(int sorderCapId) {
         Optional<SorderCap> sCap = findByIdCuPozitii(sorderCapId);
-        if (sCap.isPresent()) {
-            List<SorderPoz> listSPoz = sCap.get().getPozitii();
-            for (SorderPoz sPoz : listSPoz) {
-                Hibernate.initialize(sPoz.getPorderPoz());
-                PorderPoz pPoz = sPoz.getPorderPoz();
-                if (pPoz != null) {
-                    /* TODO de facut cu dto */
-//                    Hibernate.initialize(pPoz.getPorderCap());
-//                    Hibernate.initialize(pPoz.getPorderCap().getFurnizorUnitate());
-                }
-            }
-
-        }
+//        if (sCap.isPresent()) {
+//            List<SorderPoz> listSPoz = sCap.get().getPozitii();
+//            for (SorderPoz sPoz : listSPoz) {
+////                Hibernate.initialize(sPoz.getPorderPoz());
+////                PorderPoz pPoz = sPoz.getPorderPoz();
+////                if (pPoz != null) {
+//                    /* TODO de facut cu dto */
+////                    Hibernate.initialize(pPoz.getPorderCap());
+////                    Hibernate.initialize(pPoz.getPorderCap().getFurnizorUnitate());
+//                }
+//            }
+//
+//        }
         return sCap;
     }
 

@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.plu.repozitories.FollowUpRepozitory;
+import ro.papetti.livrari.plu.services.CompletareDtoService;
 import ro.papetti.livrari.plu.services.FollowUpService;
+import ro.papetti.livrari.plu.services.LeadService;
 import ro.papetti.pluriva.dto.FollowUpDto;
 import ro.papetti.pluriva.entity.FollowUp;
 import ro.papetti.pluriva.mapstruct.FollowUpMapStruct;
@@ -31,12 +33,26 @@ public class FollowUpServiceImpl extends BaseServiceImpl<FollowUp, FollowUpRepoz
         super(repozitory);
     }
     @Autowired
-    FollowUpMapStruct followUpMapStruct;
+    private FollowUpMapStruct followUpMapStruct;
+    @Autowired
+    private CompletareDtoService completareDtoService;
+    @Autowired
+    private LeadService leadService;
+
+    @Override
+    public Optional<FollowUp> findEagerById(int followUpId){
+        return rep.findEagerById(followUpId);
+    }
+
 
     @Override
     public Optional<FollowUpDto> findDtoById(int followupId) {
         Optional<FollowUp> followUp = rep.findById(followupId);
-        return followUp.map(value-> followUpMapStruct.toDto(value));
+        if (followUp.isEmpty())
+            return Optional.empty();
+        FollowUpDto followUpDto = followUpMapStruct.toDto(followUp.get());
+        setFollowUpDtoByCache(followUpDto);
+        return Optional.of(followUpDto);
     }
 
     @Override
@@ -58,5 +74,11 @@ public class FollowUpServiceImpl extends BaseServiceImpl<FollowUp, FollowUpRepoz
     @Override
     public List<FollowUpDto> findDtoByTipActivitateSiDataCreareDupa(int tipActivitate, Date dataCreare) {
         return followUpMapStruct.toDtoList(rep.findByTipActivitateSiDataCreareDupa(tipActivitate, dataCreare));
+    }
+
+    private void setFollowUpDtoByCache(FollowUpDto followUpDto){
+        followUpDto.setLeadDto(leadService.findDtoById(followUpDto.getLeadId()).orElse(null));
+        followUpDto.setUserCreareDto(completareDtoService.getUserDtoById(followUpDto.getUserCreareId()));
+        followUpDto.setTipActivitateDto(completareDtoService.getTipActivitateById(followUpDto.getTipActivitateFollowUp()));
     }
 }

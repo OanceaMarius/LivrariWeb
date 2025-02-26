@@ -39,6 +39,8 @@ public class PartenerServiceImpl extends BaseServiceImpl<Partener, PartenerRepoz
     private LocalitateService localitateService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CompletareDtoService completareDtoService;
 
 
     @Override
@@ -73,99 +75,19 @@ public class PartenerServiceImpl extends BaseServiceImpl<Partener, PartenerRepoz
         return partenerDtoList;
     }
 
-    private void setDtoFromCache(PartenerDto optionalPartenerDto) {
-        setJudetDtoFromCache(optionalPartenerDto);
-        setLocalitateDtoFromCache(optionalPartenerDto);
-        setTaraDtoFromCache(optionalPartenerDto);
-        setTipFirmaDtoFromCache(optionalPartenerDto);
-        setTipStradaDtoFromCache(optionalPartenerDto);
-        setUserIntroducereDtoFromCache(optionalPartenerDto);
-        setUserModificareDtoFromCache(optionalPartenerDto);
-    }
+    private void setDtoFromCache(PartenerDto partenerDto) {
 
-    private void setTipFirmaDtoFromCache(PartenerDto partenerDto) {
-        Integer tipFirmaId = partenerDto.getTipFirmaId();
-        if (tipFirmaId == null || partenerDto.getTipFirmaDto() != null) {
-            System.out.println("NU pun DTO din cache pt. tipFirmaId: " + tipFirmaId);
-            return;
-        }
-        //aici ul va lua din cache daca e acolo
-        Optional<TipFirmaDto> tipFirmaDto = tipFirmaService.findDtoById(tipFirmaId);
-        tipFirmaDto.ifPresent(partenerDto::setTipFirmaDto);
+        partenerDto.setTaraDto(completareDtoService.getTaraDtoById(partenerDto.getTaraId()));
+        partenerDto.setJudetDto(completareDtoService.getJudetDtoById(partenerDto.getJudetId()));
+        partenerDto.setLocalitateDto(completareDtoService.getLocalitateDtoById(partenerDto.getLocalitateId()));
+        partenerDto.setTipFirmaDto(completareDtoService.getTipFirmaById(partenerDto.getTipFirmaId()));
+        partenerDto.setTipStradaDto(completareDtoService.getTipStradaDtoById(partenerDto.getTipStradaId()));
+        partenerDto.setUserIntroducereDto(completareDtoService.getUserDtoById(partenerDto.getUserIntroducereId()));
+        partenerDto.setUserModificareDto(completareDtoService.getUserDtoById(partenerDto.getUserModificareId()));
 
     }
 
-    private void setTipStradaDtoFromCache(PartenerDto partenerDto) {
-        Integer tipStradaId = partenerDto.getTipStradaId();
-        if (tipStradaId == null || partenerDto.getTipStradaDto() != null) {
-            System.out.println("NU pun DTO din cache pt. tipStradaId: " + tipStradaId);
-            return;
-        }
-        //aici ul va lua din cache daca e acolo
-        Optional<TipStradaDto> tipStadaDto = tipStradaService.findDtoById(tipStradaId);
-        tipStadaDto.ifPresent(partenerDto::setTipStradaDto);
 
-    }
-
-    private void setTaraDtoFromCache(PartenerDto partenerDto) {
-        Integer taraId = partenerDto.getTaraId();
-        if (taraId == null || partenerDto.getTaraDto() != null) {
-            System.out.println("NU pun DTO din cache pt. taraId: " + taraId);
-            return;
-        }
-        //aici ul va lua din cache daca e acolo
-        Optional<TaraDto> taraDto = taraService.findDtoById(taraId);
-        taraDto.ifPresent(partenerDto::setTaraDto);
-
-    }
-
-    private void setJudetDtoFromCache(PartenerDto partenerDto) {
-        Integer judetId = partenerDto.getJudetId();
-        if (judetId == null || partenerDto.getJudetDto() != null) {
-            System.out.println("NU pun DTO din cache pt. judetId: " + judetId);
-            return;
-        }
-        //aici ul va lua din cache daca e acolo
-        Optional<JudetDto> judetDto = judetService.findDtoById(judetId);
-        judetDto.ifPresent(partenerDto::setJudetDto);
-
-    }
-
-    private void setLocalitateDtoFromCache(PartenerDto partenerDto) {
-        Integer localitateId = partenerDto.getJudetId();
-        if (localitateId == null || partenerDto.getLocalitateDto() != null) {
-            System.out.println("NU pun DTO din cache pt. judetId: " + localitateId);
-            return;
-        }
-        //aici ul va lua din cache daca e acolo
-        Optional<LocalitateDto> localitateDto = localitateService.findDtoById(localitateId);
-        localitateDto.ifPresent(partenerDto::setLocalitateDto);
-
-    }
-
-    private void setUserIntroducereDtoFromCache(PartenerDto partenerDto) {
-        Integer userIntroducereId = partenerDto.getUserIntroducereId();
-        if (userIntroducereId == null || partenerDto.getUserIntroducereDto() != null) {
-            System.out.println("NU pun DTO din cache pt. userIntroducereId: " + userIntroducereId);
-            return;
-        }
-        //aici ul va lua din cache daca e acolo
-        Optional<UserDto> userDto = userService.findDtoById(userIntroducereId);
-        userDto.ifPresent(partenerDto::setUserIntroducereDto);
-
-    }
-
-    private void setUserModificareDtoFromCache(PartenerDto partenerDto) {
-        Integer userModificareId = partenerDto.getUserModificareId();
-        if (userModificareId == null || partenerDto.getUserModificareDto() != null) {
-            System.out.println("NU pun DTO din cache pt. userModificareId: " + userModificareId);
-            return;
-        }
-        //aici ul va lua din cache daca e acolo
-        Optional<UserDto> userDto = userService.findDtoById(userModificareId);
-        userDto.ifPresent(partenerDto::setUserModificareDto);
-
-    }
 
 
 }

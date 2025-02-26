@@ -30,7 +30,7 @@ public class LeadRestController {
 
     @GetMapping("/Lead/{leadId}")
     public ResponseEntity<Lead> findLeadById(@NonNull @PathVariable int leadId) {
-        Lead entity = leadService.findById(leadId)
+        Lead entity = leadService.findEagerById(leadId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc Lead cu leadId: "+ leadId));
         return ResponseEntity.ok(entity);
     }

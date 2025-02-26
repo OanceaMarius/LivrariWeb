@@ -5,6 +5,7 @@
 package ro.papetti.livrari.plu.repozitories;
 
 import jakarta.persistence.PersistenceContext;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +14,7 @@ import ro.papetti.pluriva.entity.FollowUp;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -27,13 +29,19 @@ public interface FollowUpRepozitory extends JpaRepository<FollowUp, Integer> {
     @Query("select f from FollowUp f where f.dataCreare > :dataCreare")
     List<FollowUp> findByDataCreareDupa(@Param("dataCreare") Date dataCreare);
 
-    @Query("select f from FollowUp f where f.tipActivitateFollowUp.tipActivitateID = :tipActivitateFollowUp")
-    List<FollowUp> findByTipActivitate(@Param("tipActivitateFollowUp") Integer tipActivitateFollowUp);
+    @Query("select f from FollowUp f where f.tipActivitate.tipActivitateID = :tipActivitateID")
+    List<FollowUp> findByTipActivitate(@Param("tipActivitateID") Integer tipActivitateID);
 
     @Query("""
             select f from FollowUp f
-            where f.tipActivitateFollowUp.tipActivitateID = :tipActivitateFollowUp and f.dataCreare > :dataCreare""")
-    List<FollowUp> findByTipActivitateSiDataCreareDupa(@Param("tipActivitateFollowUp") Integer tipActivitateFollowUp, @Param("dataCreare") Date dataCreare);
+            where f.tipActivitate.tipActivitateID = :tipActivitateID and f.dataCreare > :dataCreare""")
+    List<FollowUp> findByTipActivitateSiDataCreareDupa(@Param("tipActivitateID") Integer tipActivitateID, @Param("dataCreare") Date dataCreare);
 
+    @Query(value = "select f from FollowUp f where f.followupId= :followupId")
+    @EntityGraph(value = "FollowUp.complet")
+    Optional<FollowUp>findEagerById(@Param("followupId") int followupId);
+
+    @Query("select f from FollowUp f where f.followupId = :followupId")
+    List<FollowUp> ff(@Param("followupId") Integer followupId);
 
 }

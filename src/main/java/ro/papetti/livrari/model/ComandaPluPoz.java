@@ -39,23 +39,23 @@ public class ComandaPluPoz implements Serializable {
     private BigDecimal cantLivrata = BigDecimal.valueOf(0);
 
     public ComandaPluPoz(SorderPoz pozPlu) {
-
+/* TODO de refacut  */
 //        this.orderCapId = pozPlu.getSOrderCap().getSOrderCapId();
-        this.orderPozId = pozPlu.getsOrderPozId();
-        this.produsId = pozPlu.getProdus().getProdusId();
-        PorderPoz pPoz = pozPlu.getPorderPoz();
-        if (pPoz != null) {
-            this.orderPozAsociatId = pPoz.getpOrderPozId();
-            this.denumirePartenerAsociat = pPoz.getPorderCap()
-                    .getFurnizorUnitate().getPartener().getDenumirePartener() + " " +  pPoz.getPorderCap()
-                    .getFurnizorUnitate().getDenumireUnitate();
-            this.numarComAsociata = pPoz.getPorderCap().getpOrderNumber();
-        }
-
-
-        this.denumireProdus = pozPlu.getProdus().getDenumireProdus();
-        this.cantPlu = pozPlu.getCant();
-        this.pretPlu = pozPlu.getPretValuta();
+//        this.orderPozId = pozPlu.getsorderPozId();
+//        this.produsId = pozPlu.getProdus().getProdusId();
+//        PorderPoz pPoz = pozPlu.getPorderPoz();
+//        if (pPoz != null) {
+//            this.orderPozAsociatId = pPoz.getPorderPozId();
+//            this.denumirePartenerAsociat = pPoz.getPorderCap()
+//                    .getFurnizorUnitate().getPartener().getDenumirePartener() + " " +  pPoz.getPorderCap()
+//                    .getFurnizorUnitate().getDenumireUnitate();
+//            this.numarComAsociata = pPoz.getPorderCap().getpOrderNumber();
+//        }
+//
+//
+//        this.denumireProdus = pozPlu.getProdus().getDenumireProdus();
+//        this.cantPlu = pozPlu.getCant();
+//        this.pretPlu = pozPlu.getPretValuta();
 
     }
 
@@ -78,17 +78,16 @@ public class ComandaPluPoz implements Serializable {
 
     public ComandaPluPoz(SorderPozDto sorderPozDto) {
 
-        this.orderPozId = sorderPozDto.getSOrderPozId();
-        this.produsId = sorderPozDto.getProdus().getProdusId();
+        this.orderPozId = sorderPozDto.getSorderPozId();
+        this.produsId = sorderPozDto.getProdusDto().getProdusId();
         if (sorderPozDto.getPorderPoz() != null) {
-            this.orderPozAsociatId = sorderPozDto.getPorderPoz().getPOrderPozId();
-            this.denumirePartenerAsociat = getDenumireUnitateCompleta(sorderPozDto.getPorderPoz().getPorderCap());
-            this.numarComAsociata = sorderPozDto.getPorderPoz().getPorderCap().getPOrderNumber();
-
+            this.orderPozAsociatId = sorderPozDto.getPorderPoz().getPorderPozId();
+//            this.denumirePartenerAsociat = getDenumireUnitateCompleta(sorderPozDto.getPorderPoz().getPorderCap());
+//            this.numarComAsociata = sorderPozDto.getPorderPoz().getPorderCap().getPOrderNumber();
+/* TODO de refacut */
         }
 
-        this.denumireProdus = sorderPozDto.getProdus()
-                .getDenumireProdus();
+        this.denumireProdus = sorderPozDto.getProdusDto().getDenumireProdus();
         this.cantPlu = sorderPozDto.getCant();
         this.pretPlu = sorderPozDto.getPretValuta();
 
@@ -97,22 +96,23 @@ public class ComandaPluPoz implements Serializable {
     //varianta noua
     public ComandaPluPoz(PorderPoz pozPlu) {
 //        this.orderCapId = pozPlu.getPOrderCap().getPOrderCapId();
-        this.orderPozId = pozPlu.getpOrderPozId();
-        this.produsId = pozPlu.getProdus().getProdusId();
-        SorderPoz pozAsociatS = pozPlu.getSorderPoz();
-        if (pozAsociatS != null) {
-            SorderCap capAsociatS = pozAsociatS.getSorderCap();
-            this.orderPozAsociatId = pozAsociatS.getpOrderPozId();
-            this.numarComClientAsociata = capAsociatS.getsOClientNumber();
-            this.numarComAsociata = capAsociatS.getsOrderNumber();
-            this.orderPozAsociatId = pozAsociatS.getsOrderPozId();
-            this.denumirePartenerAsociat = getDenumireUnitateCompleta(capAsociatS);
-
-        this.denumireProdus = pozPlu.getProdus().getDenumireProdus();
-        this.cantPlu = pozPlu.getCant();
-        this.pretPlu = pozPlu.getPretValuta();
-
-        }
+//        this.orderPozId = pozPlu.getpOrderPozId();
+//        this.produsId = pozPlu.getProdus().getProdusId();
+//        SorderPoz pozAsociatS = pozPlu.getSorderPoz();
+//        if (pozAsociatS != null) {
+//            SorderCap capAsociatS = pozAsociatS.getSorderCap();
+//            this.orderPozAsociatId = pozAsociatS.getpOrderPozId();
+//            this.numarComClientAsociata = capAsociatS.getsOClientNumber();
+//            this.numarComAsociata = capAsociatS.getsOrderNumber();
+//            this.orderPozAsociatId = pozAsociatS.getsOrderPozId();
+//            this.denumirePartenerAsociat = getDenumireUnitateCompleta(capAsociatS);
+//
+//        this.denumireProdus = pozPlu.getProdus().getDenumireProdus();
+//        this.cantPlu = pozPlu.getCant();
+//        this.pretPlu = pozPlu.getPretValuta();
+//
+//        }
+        /* TODO de refacut */
     }
 
     private String getDenumireUnitateCompleta(PorderCap porederCap){

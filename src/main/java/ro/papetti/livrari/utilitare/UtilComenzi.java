@@ -75,7 +75,7 @@ public final class UtilComenzi {
         for (SorderPoz pozPlu : listPlu) {
             ComandaPluPoz liniePoz = new ComandaPluPoz(pozPlu);
             //doar liniile care tin de comanda nu si intrarile
-            if (pozPlu.getsOrderPozParentId() == null) {
+            if (pozPlu.getSOrderPozParentId() == null) {
                 listPoz.add(liniePoz);
             }
         }
