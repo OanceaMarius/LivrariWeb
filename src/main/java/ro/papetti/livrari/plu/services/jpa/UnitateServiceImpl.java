@@ -50,9 +50,12 @@ public class UnitateServiceImpl extends BaseServiceImpl<Unitate, UnitateRepozito
         return rep.findDTOByDenumireUnitate(denumireUnitate,type);
     }
 
-    @Cacheable(cacheNames = CacheName.UNITATE_DTO, key = "#unitateID")
+    @Cacheable(cacheNames = CacheName.UNITATE_DTO, key = "#unitateID",condition = "#unitateID != null")
     @Override
-    public Optional<UnitateDto> findDtoById(int unitateID){
+    public Optional<UnitateDto> findDtoById(Integer unitateID){
+        if (unitateID==null)
+            return Optional.empty();
+
         Optional<UnitateDto>unitateDto= rep.findById(unitateID).map(value-> unitateMapStruct.toDto(value));
         if (unitateDto.isEmpty())
             return Optional.empty();
@@ -89,5 +92,6 @@ public class UnitateServiceImpl extends BaseServiceImpl<Unitate, UnitateRepozito
         unitateDto.setPartenerDto(partenerService.findDtoById(unitateDto.getPartenerID()).orElse(null));
         unitateDto.setUserIntroducereDto(completareDtoService.getUserDtoById(unitateDto.getUserIntroducereId()));
         unitateDto.setUserModificareDto(completareDtoService.getUserDtoById(unitateDto.getUserModificareId()));
+        unitateDto.setWorkingHoursDto(completareDtoService.getWorkingHoursDtoById(unitateDto.getWorkingHoursId()));
     }
 }

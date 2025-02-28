@@ -14,6 +14,8 @@ import ro.papetti.pluriva.entity.TipStrada;
 import ro.papetti.pluriva.mapstruct.JudetMapStruct;
 
 import java.util.List;
+import java.util.prefs.PreferencesFactory;
+
 @RequiredArgsConstructor
 @Configuration
 @EnableCaching
@@ -39,12 +41,20 @@ public class CacheConfig {
     private final  UnitateService unitateService;
     private final  JudetMapStruct judetMapStruct;
     private final  TipActivitateService tipActivitateService;
+    private final  WorkingHoursService workingHoursService;
 
 
 
 
     @PostConstruct
     public void preLoadCache(){
+
+        //WorkingHours
+        Cache cacheWorkingHours=cacheManager.getCache(CacheName.WORKING_HOURS);
+        List<WorkingHoursDto> hoursDtos=workingHoursService.findDtoEagerAll();
+        for (WorkingHoursDto dto:hoursDtos){
+            cacheWorkingHours.put(dto.getWorkingHoursId(),dto);
+        }
 
 
         //User

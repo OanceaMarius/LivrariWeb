@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import ro.papetti.livrari.model.BaseService;
 import ro.papetti.livrari.model.PozCantitate;
+import ro.papetti.pluriva.dto.SorderCapDto;
 import ro.papetti.pluriva.dtoi.SorderCapDTOI;
 import ro.papetti.pluriva.entity.SorderCap;
 
@@ -26,19 +27,22 @@ public interface SorderCapService extends BaseService<SorderCap, Integer> {
     
     Optional<SorderCap> findById(Integer sOrderCapId);
 
-    Optional<SorderCap> findByIdCuPozitii(int sOrderCapId);
+    Optional<SorderCap> findEagerById(int sorderCapId);
 
     Optional<SorderCap> findByIdCuClient(int sOrderCapId);
 
-    Optional<SorderCapDTOI> findDTOById(int sOrderCapId);
+    Optional<SorderCapDTOI> findDTOIById(int sOrderCapId);
 
-    Optional<SorderCapDTOI> findDTOByIdCuClient(int sOrderCapId);
+    Optional<SorderCapDTOI> findDTOIByIdCuClient(int sOrderCapId);
 
-    Optional<SorderCapDTOI> findDTOByIdCuPozitii(int sOrderCapId);
+    Optional<SorderCapDTOI> findDTOIByIdCuPozitii(int sOrderCapId);
 
-    Optional<SorderCapDTOI> findDTOByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId);
+
+    Optional<SorderCapDto> findDtoById(int sorderCapId);
+
+
+    Optional<SorderCapDto> findSorderCapFaraPozitiiDtoBySorderPozId(int sorderPozId);
 
     Optional<SorderCap> findById(int sOrderCapId);
 
-    Optional<SorderCap> findByIdCuPozitiiSiLegaturaLaAprov(int sOrderCapId);
 }

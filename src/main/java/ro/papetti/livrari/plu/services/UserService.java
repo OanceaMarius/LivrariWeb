@@ -1,7 +1,5 @@
 package ro.papetti.livrari.plu.services;
 
-import org.springframework.cache.annotation.Cacheable;
-import ro.papetti.livrari.configs.cache.CacheName;
 import ro.papetti.livrari.model.BaseService;
 import ro.papetti.pluriva.dto.UserDto;
 import ro.papetti.pluriva.entity.User;
@@ -30,7 +28,7 @@ public interface UserService extends BaseService<User, Integer> {
      <T>Optional<T> findDTOIById(int userId, Class<T> type);
 
 
-    Optional<UserDto>findDtoById(int userId);
+    Optional<UserDto>findDtoById(Integer userId);
 
     List<UserDto> findDtoAll();
 }

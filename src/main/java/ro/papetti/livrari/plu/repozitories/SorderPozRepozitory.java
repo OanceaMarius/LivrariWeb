@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dto.SorderCapDto;
+import ro.papetti.pluriva.entity.PorderCap;
 import ro.papetti.pluriva.entity.PorderPoz;
 import ro.papetti.pluriva.entity.SorderCap;
 import ro.papetti.pluriva.entity.SorderPoz;
@@ -30,9 +31,7 @@ import java.util.Optional;
 @Transactional("plurivaTransactionManager")
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
 public interface SorderPozRepozitory extends JpaRepository<SorderPoz, Integer> {
-    
-//    @Query(value="SELECT * FROM SOrderPoz p WHERE p.sOrderCapId = :sOrderCapId", nativeQuery = true)
-//    public List<SOrderPozDTO> findPozitiiBySOrderCapId(int sOrderCapId);
+
 
 
     @Query("SELECT p FROM SorderPoz p WHERE p.sorderCapId=:sorderCapId")
@@ -54,6 +53,16 @@ public interface SorderPozRepozitory extends JpaRepository<SorderPoz, Integer> {
 
     @Query(value = "SELECT p FROM SorderPoz p WHERE p.sorderCapId = :sorderCapId")
     public List <SorderPoz> findBySorderCapId(@NonNull int sorderCapId);
+
+
+    @Query("select p.porderPozId from PorderPoz p where p.sorderPozId=:sorderPozId")
+    List<Integer> findPorderPozIdBySorderPozId(@Param("sorderPozId") int sorderPozId);
+
+
+    @Query("select c from PorderCap c join c.pozitii poz where  poz.porderPozId = :porderPozId")
+    Optional<PorderCap> findPorderCapByPorderPozId(@Param("porderPozId") Integer porderPozId);
+
+
 
 }
 

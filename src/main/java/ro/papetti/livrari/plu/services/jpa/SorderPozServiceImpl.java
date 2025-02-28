@@ -4,7 +4,6 @@
  */
 package ro.papetti.livrari.plu.services.jpa;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -14,11 +13,12 @@ import ro.papetti.livrari.plu.repozitories.SorderPozRepozitory;
 import ro.papetti.livrari.plu.services.*;
 import ro.papetti.pluriva.dto.*;
 import ro.papetti.pluriva.dtoi.SorderPozDTOI;
-import ro.papetti.pluriva.entity.SorderCap;
+import ro.papetti.pluriva.entity.PorderCap;
 import ro.papetti.pluriva.entity.SorderPoz;
-import ro.papetti.pluriva.mapstruct.SorderCapMapStruct;
+import ro.papetti.pluriva.mapstruct.PorderCapMapStruct;
 import ro.papetti.pluriva.mapstruct.SorderPozMapStruct;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,68 +34,29 @@ public class SorderPozServiceImpl extends BaseServiceImpl<SorderPoz, SorderPozRe
         super(repozitory);
     }
 
+    @Autowired
     private CompletareDtoService completareDtoService;
-
     @Autowired
     private ProdusService produsService;
     @Autowired
-    private SorderCapMapStruct sorderCapMapStruct;
-    @Autowired
     private SorderPozMapStruct sorderPozMapStruct;
+    @Autowired
+    private PorderCapMapStruct porderCapMapStruct;
     @Autowired
     private UnitateService unitateService;
 
 
     @Override
-    public List<SorderPozDTOI> findPozitiiDTOBySOrderCapId(int sOrderCapId) {
+    public List<SorderPozDTOI> findPozitiiDTOIBySOrderCapId(int sOrderCapId) {
         return rep.findPozDTOIBySorderCapId(sOrderCapId, SorderPozDTOI.class);
     }
 
-    @Override
-    public List<SorderPozDTOI> findPozitiiDTOBySOrderCapIdCUProduse(int sOrderCapId) {
-        List<SorderPozDTOI> listPoz = findPozitiiDTOBySOrderCapId(sOrderCapId);
-        if (listPoz != null) {
-            for (SorderPozDTOI poz : listPoz) {
-                Hibernate.initialize(poz.getProdus());
-            }
-        }
-        return listPoz;
-    }
-
-
-    public List<SorderPozDTOI> findPozitiiDTOBySOrderCapIdCuProduseSiFurnizori(int sOrderCapId) {
-        List<SorderPozDTOI> listPoz = findPozitiiDTOBySOrderCapIdCUProduse(sOrderCapId);
-        if (listPoz != null) {
-            for (SorderPozDTOI poz : listPoz) {
-                Hibernate.initialize(poz.getPorderPoz());
-                var pPoz = poz.getPorderPoz();
-                if (pPoz != null) {
-                    Hibernate.initialize(poz.getPorderPoz().getpOrderCap());
-                    Hibernate.initialize(poz.getPorderPoz().getpOrderCap().getFurnizorUnitate());
-                }
-
-            }
-        }
-        return listPoz;
-    }
 
     @Override
     public List<SorderPoz> findPozitiiBySOrderCapId(int sOrderCapId) {
         return rep.findPozDTOIBySorderCapId(sOrderCapId, SorderPoz.class);
     }
 
-
-    @Override
-    public Optional<SorderCapDto> findSorderCapDtoBySorderPozId(int sorderPozId){
-        Optional<SorderCap> sorderCap = rep.findSorderCapBySorderPozId(sorderPozId);
-        Optional<SorderCapDto> sorderCapDto = sorderCap.map(value->sorderCapMapStruct.toDto(value));
-        if (sorderCapDto.isPresent())
-        {
-            setSorderCapDtoByCache(sorderCapDto.get());
-        }
-        return sorderCapDto;
-
-    }
 
     @Override
     public Optional<SorderPoz> findEagerById(@NonNull int sorderPozId){
@@ -114,20 +75,38 @@ public class SorderPozServiceImpl extends BaseServiceImpl<SorderPoz, SorderPozRe
         for (SorderPozDto pozDto:sorderPozDtoList){
             if (produsService.findDtoById(pozDto.getProdusId()).isPresent())
                 pozDto.setProdusDto(produsService.findDtoById(pozDto.getProdusId()).get());
+
+            List<Integer> porderPozIdList = rep.findPorderPozIdBySorderPozId(pozDto.getSorderPozId());
+            pozDto.setPorderPozIdList(porderPozIdList);
+            List<PorderCapDto> porderCapDtoList = new ArrayList<>(porderPozIdList.size());
+            for (int porderPozId: porderPozIdList){
+                porderCapDtoList.add(findPorderCapDtoFaraPozitiiByPorderPozId(porderPozId).orElse(null));
+            }
+            pozDto.setPorderCapDtoList(porderCapDtoList);
         }
         return sorderPozDtoList;
     }
-    private void setSorderCapDtoByCache(SorderCapDto sorderCapDto){
 
-            sorderCapDto.setClientUnitateDto(unitateService.findDtoById(sorderCapDto.getClientSintezaId()).orElse(null));
-            sorderCapDto.setUserIntroducereDto(completareDtoService.getUserDtoById(sorderCapDto.getUserIntroducereId()));
-            sorderCapDto.setStareDocDto(completareDtoService.getStareDocDtoById(sorderCapDto.getStareId()));
-            sorderCapDto.setTipLivrareDto(completareDtoService.getTipLivrareById(sorderCapDto.getTipLivrareId()));
-            sorderCapDto.setModPlataDto(completareDtoService.getModPlataById(sorderCapDto.getModPlataId()));
-            sorderCapDto.setTermenPlataDto(completareDtoService.getTermenPlataById(sorderCapDto.getTermenPlataId()));
-            sorderCapDto.setTipDocDto(completareDtoService.getTipDocById(sorderCapDto.getTipDocId()));
+    @Override
+    public Optional<PorderCapDto> findPorderCapDtoFaraPozitiiByPorderPozId(int porderPozId){
+        Optional<PorderCap>optionalPorderCap= rep.findPorderCapByPorderPozId(porderPozId);
 
+        Optional<PorderCapDto> porderCapDto = optionalPorderCap.map(value->porderCapMapStruct.toDto(value));
+        if (porderCapDto.isPresent())
+            setPorderCapDtoFaraPozitiiFromCache(porderCapDto.get());;
+        return porderCapDto;
     }
 
+
+    private void setPorderCapDtoFaraPozitiiFromCache(PorderCapDto porderCapDto) {
+        porderCapDto.setFurnizorUnitateDto(unitateService.findDtoById(porderCapDto.getFurnizorId()).orElse(null));
+        porderCapDto.setUserIntroducereDto(completareDtoService.getUserDtoById(porderCapDto.getUserIntroducereId()));
+        porderCapDto.setStareDocDto(completareDtoService.getStareDocDtoById(porderCapDto.getStareId()));
+        porderCapDto.setTipLivrareDto(completareDtoService.getTipLivrareDtoById(porderCapDto.getTipLivrareId()));
+        porderCapDto.setModPlataDto(completareDtoService.getModPlataDtoById(porderCapDto.getModPlataId()));
+        porderCapDto.setTermenPlataDto(completareDtoService.getTermenPlataDtoById(porderCapDto.getTermenPlataId()));
+        porderCapDto.setTipDocDto(completareDtoService.getTipDocDtoById(porderCapDto.getTipDocId()));
+
+    }
 
 }

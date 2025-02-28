@@ -17,7 +17,7 @@ public interface UnitateService extends BaseService<Unitate, Integer> {
 
     <T> List<T> findDTOByDenumireUnitate(String denumireUnitate, Class<T> type);
 
-    Optional<UnitateDto> findDtoById(int unitateID);
+    Optional<UnitateDto> findDtoById(Integer unitateID);
 
     List<UnitateDto> findDtoAll();
 

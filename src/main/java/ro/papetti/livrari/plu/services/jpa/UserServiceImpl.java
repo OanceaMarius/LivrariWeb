@@ -36,9 +36,11 @@ public class UserServiceImpl extends BaseServiceImpl<User, UserRepozitory> imple
         return rep.findDTOIById(userId, type);
     }
 
-    @Cacheable(cacheNames = CacheName.USER_DTO, key = "#userId")
+    @Cacheable(cacheNames = CacheName.USER_DTO, key = "#userId", condition = "#userId != null")
     @Override
-    public Optional<UserDto>findDtoById(int userId){
+    public Optional<UserDto>findDtoById(Integer userId){
+        if (userId==null)
+            return Optional.empty();
         return rep.findById(userId).map(value->userMapStruct.toDto(value));
     }
 

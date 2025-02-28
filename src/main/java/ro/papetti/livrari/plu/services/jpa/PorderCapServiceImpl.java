@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.plu.repozitories.PorderCapRepozitory;
-import ro.papetti.livrari.plu.services.PorderCapService;
+import ro.papetti.livrari.plu.services.*;
 import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dtoi.PorderCapDTOI;
 import ro.papetti.pluriva.entity.PorderCap;
@@ -41,15 +41,20 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
     }
     @Autowired
     private PorderCapMapStruct porderCapMapStruct;
+    @Autowired
+    private PorderPozService porderPozService;
+    @Autowired
+    private CompletareDtoService completareDtoService;
+    @Autowired
+    private UnitateService unitateService;
+
 
     @Override
     public List<PorderPoz> findPOrderPozByPOrderCapId(int pOrderCapId) {
-
         PorderCap cap = rep.findById(pOrderCapId)
                 .orElseThrow(() -> new EntityNotFoundException("Nu gasesc POrderCap cu id: " + pOrderCapId));
         Hibernate.initialize(cap.getPozitii());
         return cap.getPozitii();
-
     }
 /**
  * Aduce doar Capul fara pozitii
@@ -81,53 +86,8 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
         return pCap;
     }
 
-    /**
-     * Aduce si datele departener si de pozitii
-     * @param pOrderCapId
-     * @return
-     */
-    @Override
-    public Optional<PorderCap> findByIdCuPozitii(Integer pOrderCapId) {
 
-        Optional<PorderCap> pCap = findByIdCuFurnizor(pOrderCapId);
-        if (pCap.isPresent()) {
-            Hibernate.initialize(pCap.get().getPozitii());
-            List<PorderPoz> listPpoz =pCap.get().getPozitii();
-            if (listPpoz!=null) {
-                for(PorderPoz pPoz:listPpoz){
-                    Hibernate.initialize(pPoz.getProdus());
-                }
-            }
-        }
-        return pCap;
-    }
 
-    /**
-     * Aduce si datele despre partener si pozitii dar si cele de comenzile de client legate
-     * @param pOrderCapId
-     * @return
-     */
-    @Override
-        public Optional<PorderCap> findByIdCuPozitiiSiLegaturaLaComenzi(Integer pOrderCapId) {
-
-        Optional<PorderCap> pCap = findByIdCuPozitii(pOrderCapId);
-//        if (pCap.isPresent()) {
-//
-//            List<PorderPoz> listPPoz = pCap.get().getPozitii();
-//            if (listPPoz!=null) {
-//                for(PorderPoz pPoz: listPPoz){
-//                    Hibernate.initialize(pPoz.getSorderPoz());
-//                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap());
-//                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getUserIntroducere());
-//                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getClientUnitate());
-//                    Hibernate.initialize(pPoz.getSorderPoz().getSorderCap().getClientLivrareUnitate());
-//                }
-//            }
-//
-//        }
-        /* TODO de refacut cu Dto */
-        return pCap;
-    }
 
     @Override
     public List<PorderCap> findByDataLivrare(Date dataLivrare) {
@@ -145,7 +105,7 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
     }
 
     @Override
-    public Optional<PorderCapDTOI> findDTOByPOrderCapId(Integer pOrderCapId) {
+    public Optional<PorderCapDTOI> findDTOIByPOrderCapId(Integer pOrderCapId) {
         Optional<PorderCapDTOI> pCap = rep.findDTOByPOrderCapId(pOrderCapId);
         if (pCap.isPresent()) {
             Hibernate.initialize(pCap.get().getPozitii());
@@ -154,15 +114,38 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
         return pCap;
     }
 
+    @Override
+    public Optional<PorderCap> findEagerById(int porderCapId){
+        return rep.findEagerById(porderCapId);
+    }
+
 
     @Override
     public Optional<PorderCapDto> findDtoById(int porderCapId){
         Optional<PorderCap>porderCap=rep.findById(porderCapId);
-        if (porderCap.isPresent()){
-            Hibernate.initialize(porderCap.get().getPozitii());
-            Hibernate.initialize(porderCap.get().getFurnizorUnitate());
-        }
-        return porderCap.map(value-> porderCapMapStruct.toDto(value));
+        Optional<PorderCapDto>porderCapDto = porderCap.map(value->porderCapMapStruct.toDto(value));
+        if (porderCapDto.isEmpty())
+            return Optional.empty();
+
+        setPorderCapDtoCuPozitiiFromCache(porderCapDto.get());
+        return porderCapDto;
+    }
+
+
+    private void setPorderCapDtoCuPozitiiFromCache(PorderCapDto porderCapDto) {
+        setPorderCapDtoFaraPozitiiFromCache(porderCapDto);
+        porderCapDto.setPozitiiDto(porderPozService.findPozDtoByPOrderCapId(porderCapDto.getPorderCapId()));
+
+    }
+
+    private void setPorderCapDtoFaraPozitiiFromCache(PorderCapDto porderCapDto) {
+        porderCapDto.setFurnizorUnitateDto(unitateService.findDtoById(porderCapDto.getFurnizorId()).orElse(null));
+        porderCapDto.setUserIntroducereDto(completareDtoService.getUserDtoById(porderCapDto.getUserIntroducereId()));
+        porderCapDto.setStareDocDto(completareDtoService.getStareDocDtoById(porderCapDto.getStareId()));
+        porderCapDto.setTipLivrareDto(completareDtoService.getTipLivrareDtoById(porderCapDto.getTipLivrareId()));
+        porderCapDto.setModPlataDto(completareDtoService.getModPlataDtoById(porderCapDto.getModPlataId()));
+        porderCapDto.setTermenPlataDto(completareDtoService.getTermenPlataDtoById(porderCapDto.getTermenPlataId()));
+        porderCapDto.setTipDocDto(completareDtoService.getTipDocDtoById(porderCapDto.getTipDocId()));
 
     }
 

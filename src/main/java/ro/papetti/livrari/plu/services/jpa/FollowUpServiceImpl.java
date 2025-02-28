@@ -79,6 +79,6 @@ public class FollowUpServiceImpl extends BaseServiceImpl<FollowUp, FollowUpRepoz
     private void setFollowUpDtoByCache(FollowUpDto followUpDto){
         followUpDto.setLeadDto(leadService.findDtoById(followUpDto.getLeadId()).orElse(null));
         followUpDto.setUserCreareDto(completareDtoService.getUserDtoById(followUpDto.getUserCreareId()));
-        followUpDto.setTipActivitateDto(completareDtoService.getTipActivitateById(followUpDto.getTipActivitateFollowUp()));
+        followUpDto.setTipActivitateDto(completareDtoService.getTipActivitateDtoById(followUpDto.getTipActivitateFollowUp()));
     }
 }

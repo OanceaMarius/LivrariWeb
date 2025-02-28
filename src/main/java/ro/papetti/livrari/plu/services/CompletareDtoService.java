@@ -2,25 +2,25 @@ package ro.papetti.livrari.plu.services;
 
 import ro.papetti.pluriva.dto.*;
 
-import java.util.Optional;
-
 public interface CompletareDtoService {
 
 //    LeadDto getLeadDtoById(Integer id);
 
-    TipFirmaDto getTipFirmaById(Integer id);
+    WorkingHoursDto getWorkingHoursDtoById(Integer id);
 
-    TipActivitateDto getTipActivitateById(Integer id);
+    TipFirmaDto getTipFirmaDtoById(Integer id);
 
-    TipDocDto getTipDocById(Integer id);
+    TipActivitateDto getTipActivitateDtoById(Integer id);
 
-    TermenPlataDto getTermenPlataById(Integer id);
+    TipDocDto getTipDocDtoById(Integer id);
 
-    ModPlataDto getModPlataById(Integer id);
+    TermenPlataDto getTermenPlataDtoById(Integer id);
 
-    TipLivrareDto getTipLivrareById(Integer id);
+    ModPlataDto getModPlataDtoById(Integer id);
 
-    UmDto getUmById(Integer id);
+    TipLivrareDto getTipLivrareDtoById(Integer id);
+
+    UmDto getUmDtoById(Integer id);
 
     CpvDto getCpvDtoById(Integer id);
 

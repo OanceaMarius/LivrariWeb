@@ -5,8 +5,11 @@
 package ro.papetti.livrari.plu.repozitories;
 
 import jakarta.persistence.PersistenceContext;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.pluriva.dtoi.SorderCapDTOI;
@@ -67,12 +70,17 @@ public interface SorderCapRepozitory extends JpaRepository<SorderCap, Integer> {
 	"group by SOrderPozParentId"
          , nativeQuery = true)
     public List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
-    
-    
+
+
+    @Query("select c from SorderCap c join c.pozitii poz where  poz.sorderPozId = :sorderPozId")
+    Optional<SorderCap> findSorderCapBySorderPozId(@Param("sorderPozId") Integer sorderPozId);
     
     @Query(value="FROM SorderCap c where c.sorderCapId =:sorderCapId")
      public Optional<SorderCapDTOI> findDTOIBySorderCapId(int sorderCapId);
 
 
+    @Query(value = "SELECT c FROM SorderCap c  where c.sorderCapId =:sorderCapId")
+    @EntityGraph(value = "SorderCap.complet")
+    public Optional<SorderCap> findEagerById(@NonNull int sorderCapId);
 
 }

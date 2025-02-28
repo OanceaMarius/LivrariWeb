@@ -71,7 +71,7 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
 
         if (comandaCap.get().getCom().equals(TipCom.FURNIZOR.name())) {
             PorderCap pOrderCap = porderCapService
-                    .findByIdCuPozitiiSiLegaturaLaComenzi(comandaCap.get().getOrderCapId())
+                    .findEagerById(comandaCap.get().getOrderCapId())
                     .orElse(null);
 
             if (pOrderCap != null) {
@@ -82,10 +82,10 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
             return Optional.of(comandaHarta);
         }
         if (comandaCap.get().getCom().equals(TipCom.CLIENT.name())) {
-            Optional<SorderCap> sOrderCap = sorderCapService
-                    .findByIdCuPozitiiSiLegaturaLaAprov(comandaCap.get().getCapId());
-            if (sOrderCap.isPresent()) {
-                comandaHarta.setPozPluFromSOrder(sOrderCap.get().getPozitii());
+            Optional<SorderCap> sorderCap = sorderCapService
+                    .findEagerById(comandaCap.get().getCapId());
+            if (sorderCap.isPresent()) {
+                comandaHarta.setPozPluFromSOrder(sorderCap.get().getPozitii());
             }
 
             UtilComenzi.putStocuriDisponibile(comandaHarta, stocuri);

@@ -80,7 +80,7 @@ public class PartenerServiceImpl extends BaseServiceImpl<Partener, PartenerRepoz
         partenerDto.setTaraDto(completareDtoService.getTaraDtoById(partenerDto.getTaraId()));
         partenerDto.setJudetDto(completareDtoService.getJudetDtoById(partenerDto.getJudetId()));
         partenerDto.setLocalitateDto(completareDtoService.getLocalitateDtoById(partenerDto.getLocalitateId()));
-        partenerDto.setTipFirmaDto(completareDtoService.getTipFirmaById(partenerDto.getTipFirmaId()));
+        partenerDto.setTipFirmaDto(completareDtoService.getTipFirmaDtoById(partenerDto.getTipFirmaId()));
         partenerDto.setTipStradaDto(completareDtoService.getTipStradaDtoById(partenerDto.getTipStradaId()));
         partenerDto.setUserIntroducereDto(completareDtoService.getUserDtoById(partenerDto.getUserIntroducereId()));
         partenerDto.setUserModificareDto(completareDtoService.getUserDtoById(partenerDto.getUserModificareId()));

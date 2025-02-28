@@ -29,60 +29,61 @@ public class CompletareDtoServiceImpl implements CompletareDtoService {
     private final ModPlataService modPlataService;
     private final TermenPlataService termenPlataService;
     private final TipFirmaService tipFirmaService;
-//    private final LeadService leadService;
+    private final WorkingHoursService workingHoursService;
 
-
-//    @Override
-//    public LeadDto getLeadDtoById(Integer id){
-//        if (id==null)
-//            return null;
-//        return leadService.findDtoById(id).orElse(null);
-//    }
 
     @Override
-    public TipFirmaDto getTipFirmaById(Integer id) {
+    public WorkingHoursDto getWorkingHoursDtoById(Integer id){
+        if (id == null)
+            return null;
+        return workingHoursService.findDtoById(id).orElse(null);
+    }
+
+
+    @Override
+    public TipFirmaDto getTipFirmaDtoById(Integer id) {
         if (id == null)
             return null;
         return tipFirmaService.findDtoById(id).orElse(null);
     }
 
     @Override
-    public TipActivitateDto getTipActivitateById(Integer id) {
+    public TipActivitateDto getTipActivitateDtoById(Integer id) {
         if (id == null)
             return null;
         return tipActivitateService.findDtoById(id).orElse(null);
     }
 
     @Override
-    public TipDocDto getTipDocById(Integer id) {
+    public TipDocDto getTipDocDtoById(Integer id) {
         if (id == null)
             return null;
         return tipDocService.findDtoById(id).orElse(null);
     }
 
     @Override
-    public TermenPlataDto getTermenPlataById(Integer id) {
+    public TermenPlataDto getTermenPlataDtoById(Integer id) {
         if (id == null)
             return null;
         return termenPlataService.findDtoById(id).orElse(null);
     }
 
     @Override
-    public ModPlataDto getModPlataById(Integer id) {
+    public ModPlataDto getModPlataDtoById(Integer id) {
         if (id == null)
             return null;
         return modPlataService.findDtoById(id).orElse(null);
     }
 
     @Override
-    public TipLivrareDto getTipLivrareById(Integer id) {
+    public TipLivrareDto getTipLivrareDtoById(Integer id) {
         if (id == null)
             return null;
         return tipLivrareService.findDtoById(id).orElse(null);
     }
 
     @Override
-    public UmDto getUmById(Integer id) {
+    public UmDto getUmDtoById(Integer id) {
         if (id == null)
             return null;
         return umService.findDtoById(id).orElse(null);
@@ -143,13 +144,6 @@ public class CompletareDtoServiceImpl implements CompletareDtoService {
             return null;
         return userService.findDtoById(id).orElse(null);
     }
-
-//    @Override
-//    public UnitateDto getUnitateDtoById(Integer id){
-//        if ((id==null))
-//            return null;
-//        return unitateService.findDtoById(id).orElse(null);
-//    }
 
 
 

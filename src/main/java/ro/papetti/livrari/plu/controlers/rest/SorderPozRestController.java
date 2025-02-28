@@ -23,12 +23,9 @@ import java.util.Optional;
 public class SorderPozRestController {
 
     private final SorderPozService sorderPozService;
-    private final PorderPozService porderPozService;
 
-    @GetMapping("/SorderCapDTO/PozId/{sorderPozId}")
-    public Optional<SorderCapDto> findSorderCapDtoBySorderPozId(@NonNull @PathVariable int sorderPozId) {
-        return sorderPozService.findSorderCapDtoBySorderPozId(sorderPozId);
-    }
+
+
 
     @GetMapping("/SorderPoz/{sorderPozId}")
     public Optional<SorderPoz> findEagerById(@NonNull @PathVariable int sorderPozId) {
@@ -44,7 +41,6 @@ public class SorderPozRestController {
     public List<SorderPozDto> findPozDtoBySorderCapId(@NonNull @PathVariable int sorderCapId){
         return sorderPozService.findPozDtoBySOrderCapId(sorderCapId);
     }
-
 
 
 }

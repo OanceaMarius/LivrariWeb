@@ -9,9 +9,10 @@ import java.util.Optional;
 
 import org.springframework.lang.NonNull;
 import ro.papetti.livrari.model.BaseService;
-import ro.papetti.pluriva.dto.SorderCapDto;
+import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dto.SorderPozDto;
 import ro.papetti.pluriva.dtoi.SorderPozDTOI;
+import ro.papetti.pluriva.entity.PorderCap;
 import ro.papetti.pluriva.entity.SorderPoz;
 
 /**
@@ -22,17 +23,15 @@ public interface SorderPozService extends BaseService<SorderPoz, Integer> {
 
     List<SorderPoz> findPozitiiBySOrderCapId(int sOrderCapId);
 
-    List<SorderPozDTOI> findPozitiiDTOBySOrderCapId(int sOrderCapId);
+    List<SorderPozDTOI> findPozitiiDTOIBySOrderCapId(int sOrderCapId);
 
-    List<SorderPozDTOI> findPozitiiDTOBySOrderCapIdCUProduse(int sOrderCapId);
-
-    List<SorderPozDTOI> findPozitiiDTOBySOrderCapIdCuProduseSiFurnizori(int sOrderCapId);
-
-    Optional<SorderCapDto> findSorderCapDtoBySorderPozId(int sorderPozId);
 
     Optional<SorderPoz> findEagerById(int sorderPozId);
 
     List<SorderPoz> findEagerBySorderCapId(@NonNull int sorderCapId);
 
     List<SorderPozDto> findPozDtoBySOrderCapId(int sorderCapId);
+
+    Optional<PorderCapDto> findPorderCapDtoFaraPozitiiByPorderPozId(int porderPozId);
+
 }

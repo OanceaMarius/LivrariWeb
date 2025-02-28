@@ -11,9 +11,11 @@ import java.util.Optional;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseService;
 import ro.papetti.pluriva.dto.PorderCapDto;
+import ro.papetti.pluriva.dto.SorderCapDto;
 import ro.papetti.pluriva.dtoi.PorderCapDTOI;
 import ro.papetti.pluriva.entity.PorderCap;
 import ro.papetti.pluriva.entity.PorderPoz;
+import ro.papetti.pluriva.entity.SorderCap;
 
 /**
  *
@@ -31,11 +33,11 @@ public interface PorderCapService extends BaseService<PorderCap, Integer> {
     
     public Optional<PorderCap> findById(Integer pOrderCapId);
     
-    public Optional<PorderCapDTOI> findDTOByPOrderCapId(Integer pOrderCapId);
+    public Optional<PorderCapDTOI> findDTOIByPOrderCapId(Integer pOrderCapId);
 
-    Optional<PorderCap> findByIdCuPozitii(Integer pOrderCapId);
-
-    Optional<PorderCap> findByIdCuPozitiiSiLegaturaLaComenzi(Integer pOrderCapId);
+    Optional<PorderCap> findEagerById(int porderCapId);
 
     Optional<PorderCapDto> findDtoById(int porderCapId);
+
+
 }

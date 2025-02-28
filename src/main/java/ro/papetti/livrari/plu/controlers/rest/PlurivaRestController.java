@@ -56,7 +56,7 @@ public class PlurivaRestController {
     
     @GetMapping("/SOrderCapDTO/{sOrderCapId}")
     public ResponseEntity<SorderCapDTOI> findDTOById(@PathVariable int sOrderCapId){
-        SorderCapDTOI cap = sorderCapService.findDTOById(sOrderCapId).orElseThrow(()->new EntityNotFoundException("Nu gasesc SOrderCap cu SorderId: "+sOrderCapId));
+        SorderCapDTOI cap = sorderCapService.findDTOIById(sOrderCapId).orElseThrow(()->new EntityNotFoundException("Nu gasesc SOrderCap cu SorderId: "+sOrderCapId));
         return ResponseEntity.ok(cap);
     }
 
@@ -73,7 +73,7 @@ public class PlurivaRestController {
     @Transactional
     @GetMapping("/SOrderPozDTO/ByCapId/{sOrderCapId}")
     public List<SorderPozDTOI> findSOrderPozDTOByCapId(@PathVariable int sOrderCapId){
-        return sorderPozService.findPozitiiDTOBySOrderCapId(sOrderCapId);
+        return sorderPozService.findPozitiiDTOIBySOrderCapId(sOrderCapId);
     }
     
        @Transactional
@@ -112,7 +112,7 @@ public class PlurivaRestController {
     
         @GetMapping("/POrderCapDTO/{pOrderCapId}")
     public ResponseEntity<PorderCapDTOI> findDTOByPOrderCapId(@PathVariable int pOrderCapId){
-        PorderCapDTOI cap =  porderCapService.findDTOByPOrderCapId(pOrderCapId)
+        PorderCapDTOI cap =  porderCapService.findDTOIByPOrderCapId(pOrderCapId)
                 .orElseThrow(()->new EntityNotFoundException("Nu gasesc POrderCap cu POrderCapId: "+pOrderCapId));
         Hibernate.initialize(cap.getPozitii());
             Hibernate.initialize(cap.getFurnizorUnitate());
