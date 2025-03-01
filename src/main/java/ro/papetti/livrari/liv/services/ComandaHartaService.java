@@ -4,10 +4,17 @@
  */
 package ro.papetti.livrari.liv.services;
 
+import org.springframework.transaction.annotation.Transactional;
+import ro.papetti.livrari.model.ComandaHarta;
+
+import java.util.Optional;
+
 /**
  *
  * @author MariusO
  */
 public interface ComandaHartaService {
-    
+
+    @Transactional
+    Optional<ComandaHarta> getComandaHartaById(int capId);
 }

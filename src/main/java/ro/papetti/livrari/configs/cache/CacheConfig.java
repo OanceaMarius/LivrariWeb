@@ -42,6 +42,7 @@ public class CacheConfig {
     private final  JudetMapStruct judetMapStruct;
     private final  TipActivitateService tipActivitateService;
     private final  WorkingHoursService workingHoursService;
+    private final ContactService contactService;
 
 
 
@@ -54,6 +55,13 @@ public class CacheConfig {
         List<WorkingHoursDto> hoursDtos=workingHoursService.findDtoEagerAll();
         for (WorkingHoursDto dto:hoursDtos){
             cacheWorkingHours.put(dto.getWorkingHoursId(),dto);
+        }
+
+        //Contact
+        Cache cacheContact=cacheManager.getCache(CacheName.CONTACT);
+        List<ContactDto> contactDtos =contactService.findDtoAll();
+        for (ContactDto dto:contactDtos){
+            cacheContact.put(dto.getContactId(),dto);
         }
 
 

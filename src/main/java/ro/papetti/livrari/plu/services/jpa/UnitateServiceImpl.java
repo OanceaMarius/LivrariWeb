@@ -27,6 +27,8 @@ public class UnitateServiceImpl extends BaseServiceImpl<Unitate, UnitateRepozito
     private CompletareDtoService completareDtoService;
     @Autowired
     private PartenerService partenerService;
+    @Autowired
+    private ContactService contactService;
 
 
     @Override
@@ -93,5 +95,6 @@ public class UnitateServiceImpl extends BaseServiceImpl<Unitate, UnitateRepozito
         unitateDto.setUserIntroducereDto(completareDtoService.getUserDtoById(unitateDto.getUserIntroducereId()));
         unitateDto.setUserModificareDto(completareDtoService.getUserDtoById(unitateDto.getUserModificareId()));
         unitateDto.setWorkingHoursDto(completareDtoService.getWorkingHoursDtoById(unitateDto.getWorkingHoursId()));
+        unitateDto.setContactDtoSet(contactService.findContacteDtoByUnitateId(unitateDto.getUnitateID()));
     }
 }

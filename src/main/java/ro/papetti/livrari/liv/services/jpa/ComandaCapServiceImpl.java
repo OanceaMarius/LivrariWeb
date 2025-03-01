@@ -33,7 +33,7 @@ public class ComandaCapServiceImpl  extends BaseServiceImpl<ComandaCap, ComandaC
      * @return  Aduce si pozitiile de la comanda
      */
     @Override
-    public Optional<ComandaCap> findByIdCuPozitii(Integer capId) {
+    public Optional<ComandaCap> findEagerById(Integer capId) {
 
         Optional<ComandaCap> comCap = rep.findById(capId);
         if (comCap.isPresent()) {

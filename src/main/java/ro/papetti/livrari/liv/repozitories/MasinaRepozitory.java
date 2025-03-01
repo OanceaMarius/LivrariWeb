@@ -15,7 +15,7 @@ import ro.papetti.LivrariTabele.entity.Masina;
  */
 @Repository
 @PersistenceContext(unitName = "livrariEntityManagerFactory")
-public interface MasiniRepozitory extends JpaRepository<Masina, Integer> {
+public interface MasinaRepozitory extends JpaRepository<Masina, Integer> {
     
     
 }

@@ -14,6 +14,6 @@ import ro.papetti.livrari.model.BaseService;
  */
 public interface ComandaCapService extends BaseService<ComandaCap, Integer> {
 
-    Optional<ComandaCap> findByIdCuPozitii(Integer id);
+    Optional<ComandaCap> findEagerById(Integer id);
     
 }
