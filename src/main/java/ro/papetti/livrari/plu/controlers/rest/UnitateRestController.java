@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ro.papetti.livrari.plu.repozitories.UnitateRepozitory;
 import ro.papetti.livrari.plu.services.UnitateService;
 import ro.papetti.pluriva.dto.UnitateDto;
 import ro.papetti.pluriva.dtoi.UnitateDTOI;
@@ -18,12 +19,12 @@ import ro.papetti.pluriva.entity.Unitate;
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class UnitateRestController {
 
     private final UnitateService unitateService;
+    private final UnitateRepozitory unitateRepozitory;
 
     @GetMapping("/Unitate")
     public List<Unitate> findUnitateAll(){

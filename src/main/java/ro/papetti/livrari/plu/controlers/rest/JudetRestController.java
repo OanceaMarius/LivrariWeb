@@ -18,7 +18,6 @@ import ro.papetti.pluriva.mapstruct.JudetMapStruct;
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class JudetRestController {

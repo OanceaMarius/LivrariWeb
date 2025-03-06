@@ -56,15 +56,18 @@ public class DatabaseLivrariConfig {
     @Value("${spring.datasource.livrari.hibernate.generate_statistics}")
     private String generate_statistics;
 
-    @Value("${hibernate.connection.provider_disables_autocommit}")
+    @Value("${spring.datasource.livrari.provider_disables_autocommit}")
     private String provider_disables_autocommit;
+
+    @Value("${spring.datasource.livrari.datasource.hikari.auto-commit}")
+    private boolean datasource_hikari_auto_commit;
 
     @Primary
     @Bean(name= "livrariDataSource")
     @ConfigurationProperties(prefix="spring.datasource.livrari")
     public DataSource livrariDataSource(){
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setAutoCommit(false);
+        dataSource.setAutoCommit(datasource_hikari_auto_commit);
         return dataSource;
     }
     

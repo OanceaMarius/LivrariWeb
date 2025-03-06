@@ -16,7 +16,6 @@ import ro.papetti.livrari.liv.services.MasinaService;
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/")
 public class MasinaRestController {

@@ -15,7 +15,6 @@ import ro.papetti.pluriva.entity.TipFirma;
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class TipFirmaRestController {

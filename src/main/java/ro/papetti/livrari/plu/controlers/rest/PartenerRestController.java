@@ -16,7 +16,6 @@ import ro.papetti.pluriva.entity.Partener;
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class PartenerRestController {

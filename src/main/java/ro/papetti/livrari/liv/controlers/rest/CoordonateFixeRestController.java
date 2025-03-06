@@ -16,7 +16,6 @@ import java.util.List;
 
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/")
 public class CoordonateFixeRestController {

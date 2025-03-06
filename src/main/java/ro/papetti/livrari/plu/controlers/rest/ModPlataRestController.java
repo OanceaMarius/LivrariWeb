@@ -18,7 +18,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@Transactional
 @RequestMapping("/api/pluriva")
 public class ModPlataRestController {
     private final ModPlataService modPlataService;

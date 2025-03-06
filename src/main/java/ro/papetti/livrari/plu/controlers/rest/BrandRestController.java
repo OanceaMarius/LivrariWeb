@@ -16,7 +16,6 @@ import ro.papetti.pluriva.entity.Brand;
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class BrandRestController {

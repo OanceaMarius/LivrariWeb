@@ -16,7 +16,6 @@ import ro.papetti.pluriva.entity.PorderCap;
 
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class PorderCapRestController {

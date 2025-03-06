@@ -21,7 +21,6 @@ import ro.papetti.livrari.liv.services.jpa.ComandaPozServiceImpl;
  * @author MariusO
  */
 @RestController
-@Transactional
 @RequestMapping("/api")
 public class LivrariRestController {
         

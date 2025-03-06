@@ -19,7 +19,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Transactional
 @RequestMapping("/api/pluriva")
 public class TipActivitateRestController {
 

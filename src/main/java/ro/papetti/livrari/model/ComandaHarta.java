@@ -52,6 +52,7 @@ public class ComandaHarta implements Serializable {
         ComandaHarta.dateFormater = dateFormater;
     }
 
+    //ACTIVITATE PROGRAMATA
     public ComandaHarta(FollowUpDto followUpDto, ComandaCapDto comandaCapDto) {
         this.followUpDto = followUpDto;
         this.comandaCapDto = comandaCapDto;
@@ -61,7 +62,7 @@ public class ComandaHarta implements Serializable {
         RepAct_Pro repActPro = new RepAct_Pro(comandaCapDto, followUpDto);
         repActPro.completeazaDatele();
     }
-
+    //FURNIZOR
     public ComandaHarta(PorderCapDto porderCapDto, ComandaCapDto comandaCapDto) {
         this.porderCapDto = porderCapDto;
         this.comandaCapDto = comandaCapDto;
@@ -72,7 +73,7 @@ public class ComandaHarta implements Serializable {
         RepPorder repPorder = new RepPorder(porderCapDto, comandaCapDto);
         comandaPluPozList = repPorder.getComandaPluPozList();
     }
-
+    //CLIENT
     public ComandaHarta(SorderCapDto sorderCapDto, ComandaCapDto comandaCapDto) {
         this.sorderCapDto = sorderCapDto;
         this.comandaCapDto = comandaCapDto;
@@ -82,7 +83,7 @@ public class ComandaHarta implements Serializable {
         RepSorder repSorder= new RepSorder(sorderCapDto, comandaCapDto);
         comandaPluPozList =repSorder.getComandaPluPozList();
     }
-
+    //COORDONATE FIXE
     public ComandaHarta(CoordonateFixeDto coordonateFixeDto, ComandaCapDto comandaCapDto) {
         this.coordonateFixeDto = coordonateFixeDto;
         this.comandaCapDto = comandaCapDto;

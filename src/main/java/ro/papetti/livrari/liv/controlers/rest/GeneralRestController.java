@@ -29,7 +29,6 @@ import ro.papetti.livrari.plu.services.jpa.SorderPozServiceImpl;
  */
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class GeneralRestController {

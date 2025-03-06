@@ -18,7 +18,6 @@ import ro.papetti.pluriva.entity.Tva;
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class TvaRestComtroller {

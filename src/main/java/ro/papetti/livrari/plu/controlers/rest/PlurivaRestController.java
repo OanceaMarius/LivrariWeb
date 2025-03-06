@@ -27,7 +27,6 @@ import java.util.*;
  * @author MariusO
  */
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class PlurivaRestController {

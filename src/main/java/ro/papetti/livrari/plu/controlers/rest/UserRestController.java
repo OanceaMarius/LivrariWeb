@@ -19,7 +19,6 @@ import ro.papetti.pluriva.mapstruct.UserMapStruct;
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class UserRestController {

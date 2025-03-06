@@ -11,16 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.LivrariTabele.entity.CoordonateFixe;
+import ro.papetti.livrari.liv.repozitories.ComandaCapRepozitory;
 import ro.papetti.livrari.liv.services.ComandaCapService;
 
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/")
 public class ComandaCapRestController {
     private final ComandaCapService comandaCapService;
+    private final ComandaCapRepozitory comandaCapRepozitory;
 
     @GetMapping("/ComandaCap/{capId}")
     public ResponseEntity<ComandaCap> findComandaCapById(@NonNull @PathVariable int capId){

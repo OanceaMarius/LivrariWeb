@@ -18,7 +18,6 @@ import ro.papetti.pluriva.entity.SorderCap;
 import java.util.Optional;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class SorderCapRestController {

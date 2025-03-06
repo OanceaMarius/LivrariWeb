@@ -17,7 +17,6 @@ import ro.papetti.pluriva.entity.StareDoc;
 import java.util.List;
 
 @RestController
-@Transactional
 @RequiredArgsConstructor
 @RequestMapping("/api/pluriva")
 public class StareDocRestController {

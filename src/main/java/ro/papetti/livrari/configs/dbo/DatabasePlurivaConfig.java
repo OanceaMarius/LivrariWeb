@@ -6,15 +6,9 @@ package ro.papetti.livrari.configs.dbo;
 
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -24,6 +18,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author MariusO
@@ -51,13 +49,18 @@ public class DatabasePlurivaConfig {
     @Value("${spring.datasource.hibernate.generate_statistics}")
     private String generate_statistics;
 
+    @Value("${spring.datasource.provider_disables_autocommit}")
+    private String provider_disables_autocommit;
+
+    @Value("${spring.datasource.datasource.hikari.auto-commit}")
+    private boolean datasource_hikari_auto_commit;
+
     @Bean(name = "plurivaDataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource plurivaDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setAutoCommit(false);
+        dataSource.setAutoCommit(datasource_hikari_auto_commit);
         return dataSource;
-//        return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "plurivaEntityManagerFactory")
@@ -76,6 +79,7 @@ public class DatabasePlurivaConfig {
 
         // Setările corecte pentru activarea statisticilor
         properties.put("hibernate.generate_statistics", generate_statistics);
+        properties.put("hibernate.connection.provider_disables_autocommit",provider_disables_autocommit);
 
         em.setJpaPropertyMap(properties);
         return em;
