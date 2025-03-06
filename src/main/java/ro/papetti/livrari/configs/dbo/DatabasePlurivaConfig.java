@@ -4,6 +4,7 @@
  */
 package ro.papetti.livrari.configs.dbo;
 
+import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.util.HashMap;
@@ -50,16 +51,13 @@ public class DatabasePlurivaConfig {
     @Value("${spring.datasource.hibernate.generate_statistics}")
     private String generate_statistics;
 
-//    @Bean(name= "plurivaDataSource")
-//    @ConfigurationProperties(prefix="spring.datasource.pluriva")
-//    public DataSource plurivaDataSource(){
-//        return DataSourceBuilder.create().build();
-//    }
-
     @Bean(name = "plurivaDataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource plurivaDataSource() {
-        return DataSourceBuilder.create().build();
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setAutoCommit(false);
+        return dataSource;
+//        return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "plurivaEntityManagerFactory")
@@ -78,8 +76,6 @@ public class DatabasePlurivaConfig {
 
         // Setările corecte pentru activarea statisticilor
         properties.put("hibernate.generate_statistics", generate_statistics);
-
-
 
         em.setJpaPropertyMap(properties);
         return em;

@@ -5,10 +5,15 @@
 package ro.papetti.livrari.liv.services.jpa;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.papetti.LivrariTabele.dto.ComandaCapDto;
+import ro.papetti.LivrariTabele.dto.CoordonateFixeDto;
 import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.LivrariTabele.entity.CoordonateFixe;
+import ro.papetti.LivrariTabele.mapstruct.ComandaCapMapStruct;
+import ro.papetti.LivrariTabele.mapstruct.CoordonateFixeMapStruct;
 import ro.papetti.componente.InfoMarfa;
 import ro.papetti.livrari.liv.services.ComandaCapService;
 import ro.papetti.livrari.liv.services.ComandaHartaService;
@@ -27,6 +32,7 @@ import java.util.Set;
 /**
  * @author MariusO
  */
+@Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional("livrariTransactionManager")
@@ -40,56 +46,60 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
     private final CoordonateFixeService coordonateFixeService;
     private final InfoMarfa infoMarfaBean;
 
+    private final ComandaCapMapStruct comandaCapMapStruct;
+    private final CoordonateFixeMapStruct coordonateFixeMapStruct;
 
-    @Transactional
+
     @Override
+    @Transactional
     public Optional<ComandaHarta> getComandaHartaById(int capId) {
 
         Optional<ComandaCap> optionalComandaCap = capService.findEagerById(capId);
         if (optionalComandaCap.isEmpty()) {
-            System.out.println("Nu gasesc ComandaCap cu capId: "+capId);
+            log.info("Nu gasesc ComandaCap cu capId: "+capId);
             return Optional.empty();
         }
-
-        int firmaId = optionalComandaCap.get().getFirmaId();
+        ComandaCapDto comandaCapDto = comandaCapMapStruct.toDto(optionalComandaCap.get());
+        int firmaId = comandaCapDto.getFirmaId();
         Set<StocDisponibil> stocuri = infoMarfaBean.getStocuriDisponibile(firmaId);
 
         if (optionalComandaCap.get().getCom().equals(TipCom.FURNIZOR.name())) {
             Optional<PorderCapDto> optionalPorderCapDto = porderCapService
-                    .findDtoById(optionalComandaCap.get().getOrderCapId());
+                    .findDtoById(comandaCapDto.getOrderCapId());
 
             if (optionalPorderCapDto.isEmpty()) {
-                System.out.println("Nu gasesc comanda de furnizor cu PorderCapId: " + optionalComandaCap.get().getOrderCapId());
+                log.info("Nu gasesc comanda de furnizor cu PorderCapId: " + comandaCapDto.getOrderCapId());
                 return Optional.empty();
             }
 
-            ComandaHarta comandaHarta = new ComandaHarta(optionalPorderCapDto.get(), optionalComandaCap.get());
+            ComandaHarta comandaHarta = new ComandaHarta(optionalPorderCapDto.get(), comandaCapDto);
             return Optional.of(comandaHarta);
             /* TODO de pus stocurile */
         }
-        if (optionalComandaCap.get().getCom().equals(TipCom.CLIENT.name())) {
-            Optional<SorderCapDto> optionalSorderCap = sorderCapService
-                    .findDtoById(optionalComandaCap.get().getOrderCapId());
-            if (optionalSorderCap.isEmpty()) {
-                System.out.println("Nu gasesc comanda de client cu SorderCapId: " + optionalComandaCap.get().getOrderCapId());
+        if (comandaCapDto.getCom().equals(TipCom.CLIENT.name())) {
+            Optional<SorderCapDto> optionalSorderCapDto = sorderCapService
+                    .findDtoById(comandaCapDto.getOrderCapId());
+            if (optionalSorderCapDto.isEmpty()) {
+                log.info("Nu gasesc comanda de client cu SorderCapId: " + comandaCapDto.getOrderCapId());
                 return Optional.empty();
             }
+
             /* TODO de pus stocuri */
             /* TODO de pus cantitati livrate */
             /* TODO de pus cantitati rezervate */
 //            UtilComenzi.putStocuriDisponibile(comandaHarta, stocuri);
 //            UtilComenzi.putCantitatiLivrateS(comandaHarta, infoMarfaBean);
 //            UtilComenzi.putCantitatiRezervateS(comandaHarta, infoMarfaBean);
-            ComandaHarta comandaHarta = new ComandaHarta(optionalSorderCap.get(), optionalComandaCap.get());
+            ComandaHarta comandaHarta = new ComandaHarta(optionalSorderCapDto.get(), comandaCapDto);
             return Optional.of(comandaHarta);
         }
-        if (optionalComandaCap.get().getCom().equals(TipCom.ACT_PRO.name())) {
-            Optional<FollowUpDto> optionalFollowUpDto = followUpService.findDtoById(optionalComandaCap.get().getOrderCapId());
+        if (comandaCapDto.getCom().equals(TipCom.ACT_PRO.name())) {
+            Optional<FollowUpDto> optionalFollowUpDto = followUpService.findDtoById(comandaCapDto.getOrderCapId());
             if (optionalFollowUpDto.isEmpty()) {
-                System.out.println("Nu gasesc FollowUp cu followUpIdId:" + optionalComandaCap.get().getOrderCapId());
+                log.info("Nu gasesc FollowUp cu followUpIdId:" + comandaCapDto.getOrderCapId());
                 return Optional.empty();
             }
-            ComandaHarta comandaHarta = new ComandaHarta(optionalFollowUpDto.get(), optionalComandaCap.get());
+            ComandaHarta comandaHarta = new ComandaHarta(optionalFollowUpDto.get(),comandaCapDto);
             return Optional.of(comandaHarta);
 
         }
@@ -97,13 +107,15 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
             Optional<CoordonateFixe> optionalCoordonateFixe=
                     coordonateFixeService.findById(optionalComandaCap.get().getOrderCapId());
             if (optionalCoordonateFixe.isEmpty()){
-                System.out.println("Nu gasesc CoordonateFixe cu idCoordonata: " + optionalComandaCap.get().getOrderCapId());
+                log.info("Nu gasesc CoordonateFixe cu idCoordonata: " + comandaCapDto.getOrderCapId());
                 return Optional.empty();
             }
-            ComandaHarta comandaHarta = new ComandaHarta(optionalCoordonateFixe.get(),optionalComandaCap.get());
+            CoordonateFixeDto coordonateFixeDto = coordonateFixeMapStruct.toDto(optionalCoordonateFixe.get());
+            ComandaHarta comandaHarta = new ComandaHarta(coordonateFixeDto, comandaCapDto);
             return Optional.of(comandaHarta);
         } else {
-            throw new RuntimeException("Nu e acceptat inca tipul de comanda: " + optionalComandaCap.get().getCom());
+            log.error(("Nu e acceptat inca tipul de comanda: " + optionalComandaCap.get().getCom()));
+            throw new RuntimeException("Nu e acceptat inca tipul de comanda: " + comandaCapDto.getCom());
         }
 
     }

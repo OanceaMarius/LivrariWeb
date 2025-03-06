@@ -4,10 +4,15 @@
  */
 package ro.papetti.livrari.configs.dbo;
 
+import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
+
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -27,7 +32,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author MariusO
  */
-
+@Slf4j
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:db-link-livrari.properties")
@@ -48,21 +53,27 @@ public class DatabaseLivrariConfig {
     @Value("${spring.datasource.livrari.packages.to.scan}")
     private String packages_to_scan;
 
-    @Value("${spring.datasource.hibernate.generate_statistics}")
+    @Value("${spring.datasource.livrari.hibernate.generate_statistics}")
     private String generate_statistics;
+
+    @Value("${hibernate.connection.provider_disables_autocommit}")
+    private String provider_disables_autocommit;
 
     @Primary
     @Bean(name= "livrariDataSource")
     @ConfigurationProperties(prefix="spring.datasource.livrari")
     public DataSource livrariDataSource(){
-        return DataSourceBuilder.create().build();
+        HikariDataSource dataSource = new HikariDataSource();
+        dataSource.setAutoCommit(false);
+        return dataSource;
     }
     
     
     @Primary
     @Bean(name="livrariEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean livrariEntityManagerFactory(@Qualifier("livrariDataSource") DataSource dataSource){
+    public LocalContainerEntityManagerFactoryBean livrariEntityManagerFactory(@Qualifier("livrariDataSource") HikariDataSource dataSource){
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+
         em.setDataSource(dataSource);
         em.setPackagesToScan(packages_to_scan); // pachetul unde sunt entitățile de livrari  em.setPackagesToScan(new String[] { "com.example.entity.primary" });
 
@@ -75,7 +86,7 @@ public class DatabaseLivrariConfig {
         properties.put("hibernate.format_sql", format_sql);
         // Setările corecte pentru activarea statisticilor
         properties.put("hibernate.generate_statistics", generate_statistics);
-
+        properties.put("hibernate.connection.provider_disables_autocommit",provider_disables_autocommit);
 
         em.setJpaPropertyMap(properties);
 

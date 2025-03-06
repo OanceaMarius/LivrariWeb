@@ -58,11 +58,11 @@ public class CacheConfig {
         }
 
         //Contact
-        Cache cacheContact=cacheManager.getCache(CacheName.CONTACT);
-        List<ContactDto> contactDtos =contactService.findDtoAll();
-        for (ContactDto dto:contactDtos){
-            cacheContact.put(dto.getContactId(),dto);
-        }
+//        Cache cacheContact=cacheManager.getCache(CacheName.CONTACT);
+//        List<ContactDto> contactDtos =contactService.findDtoAll();
+//        for (ContactDto dto:contactDtos){
+//            cacheContact.put(dto.getContactId(),dto);
+//        }
 
 
         //User
@@ -182,11 +182,11 @@ public class CacheConfig {
         }
 
         //Produs
-        Cache cacheProdus = cacheManager.getCache(CacheName.PRODUS_DTO);
-        List<ProdusDto> produsDtoList = produsService.findDtoAll();
-        for (ProdusDto produsDto :produsDtoList){
-            cacheProdus.put(produsDto.getProdusId(),produsDto);
-        }
+//        Cache cacheProdus = cacheManager.getCache(CacheName.PRODUS_DTO);
+//        List<ProdusDto> produsDtoList = produsService.findDtoAll();
+//        for (ProdusDto produsDto :produsDtoList){
+//            cacheProdus.put(produsDto.getProdusId(),produsDto);
+//        }
 
         //Unitate dureaza prea mult
 //        Cache cacheUnitate = cacheManager.getCache(CacheName.UNITATE_DTO);
