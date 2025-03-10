@@ -140,7 +140,7 @@ public class PlurivaRestController {
     }
     
     @GetMapping("/StocDisponibil/{firmaId}")
-    public Set<StocDisponibil>  getStocDisponibilOperational(@PathVariable int firmaId){
+    public List<StocDisponibil>  getStocDisponibilOperational(@PathVariable int firmaId){
         return stocService.getStocDisponibilInGestiuneOperationala(firmaId);
     }
     

@@ -4,8 +4,10 @@
  */
 package ro.papetti.livrari.plu.services;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+
 import ro.papetti.livrari.model.StocDisponibil;
 
 /**
@@ -16,6 +18,11 @@ public interface StocService {
 
     public List<StocDisponibil> getStocDisponibilInGestiune(int FirmaId, int GestiuneId);
 
-    public Set<StocDisponibil> getStocDisponibilInGestiuneOperationala(int FirmaId);
-    
+    public List<StocDisponibil> getStocDisponibilInGestiuneOperationala(int FirmaId);
+
+    int getGestiuneOperationalaPeFirma(int firmaId);
+
+    Map<Integer, BigDecimal> getStocDisponibilInGestiuneFiltrat(int firmaId, int gestiuneId, List<Integer> produsIdList);
+
+    Map<Integer, BigDecimal> getStocDisponibilInGestiuneOperationalaFiltrat(int firmaId, List<Integer> produsIdList);
 }

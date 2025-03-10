@@ -58,17 +58,17 @@ public class FollowUpRestController {
         return ResponseEntity.ok(entity);
     }
 
-    @GetMapping("/FollowUpDTO/DupaData/{data}")
+    @GetMapping("/FollowUpDTO/ByData/{data}")
     public List<FollowUpDto> findFollowUpDtoDupaData(@NonNull @PathVariable Date data) {
         return followUpService.findDtoDataCreareDupa(data);
     }
 
-    @GetMapping("/FollowUpDTO/TipActivitate/{tipActivitate}")
+    @GetMapping("/FollowUpDTO/ByTipActivitate/{tipActivitate}")
     public List<FollowUpDto> findFollowUpDtoByTipActivitate(@NonNull @PathVariable int  tipActivitate) {
         return followUpService.findDtoByTipActivitate(tipActivitate);
     }
 
-    @GetMapping("/FollowUpDTO/TipActivitateDataCreare/{tipActivitate}/{dataCreare}")
+    @GetMapping("/FollowUpDTO/ByTipActivitateDataCreare/{tipActivitate}/{dataCreare}")
     public List<FollowUpDto> findFollowUpDtoByTipActivitate(@NonNull @PathVariable int  tipActivitate, @NonNull @PathVariable Date dataCreare ) {
         return followUpService.findDtoByTipActivitateSiDataCreareDupa(tipActivitate,dataCreare);
     }

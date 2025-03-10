@@ -26,6 +26,7 @@ import ro.papetti.pluriva.dto.FollowUpDto;
 import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dto.SorderCapDto;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -44,7 +45,6 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
     private final SorderCapService sorderCapService;
     private final FollowUpService followUpService;
     private final CoordonateFixeService coordonateFixeService;
-    private final InfoMarfa infoMarfaBean;
 
     private final ComandaCapMapStruct comandaCapMapStruct;
     private final CoordonateFixeMapStruct coordonateFixeMapStruct;
@@ -61,7 +61,7 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
         }
         ComandaCapDto comandaCapDto = comandaCapMapStruct.toDto(optionalComandaCap.get());
         int firmaId = comandaCapDto.getFirmaId();
-        Set<StocDisponibil> stocuri = infoMarfaBean.getStocuriDisponibile(firmaId);
+//        List<StocDisponibil> stocuri = infoMarfaBean.getStocuriDisponibile(firmaId);
 
         if (optionalComandaCap.get().getCom().equals(TipCom.FURNIZOR.name())) {
             Optional<PorderCapDto> optionalPorderCapDto = porderCapService
@@ -74,7 +74,6 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
 
             ComandaHarta comandaHarta = new ComandaHarta(optionalPorderCapDto.get(), comandaCapDto);
             return Optional.of(comandaHarta);
-            /* TODO de pus stocurile */
         }
         if (comandaCapDto.getCom().equals(TipCom.CLIENT.name())) {
             Optional<SorderCapDto> optionalSorderCapDto = sorderCapService
@@ -84,12 +83,8 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
                 return Optional.empty();
             }
 
-            /* TODO de pus stocuri */
             /* TODO de pus cantitati livrate */
             /* TODO de pus cantitati rezervate */
-//            UtilComenzi.putStocuriDisponibile(comandaHarta, stocuri);
-//            UtilComenzi.putCantitatiLivrateS(comandaHarta, infoMarfaBean);
-//            UtilComenzi.putCantitatiRezervateS(comandaHarta, infoMarfaBean);
             ComandaHarta comandaHarta = new ComandaHarta(optionalSorderCapDto.get(), comandaCapDto);
             return Optional.of(comandaHarta);
         }

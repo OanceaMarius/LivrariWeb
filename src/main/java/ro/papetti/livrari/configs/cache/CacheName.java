@@ -27,5 +27,6 @@ public class CacheName {
     public static final String TIP_ACTIVITATE= "tipActivitate";
     public static final String WORKING_HOURS = "WorkingHours";
     public static final String CONTACT="contact";
+    public static final String GESTIUNE="gestiune";
 
 }

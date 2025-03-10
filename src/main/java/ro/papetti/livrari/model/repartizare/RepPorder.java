@@ -1,46 +1,76 @@
 package ro.papetti.livrari.model.repartizare;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ro.papetti.LivrariTabele.dto.ComandaCapDto;
 import ro.papetti.LivrariTabele.dto.ComandaPozDto;
-import ro.papetti.LivrariTabele.entity.ComandaPoz;
 import ro.papetti.livrari.model.ComandaPluPoz;
 import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dto.PorderPozDto;
 
 import java.util.*;
-
+/**
+ * Completeaza liniile si informatiile din comanda din pluriva, stocuri
+ */
+@Component
 @RequiredArgsConstructor
 public class RepPorder {
-    private final PorderCapDto porderCapDto;
-    private final ComandaCapDto comandaCapDto;
+    private  PorderCapDto porderCapDto;
+    private  ComandaCapDto comandaCapDto;
+
+    private static RepStocuri repStocuri;
+
+    @Autowired
+    public RepPorder(RepStocuri repStocuri) {
+        RepPorder.repStocuri = repStocuri;
+    }
+
+    public RepPorder(PorderCapDto porderCapDto, ComandaCapDto comandaCapDto) {
+        this.porderCapDto = porderCapDto;
+        this.comandaCapDto = comandaCapDto;
+    }
 
     public List<ComandaPluPoz> getComandaPluPozList() {
         List<ComandaPluPoz> comandaPluPozList = new ArrayList<ComandaPluPoz>();
         List<ComandaPozDto> comandaPozList = comandaCapDto.getPozitiiLivrari();
-        Set<Integer> orderPozIdSet = new HashSet<>(comandaCapDto.getPozitiiLivrari().size());
+        Map<Integer, ComandaPluPoz> integerComandaPluPozMap = new HashMap<>();
+
+
+        //pozitiile deja repartizate
         for (ComandaPozDto poz : comandaPozList) {
             ComandaPluPoz comandaPluPoz = new ComandaPluPoz();
 
-            orderPozIdSet.add(poz.getOrderPozId());
+            comandaPluPoz.setProdusId(poz.getProdusId());
             comandaPluPoz.setOrderPozId(poz.getOrderPozId());
             comandaPluPoz.setCantRepartizata(poz.getCantRepartizata());
 
+            integerComandaPluPozMap.put(poz.getOrderPozId(),comandaPluPoz);
             comandaPluPozList.add(comandaPluPoz);
         }
 
+        //pozitiile din comanda de furnizor
         for (PorderPozDto pozDto: porderCapDto.getPozitiiDto()){
-            if (!orderPozIdSet.contains(pozDto.getPorderPozId())){
-
+            if (!integerComandaPluPozMap.containsKey(pozDto.getPorderPozId())){
                 ComandaPluPoz comandaPluPoz = new ComandaPluPoz();
-                comandaPluPoz.setOrderPozId(pozDto.getPorderPozId());
-                comandaPluPoz.setOrderPozPluId(pozDto.getPorderPozId());
-                comandaPluPoz.setCantRepartizata(pozDto.getCant());
 
+                comandaPluPoz.setProdusId(pozDto.getProdusId());
+                comandaPluPoz.setProdusPluId(pozDto.getProdusId());
+                comandaPluPoz.setOrderPozPluId(pozDto.getPorderPozId());
+                comandaPluPoz.setCantComanda(pozDto.getCant());
+
+                integerComandaPluPozMap.put(pozDto.getPorderPozId(),comandaPluPoz);
                 comandaPluPozList.add(comandaPluPoz);
+            }else{
+                ComandaPluPoz comandaPluPoz = integerComandaPluPozMap.get(pozDto.getPorderPozId());
+
+                comandaPluPoz.setProdusPluId(pozDto.getProdusId());
+                comandaPluPoz.setOrderPozPluId(pozDto.getPorderPozId());
+                comandaPluPoz.setCantComanda(pozDto.getCant());
             }
         }
-
+        //pun si stocurile
+        repStocuri.completeazaStocuri(comandaPluPozList, comandaCapDto.getFirmaId());
         return comandaPluPozList;
     }
 

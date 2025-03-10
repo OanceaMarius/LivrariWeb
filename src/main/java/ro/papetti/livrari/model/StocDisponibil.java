@@ -4,12 +4,15 @@
  */
 package ro.papetti.livrari.model;
 
+import lombok.*;
+
 import java.math.BigDecimal;
 
 /**
  *
  * @author MariusO
  */
+@Data
 public class StocDisponibil {
     private BigDecimal stocDisponibil;
     private int produsId;
@@ -19,20 +22,4 @@ public class StocDisponibil {
         this.produsId = produsId;
     }
 
-    public BigDecimal getStocDisponibil() {
-        return stocDisponibil;
-    }
-
-    public void setStocDisponibil(BigDecimal stocDisponibil) {
-        this.stocDisponibil = stocDisponibil;
-    }
-
-    public int getProdusId() {
-        return produsId;
-    }
-
-    public void setProdusId(int produsId) {
-        this.produsId = produsId;
-    }
-    
 }

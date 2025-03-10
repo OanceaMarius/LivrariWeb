@@ -4,53 +4,50 @@
  */
 package ro.papetti.livrari.plu.repozitories;
 
-import java.util.List;
-import java.util.Set;
-
 import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.pluriva.entity.SorderCap;
 
+import java.util.List;
+
 /**
- *
  * @author MariusO
  */
 @Repository
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
 public interface StocRepozitory extends JpaRepository<SorderCap, Integer> {
-        
-    @Query(value="select  SUM(s.Stoc) StocDisponibil, ProdusId" +
-"       from inv.Stoc (Nolock) s  where Stoc <>0 AND " +
-"			case when isnull(:FirmaId,0) > 0 then s.FirmaId" +
-"				else isnull(:FirmaId,0) end = isnull(:FirmaId,0) and " +
-"			:GestiuneId = s.GestiuneId " +
-"		group by ProdusId"
-            , nativeQuery = true)
-    public List<StocDisponibil> getStocDisponibilInGestiune(int FirmaId, int GestiuneId);
-    
-    
-    
-    
-        @Query(value="DECLARE @GestiuneId int " +
-"	SELECT top 1 @GestiuneId = GestiuneId from Papetti.dbo.tblGestiuni G " +
-"	where Activ =1 AND Operational = 1 AND FirmaId = :FirmaId order by OrdineVanzare asc "+
-"           select ProdusId,  SUM(s.Stoc) StocDisponibil" +
-"       from inv.Stoc (Nolock) s  where Stoc <>0 AND " +
-"			case when isnull(:FirmaId,0) > 0 then s.FirmaId" +
-"				else isnull(:FirmaId,0) end = isnull(:FirmaId,0) and " +
-"			@GestiuneId = s.GestiuneId" +
-"		group by ProdusId"
-            , nativeQuery = true)
-    public Set<StocDisponibil>  getStocDisponibilInGestiuneOperationala(int FirmaId);
-    
-    
-    
 
-    
-    
-    
-    
+
+    @Query(value = "SELECT top 1  GestiuneId from tblGestiuni G " +
+            "where Activ =1 AND Operational = 1 AND FirmaId = :firmaId order by OrdineVanzare asc", nativeQuery = true)
+    @Transactional(readOnly = true)
+    public int getGestiuneOperationalaPeFirma(int firmaId);
+
+
+    @Query(value = "select ProdusId, SUM(s.Stoc) StocDisponibil " +
+            "from inv.Stoc s  where Stoc <>0 AND " +
+            "s.FirmaId  = :firmaId and " +
+            "s.GestiuneId  = :gestiuneId and " +
+            "ProdusId IN (:produsIds) " +
+            "group by ProdusId", nativeQuery = true)
+    @Transactional(readOnly = true)
+    public List<StocDisponibil> getStocDisponibilInGestiuneFiltrat(
+            @Param("firmaId") int firmaId,
+            @Param("gestiuneId") int gestiuneId,
+            @Param("produsIds") List<Integer> produsIdList);
+
+    @Query(value = "select ProdusId,  SUM(s.Stoc) StocDisponibil " +
+            "from inv.Stoc (Nolock) s  where Stoc <>0 AND " +
+            "s.FirmaId  = :firmaId and " +
+            "s.GestiuneId  = :gestiuneId " +
+            "group by ProdusId", nativeQuery = true)
+    @Transactional(readOnly = true)
+    public List<StocDisponibil> getStocDisponibilInGestiune(int firmaId, int gestiuneId);
+
+
 }

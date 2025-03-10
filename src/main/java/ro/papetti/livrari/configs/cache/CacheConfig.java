@@ -9,12 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import ro.papetti.livrari.plu.services.*;
 import ro.papetti.pluriva.dto.*;
 import ro.papetti.pluriva.entity.Judet;
-import ro.papetti.pluriva.entity.TipFirma;
-import ro.papetti.pluriva.entity.TipStrada;
 import ro.papetti.pluriva.mapstruct.JudetMapStruct;
 
 import java.util.List;
-import java.util.prefs.PreferencesFactory;
 
 @RequiredArgsConstructor
 @Configuration
@@ -43,6 +40,7 @@ public class CacheConfig {
     private final  TipActivitateService tipActivitateService;
     private final  WorkingHoursService workingHoursService;
     private final ContactService contactService;
+    private final GestiuneService gestiuneService;
 
 
 
@@ -176,9 +174,16 @@ public class CacheConfig {
 
         //Tva
         Cache cacheTva = cacheManager.getCache(CacheName.TVA_DTO);
-        List<TvaDto> tvaDtoList =tvaService.findDtoAll();
+        List<TvaDto> tvaDtoList = tvaService.findDtoAll();
         for (TvaDto tvaDto: tvaDtoList){
             cacheTva.put(tvaDto.getTvaId(),tvaDto);
+        }
+
+        //Gestiune
+        Cache cacheGestiune = cacheManager.getCache(CacheName.GESTIUNE);
+        List<GestiuneDto> gestiuneDtoList = gestiuneService.findDtoAll();
+        for (GestiuneDto gestiuneDto: gestiuneDtoList){
+            cacheGestiune.put(gestiuneDto.getGestiuneId(),gestiuneDto);
         }
 
         //Produs

@@ -30,6 +30,7 @@ public class CompletareDtoServiceImpl implements CompletareDtoService {
     private final TermenPlataService termenPlataService;
     private final TipFirmaService tipFirmaService;
     private final WorkingHoursService workingHoursService;
+    private final GestiuneService gestiuneService;
 
 
     @Override
@@ -152,5 +153,13 @@ public class CompletareDtoServiceImpl implements CompletareDtoService {
         if ((id == null))
             return null;
         return tipStradaService.findDtoById(id).orElse(null);
+    }
+
+    @Override
+    public GestiuneDto getGestiuneDtoById(Integer id){
+        if (id==null)
+            return null;
+
+        return gestiuneService.findDtoById(id).orElse(null);
     }
 }

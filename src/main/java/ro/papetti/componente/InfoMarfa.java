@@ -4,8 +4,10 @@
  */
 package ro.papetti.componente;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
 
@@ -15,10 +17,14 @@ import ro.papetti.livrari.model.StocDisponibil;
  */
 public interface InfoMarfa {
 
+    Map<Integer, BigDecimal> getStocDisponibilInGestiuneFiltrat(int firmaId, int gestiuneId, List<Integer> produsIdList);
+
+    Map<Integer, BigDecimal> getStocDisponibilInGestiuneOperationalaFiltrat(int firmaId, List<Integer> produsIdList);
+
     List<PozCantitate> getCantitatiLivrate(int sOrderCapId, int firmaId);
     
     List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
 
-    Set<StocDisponibil> getStocuriDisponibile(int firmaId);
+    List<StocDisponibil> getStocuriDisponibile(int firmaId);
     
 }

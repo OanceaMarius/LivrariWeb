@@ -44,4 +44,6 @@ public interface CompletareDtoService {
 //    PartenerDto getPartenerDtoById(Integer id);
 
     TipStradaDto getTipStradaDtoById(Integer id);
+
+    GestiuneDto getGestiuneDtoById(Integer id);
 }

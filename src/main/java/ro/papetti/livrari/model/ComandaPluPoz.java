@@ -26,6 +26,9 @@ public class ComandaPluPoz implements Serializable {
 
     private Integer orderPozId;
     private Integer orderPozPluId;
+    private Integer produsId;
+    private Integer produsPluId;
+    private BigDecimal cantComanda = BigDecimal.valueOf(0);;
     private BigDecimal cantRepartizata = BigDecimal.valueOf(0);
     private BigDecimal cantStoc = BigDecimal.valueOf(0);    /* TODO sa aduc stocul */
     private BigDecimal cantLivrata = BigDecimal.valueOf(0); /* TODO sa aduc cantitatealivrata/receptionata */
