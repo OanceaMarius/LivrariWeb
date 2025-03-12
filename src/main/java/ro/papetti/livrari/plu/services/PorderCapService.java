@@ -4,8 +4,10 @@
  */
 package ro.papetti.livrari.plu.services;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -40,4 +42,5 @@ public interface PorderCapService extends BaseService<PorderCap, Integer> {
     Optional<PorderCapDto> findDtoById(int porderCapId);
 
 
+    Map<Integer, BigDecimal> getCantitatiReceptionateByPorderCapId(int porderCapId);
 }

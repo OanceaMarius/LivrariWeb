@@ -16,6 +16,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ro.papetti.livrari.model.ProdusCantitate;
 import ro.papetti.pluriva.dtoi.PorderCapDTOI;
 import ro.papetti.pluriva.entity.PorderCap;
 import ro.papetti.pluriva.entity.SorderCap;
@@ -45,5 +47,13 @@ public interface PorderCapRepozitory extends JpaRepository<PorderCap, Integer> {
     @Query("select c from SorderCap c join c.pozitii poz where  poz.sorderPozId = :sorderPozId")
     Optional<SorderCap> findSorderCapBySorderPozId(@Param("sorderPozId") Integer sorderPozId);
 
+    @Query(value = "select PO.PorderPozId, sum(P.CantIntrare) Cantitate " +
+            "from inv.IntrCap C " +
+            "inner join inv.IntrPoz P ON C.IntrCapId = P.IntrCapId " +
+            "inner join POrderPoz PO on PO.POrderPozId = P.POrderPozId " +
+            "where PO.POrderCapId = :porderCapId AND C.DataAnulare is null " +
+            "group by P.ProdusId, PO.PorderPozId",nativeQuery = true)
+    @Transactional(readOnly = true)
+    List<ProdusCantitate> getCantitatiReceptionateByPorderCapId(int porderCapId);
 }
 

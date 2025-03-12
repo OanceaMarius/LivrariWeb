@@ -8,9 +8,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
+import ro.papetti.livrari.plu.services.PorderCapService;
 import ro.papetti.livrari.plu.services.SorderCapService;
 import ro.papetti.livrari.plu.services.StocService;
 
@@ -19,16 +21,13 @@ import ro.papetti.livrari.plu.services.StocService;
  * @author MariusO
  */
 @Component
+@RequiredArgsConstructor
 public class InfoMarfaImpl implements InfoMarfa {
 
     private final StocService stocService;
     private final SorderCapService sorderCapService;
+    private final PorderCapService porderCapService;
 
-    public InfoMarfaImpl(StocService stocService, SorderCapService sOrderCapService) {
-        this.stocService = stocService;
-        this.sorderCapService = sOrderCapService;
-//        System.out.println("InfoMarfa E ONLINE");
-    }
 
     @Override
     public List<StocDisponibil> getStocuriDisponibile(int firmaId) {
@@ -54,6 +53,11 @@ public class InfoMarfaImpl implements InfoMarfa {
     @Override
     public List<PozCantitate> getCantitatiRezervate(int sOrderCapId) {
         return sorderCapService.getCantitatiRezervate(sOrderCapId);
+    }
+
+    @Override
+    public Map<Integer, BigDecimal> getCantitatiReceptionateByPorderCapId(int porderCapId){
+        return porderCapService.getCantitatiReceptionateByPorderCapId(porderCapId);
     }
 
 }

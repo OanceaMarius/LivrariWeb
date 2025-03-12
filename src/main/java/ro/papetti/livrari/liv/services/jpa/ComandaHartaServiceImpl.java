@@ -14,21 +14,17 @@ import ro.papetti.LivrariTabele.entity.ComandaCap;
 import ro.papetti.LivrariTabele.entity.CoordonateFixe;
 import ro.papetti.LivrariTabele.mapstruct.ComandaCapMapStruct;
 import ro.papetti.LivrariTabele.mapstruct.CoordonateFixeMapStruct;
-import ro.papetti.componente.InfoMarfa;
 import ro.papetti.livrari.liv.services.ComandaCapService;
 import ro.papetti.livrari.liv.services.ComandaHartaService;
 import ro.papetti.livrari.liv.services.CoordonateFixeService;
 import ro.papetti.livrari.model.ComandaHarta;
-import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.livrari.model.TipCom;
 import ro.papetti.livrari.plu.services.*;
 import ro.papetti.pluriva.dto.FollowUpDto;
 import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dto.SorderCapDto;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author MariusO

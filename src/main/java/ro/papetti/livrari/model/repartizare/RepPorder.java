@@ -20,10 +20,12 @@ public class RepPorder {
     private  ComandaCapDto comandaCapDto;
 
     private static RepStocuri repStocuri;
+    private static RepCantReceptionate repCantReceptionate;
 
     @Autowired
-    public RepPorder(RepStocuri repStocuri) {
+    public RepPorder(RepStocuri repStocuri, RepCantReceptionate repCantReceptionate) {
         RepPorder.repStocuri = repStocuri;
+        RepPorder.repCantReceptionate=repCantReceptionate;
     }
 
     public RepPorder(PorderCapDto porderCapDto, ComandaCapDto comandaCapDto) {
@@ -71,6 +73,8 @@ public class RepPorder {
         }
         //pun si stocurile
         repStocuri.completeazaStocuri(comandaPluPozList, comandaCapDto.getFirmaId());
+        //pun cantitatilr receptionate
+        repCantReceptionate.completeazaCantitatiReceptionate(comandaPluPozList, comandaCapDto.getOrderCapId());
         return comandaPluPozList;
     }
 

@@ -4,7 +4,7 @@
  */
 package ro.papetti.livrari.model;
 
-import lombok.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
@@ -13,12 +13,12 @@ import java.math.BigDecimal;
  * @author MariusO
  */
 @Data
-public class StocDisponibil {
-    private BigDecimal stocDisponibil;
+public class ProdusCantitate {
+    private BigDecimal cantitate;
     private int produsId;
 
-    public StocDisponibil(int produsId, BigDecimal stocDisponibil) {
-        this.stocDisponibil = stocDisponibil;
+    public ProdusCantitate(int produsId, BigDecimal cantitate) {
+        this.cantitate = cantitate;
         this.produsId = produsId;
     }
 

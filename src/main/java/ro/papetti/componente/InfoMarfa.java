@@ -26,5 +26,6 @@ public interface InfoMarfa {
     List<PozCantitate> getCantitatiRezervate(int sOrderCapId);
 
     List<StocDisponibil> getStocuriDisponibile(int firmaId);
-    
+
+    Map<Integer, BigDecimal> getCantitatiReceptionateByPorderCapId(int porderCapId);
 }

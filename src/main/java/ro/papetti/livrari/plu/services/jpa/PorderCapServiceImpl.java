@@ -5,14 +5,16 @@
 package ro.papetti.livrari.plu.services.jpa;
 
 import jakarta.persistence.EntityNotFoundException;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+
+import java.math.BigDecimal;
+import java.util.*;
+
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
+import ro.papetti.livrari.model.ProdusCantitate;
 import ro.papetti.livrari.plu.repozitories.PorderCapRepozitory;
 import ro.papetti.livrari.plu.services.*;
 import ro.papetti.pluriva.dto.PorderCapDto;
@@ -129,6 +131,17 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
 
         setPorderCapDtoCuPozitiiFromCache(porderCapDto.get());
         return porderCapDto;
+    }
+
+    @Override
+    public Map<Integer, BigDecimal> getCantitatiReceptionateByPorderCapId(int porderCapId){
+        List<ProdusCantitate> cantitateList = rep.getCantitatiReceptionateByPorderCapId(porderCapId);
+        Map<Integer, BigDecimal> produsMap = new HashMap<>(cantitateList.size());
+        for (ProdusCantitate pc:cantitateList){
+            produsMap.put(pc.getProdusId(),pc.getCantitate());
+        }
+        return produsMap;
+
     }
 
 

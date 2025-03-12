@@ -5,7 +5,6 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.livrari.plu.services.StocService;
-import ro.papetti.pluriva.entity.Tara;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

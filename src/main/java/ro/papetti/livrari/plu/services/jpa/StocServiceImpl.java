@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.StocDisponibil;
@@ -21,11 +22,9 @@ import ro.papetti.livrari.plu.services.StocService;
  */
 @Service
 @Transactional(value = "plurivaTransactionManager", readOnly = true)
+@RequiredArgsConstructor
 public class StocServiceImpl implements StocService{
 
-    public StocServiceImpl(StocRepozitory stocRepozitory) {
-        this.stocRepozitory = stocRepozitory;
-    }
     private final StocRepozitory stocRepozitory;
     
     @Override
@@ -70,4 +69,6 @@ public class StocServiceImpl implements StocService{
         }
         return  stocDisponibilMap;
     }
+
+
 }
