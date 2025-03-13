@@ -4,14 +4,13 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.papetti.livrari.plu.services.TipDocService;
+import ro.papetti.pluriva.dto.DocDto;
 import ro.papetti.pluriva.dto.TipDocDto;
-import ro.papetti.pluriva.dtoi.TipDocDTOI;
 import ro.papetti.pluriva.entity.TipDoc;
 
 import java.util.List;
@@ -48,5 +47,11 @@ public class TipDocRestController {
         return ResponseEntity.ok(entity);
     }
 
+    @GetMapping("/DocDTO/{docId}")
+    public ResponseEntity<DocDto> findDocDtoById(@NonNull @PathVariable Integer docId){
+        DocDto docDto = tipDocService.findDocDtoById(docId)
+                .orElseThrow(()->new EntityNotFoundException("Nu gasesc Doc cu docId: " + docId));
+        return ResponseEntity.ok(docDto);
+    }
 
 }

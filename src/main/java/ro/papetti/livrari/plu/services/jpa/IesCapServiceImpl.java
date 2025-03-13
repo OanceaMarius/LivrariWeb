@@ -36,6 +36,7 @@ public class IesCapServiceImpl extends BaseServiceImpl<IesCap, IesCapRepozirory>
         if (optionalIesCapDto.isPresent()){
             optionalIesCapDto.get().setClientUnitateDto(unitateService.findDtoById(optionalIesCapDto.get().getClientId()).orElse(null));
             optionalIesCapDto.get().setTipDocDto(completareDtoService.getTipDocDtoById(optionalIesCapDto.get().getTipDocId()));
+            optionalIesCapDto.get().setDocDto(completareDtoService.getDocDtoById(optionalIesCapDto.get().getDocId()));
             optionalIesCapDto.get().setUserCreareDto(completareDtoService.getUserDtoById(optionalIesCapDto.get().getUserCreareId()));
             optionalIesCapDto.get().setUserFacturareDto(completareDtoService.getUserDtoById(optionalIesCapDto.get().getUserFacturareId()));
             optionalIesCapDto.get().setUserValidareContaDto(completareDtoService.getUserDtoById(optionalIesCapDto.get().getUserValidareContaId()));

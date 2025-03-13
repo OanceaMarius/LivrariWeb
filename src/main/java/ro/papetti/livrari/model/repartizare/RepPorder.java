@@ -21,11 +21,13 @@ public class RepPorder {
 
     private static RepStocuri repStocuri;
     private static RepCantReceptionate repCantReceptionate;
+    private static RepStocLaFurnizor repStocLaFurnizor;
 
     @Autowired
-    public RepPorder(RepStocuri repStocuri, RepCantReceptionate repCantReceptionate) {
+    public RepPorder(RepStocuri repStocuri, RepCantReceptionate repCantReceptionate, RepStocLaFurnizor repStocLaFurnizor) {
         RepPorder.repStocuri = repStocuri;
         RepPorder.repCantReceptionate=repCantReceptionate;
+        RepPorder.repStocLaFurnizor=repStocLaFurnizor;
     }
 
     public RepPorder(PorderCapDto porderCapDto, ComandaCapDto comandaCapDto) {
@@ -53,6 +55,7 @@ public class RepPorder {
 
         //pozitiile din comanda de furnizor
         for (PorderPozDto pozDto: porderCapDto.getPozitiiDto()){
+            //daca pozitia din pluriva nu e repartizata
             if (!integerComandaPluPozMap.containsKey(pozDto.getPorderPozId())){
                 ComandaPluPoz comandaPluPoz = new ComandaPluPoz();
 
@@ -63,7 +66,7 @@ public class RepPorder {
 
                 integerComandaPluPozMap.put(pozDto.getPorderPozId(),comandaPluPoz);
                 comandaPluPozList.add(comandaPluPoz);
-            }else{
+            }else{ //daca pozitia e deja repartizata
                 ComandaPluPoz comandaPluPoz = integerComandaPluPozMap.get(pozDto.getPorderPozId());
 
                 comandaPluPoz.setProdusPluId(pozDto.getProdusId());
@@ -75,6 +78,8 @@ public class RepPorder {
         repStocuri.completeazaStocuri(comandaPluPozList, comandaCapDto.getFirmaId());
         //pun cantitatilr receptionate
         repCantReceptionate.completeazaCantitatiReceptionate(comandaPluPozList, comandaCapDto.getOrderCapId());
+        //pun stocul la furnizor fin feed
+        repStocLaFurnizor.completeazaStoculLaFurnizor(comandaPluPozList,  comandaCapDto.getOrderCapId());
         return comandaPluPozList;
     }
 

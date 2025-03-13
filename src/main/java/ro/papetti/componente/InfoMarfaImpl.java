@@ -15,6 +15,7 @@ import ro.papetti.livrari.model.StocDisponibil;
 import ro.papetti.livrari.plu.services.PorderCapService;
 import ro.papetti.livrari.plu.services.SorderCapService;
 import ro.papetti.livrari.plu.services.StocService;
+import ro.papetti.pluriva.entity.FurnizorProdus;
 
 /**
  *
@@ -58,6 +59,11 @@ public class InfoMarfaImpl implements InfoMarfa {
     @Override
     public Map<Integer, BigDecimal> getCantitatiReceptionateByPorderCapId(int porderCapId){
         return porderCapService.getCantitatiReceptionateByPorderCapId(porderCapId);
+    }
+
+    @Override
+    public Map<Integer, FurnizorProdus> getProduseLaFurnizorPeComanda(int porderCapId){
+        return stocService.getProduseLaFurnizorPeComanda(porderCapId);
     }
 
 }

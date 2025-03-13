@@ -57,7 +57,6 @@ public class ComandaHartaServiceImpl implements ComandaHartaService {
         }
         ComandaCapDto comandaCapDto = comandaCapMapStruct.toDto(optionalComandaCap.get());
         int firmaId = comandaCapDto.getFirmaId();
-//        List<StocDisponibil> stocuri = infoMarfaBean.getStocuriDisponibile(firmaId);
 
         if (optionalComandaCap.get().getCom().equals(TipCom.FURNIZOR.name())) {
             Optional<PorderCapDto> optionalPorderCapDto = porderCapService

@@ -143,6 +143,14 @@ public class CacheConfig {
             cacheTipDoc.put(tipDocDto.getTipDocId(),tipDocDto);
         }
 
+        //Doc
+        Cache cacheDoc = cacheManager.getCache(CacheName.DOC_DTO);
+        List<DocDto> docDtoList =tipDocService.findDocDtoAll();
+        for (ro.papetti.pluriva.dto.DocDto docDto: docDtoList){
+            cacheDoc.put(docDto.getDocId(),docDto);
+        }
+
+
         //TipActivitate
         Cache cacheTipActivitate = cacheManager.getCache(CacheName.TIP_ACTIVITATE);
         List<TipActivitateDto> tipActivitateDtoList =tipActivitateService.findDtoAll();

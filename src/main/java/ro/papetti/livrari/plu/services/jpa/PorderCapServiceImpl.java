@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.*;
 
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ import ro.papetti.pluriva.mapstruct.PorderCapMapStruct;
  */
 @Service
 @Transactional("plurivaTransactionManager")
+@Slf4j
 public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRepozitory> implements PorderCapService {
 
 
@@ -159,6 +161,7 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
         porderCapDto.setModPlataDto(completareDtoService.getModPlataDtoById(porderCapDto.getModPlataId()));
         porderCapDto.setTermenPlataDto(completareDtoService.getTermenPlataDtoById(porderCapDto.getTermenPlataId()));
         porderCapDto.setTipDocDto(completareDtoService.getTipDocDtoById(porderCapDto.getTipDocId()));
+        porderCapDto.setDocDto(completareDtoService.getDocDtoById(porderCapDto.getDocId()));
 
     }
 

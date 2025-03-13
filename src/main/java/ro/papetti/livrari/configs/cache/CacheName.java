@@ -16,6 +16,7 @@ public class CacheName {
     public static final String STARE_DOC_DTO="stareDoc";
     public static final String TERMEN_PLATA_DTO="termenPlata";
     public static final String TIP_DOC_DTO="tipDoc";
+    public static final String DOC_DTO="Doc";
     public static final String TIP_FIRMA_DTO="tipFirma";
     public static final String TIP_LIVRARE_DTO="tipLivrare";
     public static final String TIP_STRADA_DTO="tipStrada";

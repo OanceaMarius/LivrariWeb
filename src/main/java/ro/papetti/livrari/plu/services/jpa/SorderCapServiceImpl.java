@@ -175,6 +175,7 @@ public class SorderCapServiceImpl extends BaseServiceImpl<SorderCap, SorderCapRe
         sorderCapDto.setModPlataDto(completareDtoService.getModPlataDtoById(sorderCapDto.getModPlataId()));
         sorderCapDto.setTermenPlataDto(completareDtoService.getTermenPlataDtoById(sorderCapDto.getTermenPlataId()));
         sorderCapDto.setTipDocDto(completareDtoService.getTipDocDtoById(sorderCapDto.getTipDocId()));
+        sorderCapDto.setDocDto(completareDtoService.getDocDtoById(sorderCapDto.getDocId()));
 
     }
 }

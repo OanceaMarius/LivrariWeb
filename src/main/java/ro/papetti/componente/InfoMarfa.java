@@ -10,6 +10,7 @@ import java.util.Map;
 
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.model.StocDisponibil;
+import ro.papetti.pluriva.entity.FurnizorProdus;
 
 /**
  *
@@ -28,4 +29,6 @@ public interface InfoMarfa {
     List<StocDisponibil> getStocuriDisponibile(int firmaId);
 
     Map<Integer, BigDecimal> getCantitatiReceptionateByPorderCapId(int porderCapId);
+
+    Map<Integer, FurnizorProdus> getProduseLaFurnizorPeComanda(int porderCapId);
 }

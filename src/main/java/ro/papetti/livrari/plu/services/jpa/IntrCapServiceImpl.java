@@ -39,6 +39,7 @@ public class IntrCapServiceImpl extends BaseServiceImpl<IntrCap, IntrCapRepozito
         if (optionalIntrCapDto.isPresent()) {
             optionalIntrCapDto.get().setFurnizorUnitateDto(unitateService.findDtoById(optionalIntrCapDto.get().getFurnizorId()).orElse(null));
             optionalIntrCapDto.get().setTipDocDto(completareDtoService.getTipDocDtoById(optionalIntrCapDto.get().getTipDocId()));
+            optionalIntrCapDto.get().setDocDto(completareDtoService.getDocDtoById(optionalIntrCapDto.get().getDocId()));
             optionalIntrCapDto.get().setGestiuneDto(completareDtoService.getGestiuneDtoById(optionalIntrCapDto.get().getGestiuneId()));
             optionalIntrCapDto.get().setUserCreareDto(completareDtoService.getUserDtoById(optionalIntrCapDto.get().getUserCreareId()));
             optionalIntrCapDto.get().setUserValidareDto(completareDtoService.getUserDtoById(optionalIntrCapDto.get().getUserValidareId()));

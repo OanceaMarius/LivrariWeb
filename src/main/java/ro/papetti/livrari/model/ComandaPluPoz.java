@@ -23,8 +23,9 @@ import java.math.BigDecimal;
  */
 @Data
 public class ComandaPluPoz implements Serializable {
-
+    //ce are repartizat soferul
     private Integer orderPozId;
+    //ce are comanda in pluriva
     private Integer orderPozPluId;
     private Integer produsId;
     private Integer produsPluId;
@@ -36,6 +37,7 @@ public class ComandaPluPoz implements Serializable {
     private BigDecimal cantComFurnizor = BigDecimal.valueOf(0); /* TODO sa aduc cant comandata la furnizor */
     private BigDecimal cantComFurnizorStoc = BigDecimal.valueOf(0);  /* TODO cant comandata la furnizor pt stoc  */
     private BigDecimal cantFacturata = BigDecimal.valueOf(0);  // TODO: sa aduc cantitatea facturata
+    private BigDecimal cantLaFurnizor ;/* TODO sa aduc la furnizorii care au si cantitatea din stocul lor feed */
 
 
 }

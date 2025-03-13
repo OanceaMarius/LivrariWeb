@@ -76,6 +76,8 @@ public class RepSorder {
         }
         //pun si stocurile
         repStocuri.completeazaStocuri(comandaPluPozList, comandaCapDto.getFirmaId());
+
+
         return comandaPluPozList;
     }
 

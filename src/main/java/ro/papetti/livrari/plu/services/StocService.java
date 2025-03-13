@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import ro.papetti.livrari.model.StocDisponibil;
+import ro.papetti.pluriva.entity.FurnizorProdus;
 
 /**
  *
@@ -27,4 +28,7 @@ public interface StocService {
     Map<Integer, BigDecimal> getStocDisponibilInGestiuneOperationalaFiltrat(int firmaId, List<Integer> produsIdList);
 
 
+    Map<Integer, FurnizorProdus> getProduseLaFurnizor(int divizieId, int firmaId, int furnizorId, List<Integer> produsIdList);
+
+    Map<Integer, FurnizorProdus> getProduseLaFurnizorPeComanda(int porderCapId);
 }

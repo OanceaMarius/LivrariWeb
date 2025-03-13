@@ -3,6 +3,7 @@ package ro.papetti.livrari.plu.services;
 import org.springframework.cache.annotation.Cacheable;
 import ro.papetti.livrari.configs.cache.CacheName;
 import ro.papetti.livrari.model.BaseService;
+import ro.papetti.pluriva.dto.DocDto;
 import ro.papetti.pluriva.dto.TipDocDto;
 import ro.papetti.pluriva.entity.TipDoc;
 
@@ -19,4 +20,8 @@ public interface TipDocService extends BaseService<TipDoc, Integer> {
     Optional<TipDocDto>findDtoById(int tipDocId);
 
     List<TipDocDto>findDtoAll();
+
+    Optional<ro.papetti.pluriva.dto.DocDto> findDocDtoById(int docId);
+
+    List<DocDto> findDocDtoAll();
 }

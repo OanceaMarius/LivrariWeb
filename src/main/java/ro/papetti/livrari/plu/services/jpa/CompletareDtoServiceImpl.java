@@ -63,6 +63,13 @@ public class CompletareDtoServiceImpl implements CompletareDtoService {
     }
 
     @Override
+    public DocDto getDocDtoById(Integer id) {
+        if (id == null)
+            return null;
+        return tipDocService.findDocDtoById(id).orElse(null);
+    }
+
+    @Override
     public TermenPlataDto getTermenPlataDtoById(Integer id) {
         if (id == null)
             return null;

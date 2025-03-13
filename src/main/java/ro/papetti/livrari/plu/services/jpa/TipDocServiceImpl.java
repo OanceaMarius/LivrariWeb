@@ -8,6 +8,7 @@ import ro.papetti.livrari.configs.cache.CacheName;
 import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.plu.repozitories.TipDocRepozitory;
 import ro.papetti.livrari.plu.services.TipDocService;
+import ro.papetti.pluriva.dto.DocDto;
 import ro.papetti.pluriva.dto.TipDocDto;
 import ro.papetti.pluriva.entity.TipDoc;
 import ro.papetti.pluriva.mapstruct.TipDocMapStruct;
@@ -31,7 +32,6 @@ public class TipDocServiceImpl extends BaseServiceImpl<TipDoc, TipDocRepozitory>
     }
 
     @Override
-
     public <T> Optional<T> findDTOIById(int tipDocId, Class<T> type) {
         return rep.findDTOIById(tipDocId,type);
     }
@@ -47,4 +47,14 @@ public class TipDocServiceImpl extends BaseServiceImpl<TipDoc, TipDocRepozitory>
         return tipDocMapStruct.toDtoList(rep.findAll());
     }
 
+    @Cacheable(cacheNames = CacheName.DOC_DTO, key = "#docId")
+    @Override
+    public Optional<DocDto> findDocDtoById(int docId){
+        return rep.findDocDtoById(docId);
+    }
+
+    @Override
+    public List<DocDto> findDocDtoAll(){
+        return rep.findDocDtoAll();
+    }
 }

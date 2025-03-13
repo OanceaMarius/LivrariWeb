@@ -14,6 +14,8 @@ public interface CompletareDtoService {
 
     TipDocDto getTipDocDtoById(Integer id);
 
+    DocDto getDocDtoById(Integer id);
+
     TermenPlataDto getTermenPlataDtoById(Integer id);
 
     ModPlataDto getModPlataDtoById(Integer id);
