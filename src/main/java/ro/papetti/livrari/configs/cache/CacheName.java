@@ -20,6 +20,7 @@ public class CacheName {
     public static final String TIP_FIRMA_DTO="tipFirma";
     public static final String TIP_LIVRARE_DTO="tipLivrare";
     public static final String TIP_STRADA_DTO="tipStrada";
+    public static final String TIP_FURNIZOR_DTO="tipFurnizor";
     public static final String UM_DTO="um";
     public static final String PARTENER_DTO="partener";
     public static final String UNITATE_DTO="unitate";

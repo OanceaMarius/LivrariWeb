@@ -73,7 +73,7 @@ public class PorderPozServiceImpl extends BaseServiceImpl<PorderPoz, PorderPozRe
     }
 
     @Override
-    public List<PorderPozDto> findPozDtoByPOrderCapId(int pOrderCapId) {
+    public List<PorderPozDto> findPozDtoByPorderCapId(int pOrderCapId) {
         List<PorderPozDto> porderPozDtoList = porderPozMapStruct.toDtoList(rep.findByPorderCapId(pOrderCapId));
         for (PorderPozDto pozDto:porderPozDtoList){
             if (produsService.findDtoById(pozDto.getProdusId()).isPresent())

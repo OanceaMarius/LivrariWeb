@@ -2,6 +2,7 @@ package ro.papetti.livrari.plu.services.jpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.plu.repozitories.LeadRepository;
 import ro.papetti.livrari.plu.services.CompletareDtoService;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional("plurivaTransactionManager")
 public class LeadServiceImpl extends BaseServiceImpl<Lead, LeadRepository> implements LeadService {
     @Autowired
     private UserService userService;

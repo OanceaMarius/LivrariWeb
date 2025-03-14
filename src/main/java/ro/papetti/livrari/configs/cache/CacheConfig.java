@@ -41,6 +41,7 @@ public class CacheConfig {
     private final  WorkingHoursService workingHoursService;
     private final ContactService contactService;
     private final GestiuneService gestiuneService;
+    private final TipFurnizorService tipFurnizorService;
 
 
 
@@ -177,6 +178,13 @@ public class CacheConfig {
         List<TipStradaDto> stradaDtoList = tipStradaService.findDtoAll();
         for (TipStradaDto tipStradaDto:stradaDtoList){
             cacheTipStrada.put(tipStradaDto.getTipStradaId(),tipStradaDto);
+        }
+
+        //TipFurnizor
+        Cache cacheTipFurnizor = cacheManager.getCache(CacheName.TIP_FURNIZOR_DTO);
+        List<TipFurnizorDto> tipFurnizorDtoList = tipFurnizorService.findDtoAll();
+        for (TipFurnizorDto dto:tipFurnizorDtoList){
+            cacheTipFurnizor.put(dto.getTipFurnizorId(),dto);
         }
 
 

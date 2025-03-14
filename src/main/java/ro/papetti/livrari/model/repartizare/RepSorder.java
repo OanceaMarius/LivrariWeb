@@ -54,7 +54,7 @@ public class RepSorder {
             comandaPluPozList.add(comandaPluPoz);
         }
 
-        //pozitiile din comanda de furnizor
+        //pozitiile din comanda
         for (SorderPozDto pozDto: sorderCapDto.getPozitiiDto()){
             if (!integerComandaPluPozMap.containsKey(pozDto.getSorderPozId())){
                 ComandaPluPoz comandaPluPoz = new ComandaPluPoz();

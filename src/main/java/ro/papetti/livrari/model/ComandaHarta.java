@@ -44,6 +44,7 @@ public class ComandaHarta implements Serializable {
     private UnitateDto unitateDto;
     private String dataComanda;
     private String dataLivrare;
+    private Boolean blocat;
 
     private static  DateFormater dateFormater; //= new DateFormater();
 
@@ -80,6 +81,7 @@ public class ComandaHarta implements Serializable {
         this.unitateDto=sorderCapDto.getClientDto();
         this.dataComanda=dateFormater.inFormatulDoarData(sorderCapDto.getSorderDate());
         this.dataLivrare=dateFormater.inFormatulDoarData(sorderCapDto.getDataLivrare());
+        this.blocat=sorderCapDto.getBlocat();
         RepSorder repSorder= new RepSorder(sorderCapDto, comandaCapDto);
         comandaPluPozList =repSorder.getComandaPluPozList();
     }

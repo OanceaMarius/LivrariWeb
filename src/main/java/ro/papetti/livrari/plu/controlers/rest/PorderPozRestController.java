@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,7 @@ public class PorderPozRestController {
 
     @GetMapping("/PorderPozDTO/CapId/{porderCapId}")
     public List<PorderPozDto> findPorderPozDtoByPorderCapId(@NonNull @PathVariable int porderCapId) {
-        return porderPozService.findPozDtoByPOrderCapId(porderCapId);
+        return porderPozService.findPozDtoByPorderCapId(porderCapId);
     }
 
     @GetMapping("/PorderPoz/CapId/{porderCapId}")

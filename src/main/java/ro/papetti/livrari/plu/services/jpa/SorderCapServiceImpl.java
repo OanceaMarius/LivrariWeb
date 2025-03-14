@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.papetti.livrari.model.BaseServiceImpl;
 import ro.papetti.livrari.model.PozCantitate;
 import ro.papetti.livrari.plu.repozitories.SorderCapRepozitory;
-import ro.papetti.livrari.plu.services.CompletareDtoService;
-import ro.papetti.livrari.plu.services.SorderCapService;
-import ro.papetti.livrari.plu.services.SorderPozService;
-import ro.papetti.livrari.plu.services.UnitateService;
+import ro.papetti.livrari.plu.services.*;
 import ro.papetti.pluriva.dto.SorderCapDto;
 import ro.papetti.pluriva.dtoi.SorderCapDTOI;
 import ro.papetti.pluriva.dtoi.SorderPozDTOIFaraSorderCap;
@@ -46,6 +43,8 @@ public class SorderCapServiceImpl extends BaseServiceImpl<SorderCap, SorderCapRe
     private UnitateService unitateService;
     @Autowired
     private SorderPozService sorderPozService;
+    @Autowired
+    private LimitePartenerClientService limitePartnerClientService;
 
     /**
      * @param sOrderCapId
@@ -176,6 +175,6 @@ public class SorderCapServiceImpl extends BaseServiceImpl<SorderCap, SorderCapRe
         sorderCapDto.setTermenPlataDto(completareDtoService.getTermenPlataDtoById(sorderCapDto.getTermenPlataId()));
         sorderCapDto.setTipDocDto(completareDtoService.getTipDocDtoById(sorderCapDto.getTipDocId()));
         sorderCapDto.setDocDto(completareDtoService.getDocDtoById(sorderCapDto.getDocId()));
-
+        sorderCapDto.setBlocat(limitePartnerClientService.isBlocat(sorderCapDto.getFirmaId(), sorderCapDto.getClientId()));
     }
 }

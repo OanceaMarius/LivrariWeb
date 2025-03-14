@@ -21,6 +21,7 @@ import java.util.List;
  */
 @Repository
 @PersistenceContext(unitName = "plurivaEntityManagerFactory")
+@Transactional(readOnly = true)
 public interface StocRepozitory extends JpaRepository<SorderCap, Integer> {
 
 

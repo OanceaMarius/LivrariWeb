@@ -149,7 +149,7 @@ public class PorderCapServiceImpl extends BaseServiceImpl<PorderCap, PorderCapRe
 
     private void setPorderCapDtoCuPozitiiFromCache(PorderCapDto porderCapDto) {
         setPorderCapDtoFaraPozitiiFromCache(porderCapDto);
-        porderCapDto.setPozitiiDto(porderPozService.findPozDtoByPOrderCapId(porderCapDto.getPorderCapId()));
+        porderCapDto.setPozitiiDto(porderPozService.findPozDtoByPorderCapId(porderCapDto.getPorderCapId()));
 
     }
 

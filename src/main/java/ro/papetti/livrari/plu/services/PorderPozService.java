@@ -7,12 +7,10 @@ package ro.papetti.livrari.plu.services;
 import java.util.List;
 import java.util.Optional;
 
-import ro.papetti.pluriva.dto.PorderCapDto;
 import ro.papetti.pluriva.dto.PorderPozDto;
 import ro.papetti.pluriva.dto.SorderCapDto;
 import ro.papetti.pluriva.entity.PorderPoz;
 import ro.papetti.livrari.model.BaseService;
-import ro.papetti.pluriva.entity.SorderCap;
 
 /**
  *
@@ -29,7 +27,7 @@ public interface PorderPozService extends BaseService<PorderPoz, Integer> {
 
     Optional<SorderCapDto> findSorderCapFaraPozitiiDtoBySorderPozId(int sorderPozId);
 
-    List<PorderPozDto> findPozDtoByPOrderCapId(int pOrderCapId);
+    List<PorderPozDto> findPozDtoByPorderCapId(int pOrderCapId);
 
 
 }

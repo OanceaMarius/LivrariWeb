@@ -169,4 +169,6 @@ public class CompletareDtoServiceImpl implements CompletareDtoService {
 
         return gestiuneService.findDtoById(id).orElse(null);
     }
+
+
 }
